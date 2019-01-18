@@ -2,15 +2,14 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>标签 - Lin&#39;s Blog</title>
+<title>分类: 网站用户行为分析 - Lin&#39;s Blog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="keywords" content="LintCode,Spark,CS">
-<meta property="og:type" content="website">
+    <meta property="og:type" content="website">
 <meta property="og:title" content="Lin&#39;s Blog">
-<meta property="og:url" content="http://idontknow.tech/tags/index.html">
+<meta property="og:url" content="http://idontknow.tech/categories/数据分析/网站用户行为分析/index.html">
 <meta property="og:site_name" content="Lin&#39;s Blog">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
@@ -98,7 +97,7 @@
                 
                 <a class="navbar-item" href="/categories">分类</a>
                 
-                <a class="navbar-item is-active" href="/tags">标签</a>
+                <a class="navbar-item" href="/tags">标签</a>
                 
             </div>
             
@@ -127,51 +126,81 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card widget">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
     <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                标签
-            </h3>
-            <ul class="menu-list">
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/CS/">
-                        <span class="level-start">
-                            <span class="level-item">CS</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/LintCode/">
-                        <span class="level-start">
-                            <span class="level-item">LintCode</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">6</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Spark/">
-                        <span class="level-start">
-                            <span class="level-item">Spark</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">5</span>
-                        </span>
-                    </a>
-                </li>
-                
-            </ul>
-        </div>
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/categories">分类</a></li>
+            
+            <li><a href="/categories/数据分析/">数据分析</a></li>
+            
+            <li class="is-active"><a href="#" aria-current="page">网站用户行为分析</a></li>
+        </ul>
+        </nav>
     </div>
-</div></div>
+</div>
+
+    <div class="card">
+    
+    <div class="card-image">
+        <a href="/2019/01/17/网站用户行为分析/" class="image is-7by1">
+            <img class="thumbnail" src="https://s2.ax1x.com/2019/01/17/kpIK2T.jpg" alt="数据解析">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-01-17T14:45:56.000Z">2019-01-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/数据分析/">数据分析</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/数据分析/网站用户行为分析/">网站用户行为分析</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 分钟 读完 (大约 573 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/01/17/网站用户行为分析/">数据解析</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="数据集下载"><a href="#数据集下载" class="headerlink" title="数据集下载"></a><strong>数据集下载</strong></h2><p><a href="https://pan.baidu.com/s/1nuOSo7B" target="_blank" rel="noopener">下载数据集</a></p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unzip user.zip</span><br><span class="line">head -5 raw_user.csv</span><br></pre></td></tr></table></figure>
+<p>可以看到，数据如下<br><figure class="highlight plain hljs"><figcaption><span>raw_user.csv</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">user_id,item_id,behavior_type,user_geohash,item_category,time</span><br><span class="line">10001082,285259775,1,97lk14c,4076,2014-12-08 18</span><br><span class="line">10001082,4368907,1,,5503,2014-12-12 12</span><br><span class="line">10001082,4368907,1,,5503,2014-12-12 12</span><br><span class="line">10001082,53616768,1,,9762,2014-12-02 15</span><br></pre></td></tr></table></figure></p>
+<p>各个字段的解释<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">user_id（用户id）</span><br><span class="line">item_id(商品id)</span><br><span class="line">behaviour_type（包括浏览、收藏、加购物车、购买，对应取值分别是1、2、3、4）</span><br><span class="line">user_geohash(用户地理位置哈希值，有些记录中没有这个字段值，所以后面我们会用脚本做数据预处理时把这个字段全部删除)</span><br><span class="line">item_category（商品分类）</span><br><span class="line">time（该记录产生时间）</span><br></pre></td></tr></table></figure></p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/01/17/网站用户行为分析/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+</div>
                 
 
 

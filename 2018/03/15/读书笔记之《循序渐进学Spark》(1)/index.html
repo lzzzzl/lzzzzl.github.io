@@ -2,19 +2,23 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>标签 - Lin&#39;s Blog</title>
+<title>什么是Spark - Lin&#39;s Blog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="keywords" content="LintCode,Spark,CS">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Lin&#39;s Blog">
-<meta property="og:url" content="http://idontknow.tech/tags/index.html">
+    <meta name="description" content="Spark是一个基于内存计算的统一大数据处理框架。 Spark相对于Hadoop的优势 中间结果：MapReduce通常将中间结果输出到磁盘上，以达到存储和容错的目的。而Spark通过 DAG 将多个 Stage 任务串联或者并行执行，并将中间结果缓存在内存中，而无需将中间结果存储在HDFS上。（内存比磁盘效率高的多）   执行策略：MapReduce在数据Shuffle之前会花费大量时间进行排序">
+<meta name="keywords" content="Spark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="什么是Spark">
+<meta property="og:url" content="http://idontknow.tech/2018/03/15/读书笔记之《循序渐进学Spark》(1)/index.html">
 <meta property="og:site_name" content="Lin&#39;s Blog">
+<meta property="og:description" content="Spark是一个基于内存计算的统一大数据处理框架。 Spark相对于Hadoop的优势 中间结果：MapReduce通常将中间结果输出到磁盘上，以达到存储和容错的目的。而Spark通过 DAG 将多个 Stage 任务串联或者并行执行，并将中间结果缓存在内存中，而无需将中间结果存储在HDFS上。（内存比磁盘效率高的多）   执行策略：MapReduce在数据Shuffle之前会花费大量时间进行排序">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-01-10T13:52:42.057Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Lin&#39;s Blog">
+<meta name="twitter:title" content="什么是Spark">
+<meta name="twitter:description" content="Spark是一个基于内存计算的统一大数据处理框架。 Spark相对于Hadoop的优势 中间结果：MapReduce通常将中间结果输出到磁盘上，以达到存储和容错的目的。而Spark通过 DAG 将多个 Stage 任务串联或者并行执行，并将中间结果缓存在内存中，而无需将中间结果存储在HDFS上。（内存比磁盘效率高的多）   执行策略：MapReduce在数据Shuffle之前会花费大量时间进行排序">
 
 
 
@@ -84,7 +88,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/lock.png" alt="Lin&#39;s Blog" height="28">
+                <img src="/images/lock.png" alt="什么是Spark" height="28">
             
             </a>
         </div>
@@ -98,7 +102,7 @@
                 
                 <a class="navbar-item" href="/categories">分类</a>
                 
-                <a class="navbar-item is-active" href="/tags">标签</a>
+                <a class="navbar-item" href="/tags">标签</a>
                 
             </div>
             
@@ -127,51 +131,121 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                标签
-            </h3>
-            <ul class="menu-list">
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/CS/">
-                        <span class="level-start">
-                            <span class="level-item">CS</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/LintCode/">
-                        <span class="level-start">
-                            <span class="level-item">LintCode</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">6</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Spark/">
-                        <span class="level-start">
-                            <span class="level-item">Spark</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">5</span>
-                        </span>
-                    </a>
-                </li>
-                
-            </ul>
-        </div>
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-image">
+        <span class="image is-7by1">
+            <img class="thumbnail" src="https://s2.ax1x.com/2019/01/10/FOx1t1.jpg" alt="什么是Spark">
+        </span>
     </div>
-</div></div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-03-15T14:33:10.000Z">2018-03-15</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/读书笔记/">读书笔记</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/读书笔记/《循序渐进学Spark》/">《循序渐进学Spark》</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    7 分钟 读完 (大约 1063 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                什么是Spark
+            
+        </h1>
+        <div class="content">
+            <p>Spark是一个基于<strong><font color="red">内存计算</font></strong>的统一大数据处理框架。</p>
+<h2 id="Spark相对于Hadoop的优势"><a href="#Spark相对于Hadoop的优势" class="headerlink" title="Spark相对于Hadoop的优势"></a><strong>Spark相对于Hadoop的优势</strong></h2><ul>
+<li><strong>中间结果</strong>：MapReduce通常将中间结果输出到磁盘上，以达到存储和容错的目的。而Spark通过 <code>DAG</code> 将多个 <code>Stage</code> 任务串联或者并行执行，并将中间结果缓存在内存中，而无需将中间结果存储在HDFS上。（内存比磁盘效率高的多）</li>
+</ul>
+<ul>
+<li><strong>执行策略</strong>：MapReduce在数据Shuffle之前会花费大量时间进行排序，而Spark不需要对所有情景都进行排序。</li>
+</ul>
+<ul>
+<li><strong>任务调度开销</strong>：MapReduce是为了处理长达数小时的批量作业而设计的，在特殊情况下，提交任务的延迟非常高。而Spark采用了事件驱动类库 <code>AKKA</code> 来启动任务，并通过 <code>线程池复用线程</code> 来避免线程启动以及切换带来的开销。</li>
+</ul>
+<ul>
+<li><strong>容错性</strong>：RDD之间通过血缘关系来进行维护，一旦某个RDD失败了，就能通过父RDD自动重建，保证了容错性。</li>
+</ul>
+<ul>
+<li><strong>API</strong>：Spark的API更加丰富，支持多语言编程。<a id="more"></a>
+</li>
+</ul>
+<h2 id="Spark架构"><a href="#Spark架构" class="headerlink" title="Spark架构"></a><strong>Spark架构</strong></h2><blockquote>
+<p><strong>Application</strong>：用户编写的Spark应用程序，由一个或多个 <code>Job组成</code> 。提交到Spark后，Spark为Application分配资源，将程序转换并执行。  </p>
+<p><strong>Client</strong>：提交应用的客户端。</p>
+<p><strong>Driver</strong>：执行Application中的main函数并创建SparkContext。是 <code>应用逻辑的执行起点</code> ，负责 <code>Task任务的分发和调度</code> 。</p>
+<p><strong>ClusterManager</strong>：在 <code>YARN</code> 模式中为 <code>资源管理器</code>。在 <code>Standalone</code> 模式中为 <code>Master</code>（主节点），控制整个集群。</p>
+<p><strong>Worker</strong>：<code>Standalone</code> 模式中为 <code>从节点</code> ，负责控制计算节点。<code>YARN</code> 模式中为 <code>NodeManager</code>。是集群中任何可以运行Application代码的节点，运行着一个或者多个 <code>Executor进程</code>。</p>
+<p><strong>Executor</strong>：在计算节点上执行任务的组件。是Application运行在Worker Node上的一个 <code>进程</code>，该进程负责运行 <code>Task</code>，并且负责将数据存储在内存或者磁盘上。</p>
+<p><strong>SparkContext</strong>：应用的上下文，控制应用的生命周期。</p>
+<p><strong>RDD</strong>：弹性分布式数据集，Spark的基本 <code>计算单元</code>。</p>
+<p><strong>DAG Scheduler</strong>：根据应用构建基于 <code>Stage</code> 的 <code>DAG</code>，并将 <code>Stage</code> 提交给 <code>Task Scheduler</code>。</p>
+<p><strong>Task Scheduler</strong>：将 <code>Task</code> 分发给 <code>Executor</code> 执行，并返回结果。</p>
+<p><strong>Job</strong>：包含很多 <code>task</code> 的并行计算，可以认为是 <code>Spark RDD</code> 里面的 <code>action</code>，每个 <code>action</code> 的计算会生成一个 <code>job</code>。用户提交的Job会提交给 <code>DAGScheduler</code>，Job会被分解成 <code>Stage</code> 和 <code>Task</code>。 <code>Job是由Action算子触发生成的由一个或者多个Stage组成的计算作业</code>。</p>
+<p><strong>Stage</strong>：一个Job被拆分成若干个Stage，<code>每个Stage执行一些计算，产生一些中间结果</code>。它们的目的是最终 <code>生成这个Job的计算结果</code>。而每个Stage是一个 <code>task set</code>，包含 <code>若干个task</code>，是一个task set对应的 <code>调度阶段</code>。每个Job会 <code>根据RDD的依赖关系切分成很多Stage</code>。</p>
+<p><strong>Task</strong>：Task是Spark中 <code>最小的工作单元</code>，在一个executor上完成一个特定的事情。</p>
+<p><strong>TaskSet</strong>：TaskSet是一组 <code>关联</code> 但相互之间没有 <code>Shuffle依赖关系</code> 的 <code>集合</code>。</p>
+<p><strong>Spark Env</strong>：<code>线程</code> 级别的上下文，存储运行时重要组件的应用<br>    ①SparkConf：存储配置信息。<br>    ②BroadcastManager：负责广播变量的控制及元信息的存储。<br>    ③BlockManager：负责Block的管理、创建和查找。<br>    ④MetricsSystem：监控运行时的性能指标。<br>    ⑤MapOutputTracker：负责Shuffle元信息的存储。</p>
+</blockquote>
+<h2 id="Spark运行流程"><a href="#Spark运行流程" class="headerlink" title="Spark运行流程"></a><strong>Spark运行流程</strong></h2><blockquote>
+<p><font color="red"><strong>Client</strong></font>提交应用<br>  <strong>↓</strong><br>  <font color="red"><strong>Master</strong></font>找到<font color="red"><strong>Worker</strong></font>，并启动<font color="red"><strong>Driver</strong></font><br>  <strong>↓</strong><br>  Driver向<font color="red"><strong>资源管理器</strong></font>（Yarn模式）或者<font color="red"><strong>Master</strong></font>（Standalone）<font color="red"><strong>申请资源</strong></font>，并将应用转化为<font color="red"><strong>RDD Graph</strong></font><br>  <strong>↓</strong><br>  <font color="red"><strong>DAG Scheduler</strong></font> 将<font color="red"><strong>RDD Graph</strong></font>转化为<font color="red"><strong>Stage</strong></font>的<font color="red"><strong>DAG</strong></font>提交给<font color="red"><strong>Task Scheduler</strong></font><br>  <strong>↓</strong><br>  <font color="red"><strong>Task Scheduler</strong></font> 提交任务给<font color="red"><strong>Executor</strong></font>执行。</p>
+</blockquote>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Spark/">Spark</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2018/09/23/计算机中二级制的加法/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">计算机中二级制的加法</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2018/03/15/读书笔记之《循序渐进学Spark》(2)/">
+                <span class="level-item">Spark RDD</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
                 
 
 
@@ -835,7 +909,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/lock.png" alt="Lin&#39;s Blog" height="28">
+                    <img src="/images/lock.png" alt="什么是Spark" height="28">
                 
                 </a>
                 <p class="is-size-7">

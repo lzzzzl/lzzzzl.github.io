@@ -2,19 +2,23 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>标签 - Lin&#39;s Blog</title>
+<title>Maven编译Spark程序 - Lin&#39;s Blog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="keywords" content="LintCode,Spark,CS">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Lin&#39;s Blog">
-<meta property="og:url" content="http://idontknow.tech/tags/index.html">
+    <meta name="description" content="1. 安装MavenMaven下载1unzip apache-maven-3.3.9-bin.zip 2. 配置环境和编写程序创建程序根目录1mkdir -p ./sparkapp2/src/main/java 在 ./sparkapp2/src/main/java 下添加SimpleApp.java文件12345678910111213141516171819202122/*** SimpleA">
+<meta name="keywords" content="Spark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Maven编译Spark程序">
+<meta property="og:url" content="http://idontknow.tech/2019/01/14/Maven编译Spark程序/index.html">
 <meta property="og:site_name" content="Lin&#39;s Blog">
+<meta property="og:description" content="1. 安装MavenMaven下载1unzip apache-maven-3.3.9-bin.zip 2. 配置环境和编写程序创建程序根目录1mkdir -p ./sparkapp2/src/main/java 在 ./sparkapp2/src/main/java 下添加SimpleApp.java文件12345678910111213141516171819202122/*** SimpleA">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-01-14T14:43:49.526Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Lin&#39;s Blog">
+<meta name="twitter:title" content="Maven编译Spark程序">
+<meta name="twitter:description" content="1. 安装MavenMaven下载1unzip apache-maven-3.3.9-bin.zip 2. 配置环境和编写程序创建程序根目录1mkdir -p ./sparkapp2/src/main/java 在 ./sparkapp2/src/main/java 下添加SimpleApp.java文件12345678910111213141516171819202122/*** SimpleA">
 
 
 
@@ -84,7 +88,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/lock.png" alt="Lin&#39;s Blog" height="28">
+                <img src="/images/lock.png" alt="Maven编译Spark程序" height="28">
             
             </a>
         </div>
@@ -98,7 +102,7 @@
                 
                 <a class="navbar-item" href="/categories">分类</a>
                 
-                <a class="navbar-item is-active" href="/tags">标签</a>
+                <a class="navbar-item" href="/tags">标签</a>
                 
             </div>
             
@@ -127,51 +131,91 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                标签
-            </h3>
-            <ul class="menu-list">
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/CS/">
-                        <span class="level-start">
-                            <span class="level-item">CS</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/LintCode/">
-                        <span class="level-start">
-                            <span class="level-item">LintCode</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">6</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Spark/">
-                        <span class="level-start">
-                            <span class="level-item">Spark</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">5</span>
-                        </span>
-                    </a>
-                </li>
-                
-            </ul>
-        </div>
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-image">
+        <span class="image is-7by1">
+            <img class="thumbnail" src="https://s2.ax1x.com/2019/01/14/FxzZ2n.jpg" alt="Maven编译Spark程序">
+        </span>
     </div>
-</div></div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-01-14T14:24:48.000Z">2019-01-14</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/大数据生态圈/SPARK/">SPARK</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    1 分钟 读完 (大约 220 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Maven编译Spark程序
+            
+        </h1>
+        <div class="content">
+            <h2 id="1-安装Maven"><a href="#1-安装Maven" class="headerlink" title="1. 安装Maven"></a><strong>1. 安装Maven</strong></h2><p><a href="http://maven.apache.org/download.cgi" target="_blank" rel="noopener">Maven下载</a><br><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip apache-maven-3.3.9-bin.zip</span><br></pre></td></tr></table></figure></p>
+<h2 id="2-配置环境和编写程序"><a href="#2-配置环境和编写程序" class="headerlink" title="2. 配置环境和编写程序"></a><strong>2. 配置环境和编写程序</strong></h2><p>创建程序根目录<br><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ./sparkapp2/src/main/java</span><br></pre></td></tr></table></figure></p>
+<p>在 <code>./sparkapp2/src/main/java</code> 下添加SimpleApp.java文件<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">/*** SimpleApp.java ***/</span></span><br><span class="line"><span class="hljs-keyword">import</span> org.apache.spark.api.java.*;</span><br><span class="line"><span class="hljs-keyword">import</span> org.apache.spark.api.java.function.Function;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SimpleApp</span> </span>&#123;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String logFile = <span class="hljs-string">"file:///home/zzl/opt/spark-2.3.0/README.md"</span>; <span class="hljs-comment">// Should be some file on your system</span></span><br><span class="line">        JavaSparkContext sc = <span class="hljs-keyword">new</span> JavaSparkContext(<span class="hljs-string">"local"</span>, <span class="hljs-string">"Simple App"</span>,</span><br><span class="line">            <span class="hljs-string">"file:///home/zzl/opt/sparkapp2/"</span>, <span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">"target/simple-project-1.0.jar"</span>&#125;);</span><br><span class="line">        JavaRDD&lt;String&gt; logData = sc.textFile(logFile).cache();</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">long</span> numAs = logData.filter(<span class="hljs-keyword">new</span> Function&lt;String, Boolean&gt;() &#123;</span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> Boolean <span class="hljs-title">call</span><span class="hljs-params">(String s)</span> </span>&#123; <span class="hljs-keyword">return</span> s.contains(<span class="hljs-string">"a"</span>); &#125;</span><br><span class="line">        &#125;).count();</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">long</span> numBs = logData.filter(<span class="hljs-keyword">new</span> Function&lt;String, Boolean&gt;() &#123;</span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> Boolean <span class="hljs-title">call</span><span class="hljs-params">(String s)</span> </span>&#123; <span class="hljs-keyword">return</span> s.contains(<span class="hljs-string">"b"</span>); &#125;</span><br><span class="line">        &#125;).count();</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="hljs-string">"Lines with a: "</span> + numAs + <span class="hljs-string">", lines with b: "</span> + numBs);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p><code>./sparkapp2</code> 中新建 <code>pom.xml</code> 文件<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">project</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>edu.berkeley<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>simple-project<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>Simple Project<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">packaging</span>&gt;</span>jar<span class="hljs-tag">&lt;/<span class="hljs-name">packaging</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">repositories</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">repository</span>&gt;</span></span><br><span class="line">            <span class="hljs-tag">&lt;<span class="hljs-name">id</span>&gt;</span>Akka repository<span class="hljs-tag">&lt;/<span class="hljs-name">id</span>&gt;</span></span><br><span class="line">            <span class="hljs-tag">&lt;<span class="hljs-name">url</span>&gt;</span>http://repo.akka.io/releases<span class="hljs-tag">&lt;/<span class="hljs-name">url</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;/<span class="hljs-name">repository</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">repositories</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span> <span class="hljs-comment">&lt;!-- Spark dependency --&gt;</span></span><br><span class="line">            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.spark<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span></span><br><span class="line">            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spark-core_2.10<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.2.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><code>.sparkapp2</code> 下mvn打包<br><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn package</span><br></pre></td></tr></table></figure></p>
+<h2 id="3-运行程序"><a href="#3-运行程序" class="headerlink" title="3. 运行程序"></a>3. 运行程序</h2><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./spark-submit --class <span class="hljs-string">"SimpleApp"</span> ~/opt/sparkapp2/target/simple-project-1.0.jar 2&gt;&amp;1 | grep <span class="hljs-string">"Lines with a"</span></span><br></pre></td></tr></table></figure>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Spark/">Spark</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/01/15/二进制求和/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">二进制求和</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/01/09/查找字符串/">
+                <span class="level-item">查找字符串</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
                 
 
 
@@ -835,7 +879,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/lock.png" alt="Lin&#39;s Blog" height="28">
+                    <img src="/images/lock.png" alt="Maven编译Spark程序" height="28">
                 
                 </a>
                 <p class="is-size-7">
