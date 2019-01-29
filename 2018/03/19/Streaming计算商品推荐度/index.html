@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Spark Streaming计算商品推荐度 - Lin&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="SimulatorSocketLog模拟发送实时数据：">
+<meta name="keywords" content="Spark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark Streaming计算商品推荐度">
+<meta property="og:url" content="http://idontknow.tech/2018/03/19/Streaming计算商品推荐度/index.html">
+<meta property="og:site_name" content="Lin&#39;s Blog">
+<meta property="og:description" content="SimulatorSocketLog模拟发送实时数据：">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-01-25T07:03:52.599Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spark Streaming计算商品推荐度">
+<meta name="twitter:description" content="SimulatorSocketLog模拟发送实时数据：">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/lock.png" alt="Spark Streaming计算商品推荐度" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/.">主页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="http://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-03-19T07:30:38.000Z">2018-03-19</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    7 分钟 读完 (大约 1074 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Spark Streaming计算商品推荐度
+            
+        </h1>
+        <div class="content">
+            <h2 id="SimulatorSocketLog模拟发送实时数据："><a href="#SimulatorSocketLog模拟发送实时数据：" class="headerlink" title="SimulatorSocketLog模拟发送实时数据："></a><strong>SimulatorSocketLog模拟发送实时数据：</strong></h2><a id="more"></a>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> java.io.OutputStream;</span><br><span class="line"><span class="hljs-keyword">import</span> java.io.PrintWriter;</span><br><span class="line"><span class="hljs-keyword">import</span> java.net.ServerSocket;</span><br><span class="line"><span class="hljs-keyword">import</span> java.net.Socket;</span><br><span class="line"><span class="hljs-keyword">import</span> java.util.Random;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment"> * Created by zzl on 2018/3/19.</span></span><br><span class="line"><span class="hljs-comment"> */</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SimulatorSocket</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> SimulatorSocketLog()).start();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SimulatorSocketLog</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 商品数目</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> GoodsId = <span class="hljs-number">200</span>;</span><br><span class="line">    <span class="hljs-comment">// 发送消息数目</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> MsgNum = <span class="hljs-number">10</span>;</span><br><span class="line">    <span class="hljs-comment">// 用户浏览商品次数</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> BrowseNum = <span class="hljs-number">5</span>;</span><br><span class="line">    <span class="hljs-comment">// 用户浏览商品停留时间</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> StayTime = <span class="hljs-number">10</span>;</span><br><span class="line">    <span class="hljs-comment">// 体现用户是否收藏，收藏为1，不收藏为0，差评为-1</span></span><br><span class="line">    <span class="hljs-keyword">int</span>[] collection = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]&#123;-<span class="hljs-number">1</span>, <span class="hljs-number">0</span> ,<span class="hljs-number">1</span>&#125;;</span><br><span class="line">    <span class="hljs-comment">// 模拟用户购买商品的件数，0比较多是为了增加没有买的概率，很多用户只是看看</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span>[] BuyNum = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]&#123;<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Random random = <span class="hljs-keyword">new</span> Random();</span><br><span class="line">        <span class="hljs-keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-comment">// 创建一个服务端，监听9999端口</span></span><br><span class="line">            ServerSocket serverSocket = <span class="hljs-keyword">new</span> ServerSocket(<span class="hljs-number">9999</span>);</span><br><span class="line">            System.out.println(<span class="hljs-string">"数据模拟开启......"</span>);</span><br><span class="line">            <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="hljs-keyword">int</span> msgNum = random.nextInt(MsgNum) + <span class="hljs-number">30</span>;</span><br><span class="line">                Socket socket = serverSocket.accept();</span><br><span class="line">                OutputStream os = socket.getOutputStream();</span><br><span class="line">                PrintWriter pw = <span class="hljs-keyword">new</span> PrintWriter(os);</span><br><span class="line">                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; msgNum; i++) &#123;</span><br><span class="line"></span><br><span class="line">                    <span class="hljs-comment">//消息格式 商品ID::浏览次数::停留时间::是否收藏::购买件数</span></span><br><span class="line">                    StringBuffer sb = <span class="hljs-keyword">new</span> StringBuffer();</span><br><span class="line">                    sb.append(<span class="hljs-string">"goodsID-"</span> + (random.nextInt(GoodsId) + <span class="hljs-number">1</span>));</span><br><span class="line">                    sb.append(<span class="hljs-string">"::"</span>);</span><br><span class="line">                    sb.append(random.nextInt(BrowseNum) + <span class="hljs-number">1</span>);</span><br><span class="line">                    sb.append(<span class="hljs-string">"::"</span>);</span><br><span class="line">                    sb.append(random.nextInt(StayTime) + random.nextFloat());</span><br><span class="line">                    sb.append(<span class="hljs-string">"::"</span>);</span><br><span class="line">                    sb.append(collection[random.nextInt(<span class="hljs-number">2</span>)]);</span><br><span class="line">                    sb.append(<span class="hljs-string">"::"</span>);</span><br><span class="line">                    sb.append(BuyNum[random.nextInt(<span class="hljs-number">9</span>)]);</span><br><span class="line">                    pw.write(sb.toString() + <span class="hljs-string">"\n"</span>);</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">                pw.flush();</span><br><span class="line">                pw.close();</span><br><span class="line"></span><br><span class="line">                <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(<span class="hljs-number">5000</span>);</span><br><span class="line">                &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    System.out.println(<span class="hljs-string">"Thread sleep failed"</span>);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="SimulatorGoods获得数据并实时处理"><a href="#SimulatorGoods获得数据并实时处理" class="headerlink" title="SimulatorGoods获得数据并实时处理"></a><strong>SimulatorGoods获得数据并实时处理</strong></h2><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> java.io.Serializable;</span><br><span class="line"><span class="hljs-keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> com.google.common.base.Optional;</span><br><span class="line"><span class="hljs-keyword">import</span> org.apache.spark.HashPartitioner;</span><br><span class="line"><span class="hljs-keyword">import</span> org.apache.spark.SparkConf;</span><br><span class="line"><span class="hljs-keyword">import</span> org.apache.spark.api.java.JavaPairRDD;</span><br><span class="line"><span class="hljs-keyword">import</span> org.apache.spark.api.java.function.Function;</span><br><span class="line"><span class="hljs-keyword">import</span> org.apache.spark.api.java.function.Function2;</span><br><span class="line"><span class="hljs-keyword">import</span> org.apache.spark.api.java.function.PairFunction;</span><br><span class="line"><span class="hljs-keyword">import</span> org.apache.spark.api.java.function.VoidFunction;</span><br><span class="line"><span class="hljs-keyword">import</span> org.apache.spark.streaming.Duration;</span><br><span class="line"><span class="hljs-keyword">import</span> org.apache.spark.streaming.api.java.JavaDStream;</span><br><span class="line"><span class="hljs-keyword">import</span> org.apache.spark.streaming.api.java.JavaPairDStream;</span><br><span class="line"><span class="hljs-keyword">import</span> org.apache.spark.streaming.api.java.JavaReceiverInputDStream;</span><br><span class="line"><span class="hljs-keyword">import</span> org.apache.spark.streaming.api.java.JavaStreamingContext;</span><br><span class="line"><span class="hljs-keyword">import</span> scala.Tuple2;</span><br><span class="line"><span class="hljs-keyword">import</span> org.apache.log4j.Logger;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment"> * Created by zzl on 2018/3/19.</span></span><br><span class="line"><span class="hljs-comment"> */</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SimulatorGoods</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Serializable</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 跨进程通信，表明实现序列化类的不同版本间的兼容性</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> serialVersionUID = <span class="hljs-number">1L</span>;</span><br><span class="line">    <span class="hljs-comment">// 定义一个文件夹，用于保存上一个RDD数据</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> String checkPointDit = <span class="hljs-string">"checkDir"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Logger logger = Logger.getLogger(SimulatorGoods.class);</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        SparkConf sparkConf = <span class="hljs-keyword">new</span> SparkConf().setAppName(<span class="hljs-string">"zzl"</span>).setMaster(<span class="hljs-string">"local[2]"</span>);</span><br><span class="line">        <span class="hljs-comment">// 窗口时间设置为5s，duration为流数据被划分为批数据的时间间隔</span></span><br><span class="line">        JavaStreamingContext jsc = <span class="hljs-keyword">new</span> JavaStreamingContext(sparkConf, <span class="hljs-keyword">new</span> Duration(<span class="hljs-number">5000</span>));</span><br><span class="line">        <span class="hljs-comment">// 设置检查点</span></span><br><span class="line">        jsc.checkpoint(checkPointDit);</span><br><span class="line">        <span class="hljs-comment">// 获取socket端发送过来的数据</span></span><br><span class="line">        JavaReceiverInputDStream&lt;String&gt; jds = jsc.socketTextStream(<span class="hljs-string">"127.0.0.1"</span>, <span class="hljs-number">9999</span>);</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">// socket端发送过来的数据进行打印</span></span><br><span class="line">        JavaDStream&lt;String&gt; msg = jds.map(<span class="hljs-keyword">new</span> Function&lt;String, String&gt;() &#123;</span><br><span class="line">            <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> serialVersionUID = <span class="hljs-number">1L</span>;</span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">call</span><span class="hljs-params">(String arg0)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                <span class="hljs-keyword">return</span> arg0;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        System.out.println(<span class="hljs-string">"msg1"</span>);</span><br><span class="line">        msg.print();</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">// mapToPair就是将rdd转换为键值对rdd,与map不同的是添加了一个key</span></span><br><span class="line">        JavaPairDStream&lt;String, Double&gt; splitMsg = jds.mapToPair(<span class="hljs-keyword">new</span> PairFunction&lt;String, String, Double&gt;() &#123;</span><br><span class="line">            <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> serialVersionUID = <span class="hljs-number">1L</span>;</span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> Tuple2&lt;String, Double&gt; <span class="hljs-title">call</span><span class="hljs-params">(String line)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                String[] lineSplit = line.toString().split(<span class="hljs-string">"::"</span>);</span><br><span class="line">                Double followValue = Double.parseDouble(lineSplit[<span class="hljs-number">1</span>])*<span class="hljs-number">0.8</span> + Double.parseDouble(lineSplit[<span class="hljs-number">2</span>])*<span class="hljs-number">0.6</span> +</span><br><span class="line">                        Double.parseDouble(lineSplit[<span class="hljs-number">3</span>])*<span class="hljs-number">1</span> + Double.parseDouble(lineSplit[<span class="hljs-number">4</span>])*<span class="hljs-number">1</span>;</span><br><span class="line">                <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Tuple2&lt;String, Double&gt;(lineSplit[<span class="hljs-number">0</span>], followValue);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        System.out.println(<span class="hljs-string">"msg2"</span>);</span><br><span class="line">        splitMsg.print();</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">// 通过updateStateByKey来以Batch Interval为单位来对历史状态进行更新，在这里需要使用checkPoint来保存父RDD的值。</span></span><br><span class="line">        JavaPairDStream&lt;String, Double&gt; updateFollowValue = splitMsg.updateStateByKey(<span class="hljs-keyword">new</span> Function2&lt;List&lt;Double&gt;, Optional&lt;Double&gt;, Optional&lt;Double&gt;&gt;() &#123;</span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> Optional&lt;Double&gt; <span class="hljs-title">call</span><span class="hljs-params">(List&lt;Double&gt; newValues, Optional&lt;Double&gt; stateValue)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                <span class="hljs-comment">// 对相同的Key进行value统计，实现累加</span></span><br><span class="line">                Double updateValue = stateValue.or(<span class="hljs-number">0.0</span>);</span><br><span class="line">                <span class="hljs-keyword">for</span> (Double values:newValues) &#123;</span><br><span class="line">                    updateValue += values;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="hljs-keyword">return</span> Optional.of(updateValue);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="hljs-keyword">new</span> HashPartitioner(jsc.sparkContext().defaultMinPartitions()));</span><br><span class="line">        System.out.println(<span class="hljs-string">"msg3"</span>);</span><br><span class="line">        updateFollowValue.print();</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">// 排序获得热度前十的商品</span></span><br><span class="line">        updateFollowValue.foreachRDD(<span class="hljs-keyword">new</span> VoidFunction&lt;JavaPairRDD&lt;String, Double&gt;&gt;() &#123;</span><br><span class="line">            <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> serialVersionUID = <span class="hljs-number">1L</span>;</span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">call</span><span class="hljs-params">(JavaPairRDD&lt;String, Double&gt; followValue)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">                <span class="hljs-comment">// Key Value转换，将值放作Key，goodsid放作Value</span></span><br><span class="line">                JavaPairRDD&lt;Double, String&gt; followValueSort = followValue.mapToPair(<span class="hljs-keyword">new</span> PairFunction&lt;Tuple2&lt;String, Double&gt;, Double, String&gt;() &#123;</span><br><span class="line">                    <span class="hljs-function"><span class="hljs-keyword">public</span> Tuple2&lt;Double, String&gt; <span class="hljs-title">call</span><span class="hljs-params">(Tuple2&lt;String, Double&gt; valueToKey)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Tuple2&lt;Double, String&gt;(valueToKey._2, valueToKey._1);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;).sortByKey(<span class="hljs-keyword">false</span>);</span><br><span class="line"></span><br><span class="line">                <span class="hljs-comment">// 再将Key Value作一次转换，并获取前十个</span></span><br><span class="line">                List&lt;Tuple2&lt;String, Double&gt;&gt; list = followValueSort.mapToPair(<span class="hljs-keyword">new</span> PairFunction&lt;Tuple2&lt;Double,String&gt;, String, Double&gt;() &#123;</span><br><span class="line">                    <span class="hljs-function"><span class="hljs-keyword">public</span> Tuple2&lt;String, Double&gt; <span class="hljs-title">call</span><span class="hljs-params">(Tuple2&lt;Double, String&gt; arg0)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Tuple2&lt;String, Double&gt;(arg0._2, arg0._1);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;).take(<span class="hljs-number">10</span>);</span><br><span class="line"></span><br><span class="line">                <span class="hljs-keyword">for</span> (Tuple2&lt;String, Double&gt; tu:list) &#123;</span><br><span class="line"></span><br><span class="line">                    System.out.println(<span class="hljs-string">"商品ID："</span> + tu._1 + <span class="hljs-string">"关注度："</span> + tu._2);</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        System.out.println(<span class="hljs-string">"msg4"</span>);</span><br><span class="line">        updateFollowValue.print();</span><br><span class="line"></span><br><span class="line">        jsc.start();</span><br><span class="line">        jsc.awaitTermination();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="数据流："><a href="#数据流：" class="headerlink" title="数据流："></a><strong>数据流：</strong></h2><h4 id="1-获取socket发送过来的数据"><a href="#1-获取socket发送过来的数据" class="headerlink" title="1.获取socket发送过来的数据"></a>1.获取socket发送过来的数据</h4><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">goodsID-100::1::7.64508::-1::2</span><br><span class="line">goodsID-192::3::6.156619::-1::0</span><br><span class="line">goodsID-92::4::1.0585167::0::0</span><br><span class="line">goodsID-174::4::3.925496::0::0</span><br><span class="line">goodsID-27::4::3.1636744::-1::0</span><br><span class="line">goodsID-111::3::5.8687654::-1::0</span><br><span class="line">goodsID-25::3::8.025512::-1::0</span><br><span class="line">goodsID-21::2::4.8168044::-1::0</span><br><span class="line">goodsID-129::1::4.201509::-1::2</span><br><span class="line">goodsID-37::1::5.684774::0::0</span><br></pre></td></tr></table></figure>
+<h4 id="2-通过分割符切分数据，并计算出商品推荐度"><a href="#2-通过分割符切分数据，并计算出商品推荐度" class="headerlink" title="2.通过分割符切分数据，并计算出商品推荐度"></a>2.通过分割符切分数据，并计算出商品推荐度</h4><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(goodsID-100,6.387048)</span><br><span class="line">(goodsID-192,5.0939714)</span><br><span class="line">(goodsID-92,3.83511002)</span><br><span class="line">(goodsID-174,5.555297599999999)</span><br><span class="line">(goodsID-27,4.0982046400000005)</span><br><span class="line">(goodsID-111,4.92125924)</span><br><span class="line">(goodsID-25,6.215307200000001)</span><br><span class="line">(goodsID-21,3.49008264)</span><br><span class="line">(goodsID-129,4.3209054)</span><br><span class="line">(goodsID-37,4.2108644)</span><br></pre></td></tr></table></figure>
+<h4 id="3-相同Key值的数据相加"><a href="#3-相同Key值的数据相加" class="headerlink" title="3.相同Key值的数据相加"></a>3.相同Key值的数据相加</h4><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(goodsID-37,4.2108644)</span><br><span class="line">(goodsID-26,6.4024658)</span><br><span class="line">(goodsID-174,5.555297599999999)</span><br><span class="line">(goodsID-192,5.0939714)</span><br><span class="line">(goodsID-93,5.8970175000000005)</span><br><span class="line">(goodsID-129,4.3209054)</span><br><span class="line">(goodsID-141,6.1049717)</span><br><span class="line">(goodsID-111,4.92125924)</span><br><span class="line">(goodsID-92,3.83511002)</span><br><span class="line">(goodsID-27,4.0982046400000005)</span><br></pre></td></tr></table></figure>
+<h4 id="4-排序前十个推荐度"><a href="#4-排序前十个推荐度" class="headerlink" title="4.排序前十个推荐度"></a>4.排序前十个推荐度</h4><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">商品ID：goodsID-45---关注度：8.1538582</span><br><span class="line">商品ID：goodsID-26---关注度：6.4024658</span><br><span class="line">商品ID：goodsID-100---关注度：6.387048</span><br><span class="line">商品ID：goodsID-25---关注度：6.215307200000001</span><br><span class="line">商品ID：goodsID-141---关注度：6.1049717</span><br><span class="line">商品ID：goodsID-93---关注度：5.8970175000000005</span><br><span class="line">商品ID：goodsID-174---关注度：5.555297599999999</span><br><span class="line">商品ID：goodsID-192---关注度：5.0939714</span><br><span class="line">商品ID：goodsID-111---关注度：4.92125924</span><br><span class="line">商品ID：goodsID-129---关注度：4.3209054</span><br></pre></td></tr></table></figure>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Spark/">Spark</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2018/09/23/计算机中二级制的加法/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">计算机中二级制的加法</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2018/03/15/什么是Spark/">
+                <span class="level-item">什么是Spark</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <img class="image is-128x128 has-mb-6" src="/images/will.png" alt="郑宗霖">
+                    
+                    <p class="is-size-4 is-block">
+                        郑宗霖
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Data Engineer
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen, China</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        26
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        17
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        10
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/lzzzzl/">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="http://github.com/ppoffice">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Facebook" href="http://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Twitter" href="http://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Dribbble" href="http://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Linux/">
+            <span class="level-start">
+                <span class="level-item">Linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Linux/Linux基础知识/">
+            <span class="level-start">
+                <span class="level-item">Linux基础知识</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/">
+            <span class="level-start">
+                <span class="level-item">大数据生态圈</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">15</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/HBase/">
+            <span class="level-start">
+                <span class="level-item">HBase</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/HIVE/">
+            <span class="level-start">
+                <span class="level-item">HIVE</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/Hadoop/">
+            <span class="level-start">
+                <span class="level-item">Hadoop</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/Spark/">
+            <span class="level-start">
+                <span class="level-item">Spark</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/Sqoop/">
+            <span class="level-start">
+                <span class="level-item">Sqoop</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/ZooKeeper/">
+            <span class="level-start">
+                <span class="level-item">ZooKeeper</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/数据分析/">
+            <span class="level-start">
+                <span class="level-item">数据分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/数据分析/网站用户行为分析/">
+            <span class="level-start">
+                <span class="level-item">网站用户行为分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/机器学习/">
+            <span class="level-start">
+                <span class="level-item">机器学习</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/机器学习/逻辑回归/">
+            <span class="level-start">
+                <span class="level-item">逻辑回归</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/算法/">
+            <span class="level-start">
+                <span class="level-item">算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/算法/LintCode/">
+            <span class="level-start">
+                <span class="level-item">LintCode</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/计算机基础知识/">
+            <span class="level-start">
+                <span class="level-item">计算机基础知识</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/CS/" style="font-size: 10px;">CS</a> <a href="/tags/HBase/" style="font-size: 10px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/LintCode/" style="font-size: 15px;">LintCode</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Spark/" style="font-size: 20px;">Spark</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/ZooKeeper/" style="font-size: 10px;">ZooKeeper</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/01/29/Spark广播变量/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQQl7t.jpg" alt="Spark广播变量">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-29T06:16:36.000Z">2019-01-29</time></div>
+                    <a href="/2019/01/29/Spark广播变量/" class="has-link-black-ter is-size-6">Spark广播变量</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/25/MapReduce理解/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnao8.jpg" alt="MapReduce理解">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-25T03:35:59.000Z">2019-01-25</time></div>
+                    <a href="/2019/01/25/MapReduce理解/" class="has-link-black-ter is-size-6">MapReduce理解</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Hadoop/">Hadoop</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/25/RDD键值对/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQn3zd.jpg" alt="RDD键值对">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-25T02:40:23.000Z">2019-01-25</time></div>
+                    <a href="/2019/01/25/RDD键值对/" class="has-link-black-ter is-size-6">RDD键值对</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/24/SparkRDD编程/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnDzj.jpg" alt="SparkRDD编程">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-24T08:56:26.000Z">2019-01-24</time></div>
+                    <a href="/2019/01/24/SparkRDD编程/" class="has-link-black-ter is-size-6">SparkRDD编程</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/24/Spark三种部署模式/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQu9OI.jpg" alt="Spark三种部署模式">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-24T07:46:01.000Z">2019-01-24</time></div>
+                    <a href="/2019/01/24/Spark三种部署模式/" class="has-link-black-ter is-size-6">Spark三种部署模式</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">19</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <ul class="menu-list">
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/CS/">
+                        <span class="level-start">
+                            <span class="level-item">CS</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/HBase/">
+                        <span class="level-start">
+                            <span class="level-item">HBase</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Hadoop/">
+                        <span class="level-start">
+                            <span class="level-item">Hadoop</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Hive/">
+                        <span class="level-start">
+                            <span class="level-item">Hive</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/LintCode/">
+                        <span class="level-start">
+                            <span class="level-item">LintCode</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">7</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Linux/">
+                        <span class="level-start">
+                            <span class="level-item">Linux</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Machine-Learning/">
+                        <span class="level-start">
+                            <span class="level-item">Machine Learning</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Spark/">
+                        <span class="level-start">
+                            <span class="level-item">Spark</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">10</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Sqoop/">
+                        <span class="level-start">
+                            <span class="level-item">Sqoop</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/ZooKeeper/">
+                        <span class="level-start">
+                            <span class="level-item">ZooKeeper</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/01/29/Spark广播变量/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQQl7t.jpg" alt="Spark广播变量">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-29T06:16:36.000Z">2019-01-29</time></div>
+                    <a href="/2019/01/29/Spark广播变量/" class="has-link-black-ter is-size-6">Spark广播变量</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/25/MapReduce理解/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnao8.jpg" alt="MapReduce理解">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-25T03:35:59.000Z">2019-01-25</time></div>
+                    <a href="/2019/01/25/MapReduce理解/" class="has-link-black-ter is-size-6">MapReduce理解</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Hadoop/">Hadoop</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/25/RDD键值对/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQn3zd.jpg" alt="RDD键值对">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-25T02:40:23.000Z">2019-01-25</time></div>
+                    <a href="/2019/01/25/RDD键值对/" class="has-link-black-ter is-size-6">RDD键值对</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/24/SparkRDD编程/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnDzj.jpg" alt="SparkRDD编程">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-24T08:56:26.000Z">2019-01-24</time></div>
+                    <a href="/2019/01/24/SparkRDD编程/" class="has-link-black-ter is-size-6">SparkRDD编程</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/24/Spark三种部署模式/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQu9OI.jpg" alt="Spark三种部署模式">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-24T07:46:01.000Z">2019-01-24</time></div>
+                    <a href="/2019/01/24/Spark三种部署模式/" class="has-link-black-ter is-size-6">Spark三种部署模式</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">19</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <ul class="menu-list">
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/CS/">
+                        <span class="level-start">
+                            <span class="level-item">CS</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/HBase/">
+                        <span class="level-start">
+                            <span class="level-item">HBase</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Hadoop/">
+                        <span class="level-start">
+                            <span class="level-item">Hadoop</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Hive/">
+                        <span class="level-start">
+                            <span class="level-item">Hive</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/LintCode/">
+                        <span class="level-start">
+                            <span class="level-item">LintCode</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">7</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Linux/">
+                        <span class="level-start">
+                            <span class="level-item">Linux</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Machine-Learning/">
+                        <span class="level-start">
+                            <span class="level-item">Machine Learning</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Spark/">
+                        <span class="level-start">
+                            <span class="level-item">Spark</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">10</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Sqoop/">
+                        <span class="level-start">
+                            <span class="level-item">Sqoop</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/ZooKeeper/">
+                        <span class="level-start">
+                            <span class="level-item">ZooKeeper</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/lock.png" alt="Spark Streaming计算商品推荐度" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 ShelockZ&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="http://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

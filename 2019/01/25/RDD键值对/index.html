@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>RDD键值对 - Lin&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="创建RDD键值对从文件中加载123val lines = sc.textFile(&quot;word.txt&quot;)val pairRDD = lines.flatMap(line =&amp;gt; line.split(&quot; &quot;)).map(word =&amp;gt; (word, 1)pairRDD.foreach(println) 结果1234567891011(i,1)(love,1)(hadoop,1)(i,1)">
+<meta name="keywords" content="Spark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RDD键值对">
+<meta property="og:url" content="http://idontknow.tech/2019/01/25/RDD键值对/index.html">
+<meta property="og:site_name" content="Lin&#39;s Blog">
+<meta property="og:description" content="创建RDD键值对从文件中加载123val lines = sc.textFile(&quot;word.txt&quot;)val pairRDD = lines.flatMap(line =&amp;gt; line.split(&quot; &quot;)).map(word =&amp;gt; (word, 1)pairRDD.foreach(println) 结果1234567891011(i,1)(love,1)(hadoop,1)(i,1)">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/25/km1XD0.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/25/km1jbV.png">
+<meta property="og:updated_time" content="2019-01-29T06:03:46.616Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RDD键值对">
+<meta name="twitter:description" content="创建RDD键值对从文件中加载123val lines = sc.textFile(&quot;word.txt&quot;)val pairRDD = lines.flatMap(line =&amp;gt; line.split(&quot; &quot;)).map(word =&amp;gt; (word, 1)pairRDD.foreach(println) 结果1234567891011(i,1)(love,1)(hadoop,1)(i,1)">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/01/25/km1XD0.png">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/lock.png" alt="RDD键值对" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/.">主页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="http://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-image">
+        <span class="image is-7by1">
+            <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQn3zd.jpg" alt="RDD键值对">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-01-25T02:40:23.000Z">2019-01-25</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 分钟 读完 (大约 849 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                RDD键值对
+            
+        </h1>
+        <div class="content">
+            <h2 id="创建RDD键值对"><a href="#创建RDD键值对" class="headerlink" title="创建RDD键值对"></a><strong>创建RDD键值对</strong></h2><h3 id="从文件中加载"><a href="#从文件中加载" class="headerlink" title="从文件中加载"></a><strong>从文件中加载</strong></h3><figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">val</span> lines = sc.textFile(<span class="hljs-string">"word.txt"</span>)</span><br><span class="line"><span class="hljs-keyword">val</span> pairRDD = lines.flatMap(line =&gt; line.split(<span class="hljs-string">" "</span>)).map(word =&gt; (word, <span class="hljs-number">1</span>)</span><br><span class="line">pairRDD.foreach(println)</span><br></pre></td></tr></table></figure>
+<p>结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(i,1)</span><br><span class="line">(love,1)</span><br><span class="line">(hadoop,1)</span><br><span class="line">(i,1)</span><br><span class="line">(love,1)</span><br><span class="line">(Spark,1)</span><br><span class="line">(Spark,1)</span><br><span class="line">(is,1)</span><br><span class="line">(fast,1)</span><br><span class="line">(than,1)</span><br><span class="line">(hadoop,1)</span><br></pre></td></tr></table></figure></p>
+<h3 id="集合创建RDD键值对"><a href="#集合创建RDD键值对" class="headerlink" title="集合创建RDD键值对"></a><strong>集合创建RDD键值对</strong></h3><figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">val</span> list = <span class="hljs-type">List</span>(<span class="hljs-string">"Hadoop"</span>,<span class="hljs-string">"Spark"</span>,<span class="hljs-string">"Hive"</span>,<span class="hljs-string">"Spark"</span>)</span><br><span class="line"><span class="hljs-keyword">val</span> rdd = sc.parallelize(list)</span><br><span class="line"><span class="hljs-keyword">val</span> pairRDD = rdd.map(word =&gt; (word,<span class="hljs-number">1</span>))</span><br><span class="line">pairRDD.foreach(println)</span><br></pre></td></tr></table></figure>
+<p>结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(Hadoop,1)</span><br><span class="line">(Spark,1)</span><br><span class="line">(Hive,1)</span><br><span class="line">(Spark,1)</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h2 id="常用键值对转换操作"><a href="#常用键值对转换操作" class="headerlink" title="常用键值对转换操作"></a><strong>常用键值对转换操作</strong></h2><h3 id="map"><a href="#map" class="headerlink" title="map"></a><strong>map</strong></h3><p>对集合中每个元素进行操作。</p>
+<figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">val</span> arr=sc.parallelize(<span class="hljs-type">Array</span>((<span class="hljs-string">"A"</span>,<span class="hljs-number">1</span>),(<span class="hljs-string">"B"</span>,<span class="hljs-number">2</span>),(<span class="hljs-string">"C"</span>,<span class="hljs-number">3</span>)))</span><br><span class="line">arr.map(x=&gt;(x._1+x._2)).foreach(println)</span><br></pre></td></tr></table></figure>
+<p>结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A1</span><br><span class="line">B2</span><br><span class="line">C3</span><br></pre></td></tr></table></figure></p>
+<h3 id="flatMap"><a href="#flatMap" class="headerlink" title="flatMap"></a><strong>flatMap</strong></h3><p>对集合中每个元素进行操作然后再扁平化。</p>
+<figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">val</span> arr=sc.parallelize(<span class="hljs-type">Array</span>((<span class="hljs-string">"A"</span>,<span class="hljs-number">1</span>),(<span class="hljs-string">"B"</span>,<span class="hljs-number">2</span>),(<span class="hljs-string">"C"</span>,<span class="hljs-number">3</span>)))</span><br><span class="line">arr.flatmap(x=&gt;(x._1+x._2)).foreach(println)</span><br></pre></td></tr></table></figure>
+<p>结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">A</span><br><span class="line">1</span><br><span class="line">B</span><br><span class="line">2</span><br><span class="line">C</span><br><span class="line">3</span><br></pre></td></tr></table></figure></p>
+<h3 id="keys"><a href="#keys" class="headerlink" title="keys"></a><strong>keys</strong></h3><p>返回所有键值对的key</p>
+<figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">val</span> list = <span class="hljs-type">List</span>(<span class="hljs-string">"hadoop"</span>,<span class="hljs-string">"spark"</span>,<span class="hljs-string">"hive"</span>,<span class="hljs-string">"spark"</span>)</span><br><span class="line"><span class="hljs-keyword">val</span> rdd = sc.parallelize(list)</span><br><span class="line"><span class="hljs-keyword">val</span> pairRdd = rdd.map(x =&gt; (x,<span class="hljs-number">1</span>))</span><br><span class="line">pairRdd.keys.collect.foreach(println)</span><br></pre></td></tr></table></figure>
+<p>结果<br><figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hadoop</span><br><span class="line">spark</span><br><span class="line">hive</span><br><span class="line">spark</span><br></pre></td></tr></table></figure></p>
+<h3 id="values"><a href="#values" class="headerlink" title="values"></a><strong>values</strong></h3><p>返回所有键值对的value</p>
+<figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">val</span> list = <span class="hljs-type">List</span>(<span class="hljs-string">"hadoop"</span>,<span class="hljs-string">"spark"</span>,<span class="hljs-string">"hive"</span>,<span class="hljs-string">"spark"</span>)</span><br><span class="line"><span class="hljs-keyword">val</span> rdd = sc.parallelize(list)</span><br><span class="line"><span class="hljs-keyword">val</span> pairRdd = rdd.map(x =&gt; (x,<span class="hljs-number">1</span>))</span><br><span class="line">pairRdd.values.collect.foreach(println)</span><br></pre></td></tr></table></figure>
+<p>结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">1</span><br><span class="line">1</span><br><span class="line">1</span><br></pre></td></tr></table></figure></p>
+<h3 id="sortByKey"><a href="#sortByKey" class="headerlink" title="sortByKey()"></a><strong>sortByKey()</strong></h3><p>返回一个根据键排序的RDD</p>
+<figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">val</span> list = <span class="hljs-type">List</span>((<span class="hljs-string">"a"</span>,<span class="hljs-number">3</span>),(<span class="hljs-string">"b"</span>,<span class="hljs-number">2</span>),(<span class="hljs-string">"c"</span>,<span class="hljs-number">1</span>))</span><br><span class="line"><span class="hljs-keyword">val</span> pairRdd = sc.parallelize(list)</span><br><span class="line">pairRdd.sortByKey().collect.foreach(println)</span><br></pre></td></tr></table></figure>
+<p>结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(a,3)</span><br><span class="line">(b,2)</span><br><span class="line">(c,1)</span><br></pre></td></tr></table></figure></p>
+<p>逆序排序则加上<code>false</code>参数<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pairRdd.sortByKey(false).collect.foreach(println)</span><br></pre></td></tr></table></figure></p>
+<h3 id="reduceByKey-func"><a href="#reduceByKey-func" class="headerlink" title="reduceByKey(func)"></a><strong>reduceByKey(func)</strong></h3><p>对相同键值进行合并</p>
+<figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">val</span> list = <span class="hljs-type">List</span>(<span class="hljs-string">"hadoop"</span>,<span class="hljs-string">"spark"</span>,<span class="hljs-string">"hive"</span>,<span class="hljs-string">"spark"</span>)</span><br><span class="line"><span class="hljs-keyword">val</span> rdd = sc.parallelize(list)</span><br><span class="line"><span class="hljs-comment">// list的rdd转化成键值对形式的rdd</span></span><br><span class="line"><span class="hljs-keyword">val</span> pairRdd = rdd.map((_,<span class="hljs-number">1</span>))</span><br><span class="line">pairRdd.reduceByKey(_+_).collect.foreach(println)</span><br></pre></td></tr></table></figure>
+<p>结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(hive,1)</span><br><span class="line">(spark,2)</span><br><span class="line">(hadoop,1)</span><br></pre></td></tr></table></figure></p>
+<h3 id="mapValues-func"><a href="#mapValues-func" class="headerlink" title="mapValues(func)"></a><strong>mapValues(func)</strong></h3><p>对键值对每个value都应用一个函数，但是，key不会发生变化。</p>
+<figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">val</span> list = <span class="hljs-type">List</span>(<span class="hljs-string">"hadoop"</span>,<span class="hljs-string">"spark"</span>,<span class="hljs-string">"hive"</span>,<span class="hljs-string">"spark"</span>)</span><br><span class="line"><span class="hljs-keyword">val</span> rdd = sc.parallelize(list)</span><br><span class="line"><span class="hljs-keyword">val</span> pairRdd = rdd.map(x =&gt; (x,<span class="hljs-number">1</span>))</span><br><span class="line">pairRdd.mapValues(_+<span class="hljs-number">1</span>).collect.foreach(println)<span class="hljs-comment">//对每个value进行+1</span></span><br></pre></td></tr></table></figure>
+<p>结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(hadoop,2)</span><br><span class="line">(spark,2)</span><br><span class="line">(hive,2)</span><br><span class="line">(spark,2)</span><br></pre></td></tr></table></figure></p>
+<h3 id="join"><a href="#join" class="headerlink" title="join"></a><strong>join</strong></h3><p>join为内连接</p>
+<figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">val</span> pairRDD1 = sc.parallelize(<span class="hljs-type">Array</span>((<span class="hljs-string">"spark"</span>,<span class="hljs-number">1</span>),(<span class="hljs-string">"spark"</span>,<span class="hljs-number">2</span>),(<span class="hljs-string">"hadoop"</span>,<span class="hljs-number">3</span>),(<span class="hljs-string">"hadoop"</span>,<span class="hljs-number">5</span>)))</span><br><span class="line"><span class="hljs-keyword">val</span> pairRDD2 = sc.parallelize(<span class="hljs-type">Array</span>((<span class="hljs-string">"spark"</span>,<span class="hljs-string">"fast"</span>)))</span><br><span class="line">pairRDD1.join(pairRDD2)</span><br><span class="line">pairRDD1.join(pairRDD2).foreach(println)</span><br></pre></td></tr></table></figure>
+<p>结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(spark,(1,fast))</span><br><span class="line">(spark,(2,fast))</span><br></pre></td></tr></table></figure></p>
+<h3 id="groupByKey"><a href="#groupByKey" class="headerlink" title="groupByKey()"></a><strong>groupByKey()</strong></h3><p>对具有相同key的value进行分组</p>
+<figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">val</span> list = <span class="hljs-type">List</span>(<span class="hljs-string">"hadoop"</span>,<span class="hljs-string">"spark"</span>,<span class="hljs-string">"hive"</span>,<span class="hljs-string">"spark"</span>)</span><br><span class="line"><span class="hljs-keyword">val</span> rdd = sc.parallelize(list)</span><br><span class="line"><span class="hljs-keyword">val</span> pairRdd = rdd.map(x =&gt; (x,<span class="hljs-number">1</span>))</span><br><span class="line">pairRdd.groupByKey().collect.foreach(println)</span><br></pre></td></tr></table></figure>
+<p>结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(hive,CompactBuffer(1))</span><br><span class="line">(spark,CompactBuffer(1, 1))</span><br><span class="line">(hadoop,CompactBuffer(1))</span><br></pre></td></tr></table></figure></p>
+<p>结果并不是把具有相同key值进行相加，而是就简单的进行了分组，生成一个<strong><font color="red">sequence</font></strong>。可以把groupByKey()当作reduceByKey(func)操作的一部分，reduceByKey(func)先是对rdd进行groupByKey()然后在对每个分组进行func操作。</p>
+<figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pairRdd.reduceByKey(_+_).collect.foreach(println)</span><br><span class="line"><span class="hljs-comment">// 等同于</span></span><br><span class="line">pairRdd.groupByKey().map(t =&gt; (t._1,t._2.sum)).collect.foreach(println)</span><br></pre></td></tr></table></figure>
+<h3 id="reduceByKey-func-和groupByKey-的区别"><a href="#reduceByKey-func-和groupByKey-的区别" class="headerlink" title="reduceByKey(func)和groupByKey()的区别"></a><strong>reduceByKey(func)和groupByKey()的区别</strong></h3><p><strong>reduceByKey()</strong>对于每个key对应的多个value进行了<strong><font color="red">merge</font></strong>操作，能够先在本地进行merge操作。merge可以通过func自定义。<br><img src="https://s2.ax1x.com/2019/01/25/km1XD0.png" alt="reduceByKey"></p>
+<p><strong>groupByKey()</strong>也是对每个key对应的多个value进行操作，但是只是汇总生成一个sequence，本身不能自定义函数，只能通过额外通过map(func)来实现。<br><img src="https://s2.ax1x.com/2019/01/25/km1jbV.png" alt="groupByKey"></p>
+<p>在实现相似功能时，优先使用<strong><font color="red">reduceByKey()</font></strong></p>
+<h3 id="样例"><a href="#样例" class="headerlink" title="样例"></a><strong>样例</strong></h3><p>给定一组键值对(“spark”,2),(“hadoop”,6),(“hadoop”,4),(“spark”,6)，请计算每个键对应的平均值</p>
+<p><strong>1. 构建数组</strong><br><figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">val</span> rdd = sc.parallelize(<span class="hljs-type">Array</span>((<span class="hljs-string">"spark"</span>,<span class="hljs-number">2</span>),(<span class="hljs-string">"hadoop"</span>,<span class="hljs-number">6</span>),(<span class="hljs-string">"hadoop"</span>,<span class="hljs-number">4</span>),(<span class="hljs-string">"spark"</span>,<span class="hljs-number">6</span>)))</span><br></pre></td></tr></table></figure></p>
+<p><strong>2. 数据计算</strong><br><figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">// 形成新的键值对，以方便计数</span></span><br><span class="line">rdd.mapValues(x =&gt; (x,<span class="hljs-number">1</span>))</span><br><span class="line">res23: <span class="hljs-type">Array</span>[(<span class="hljs-type">String</span>, (<span class="hljs-type">Int</span>, <span class="hljs-type">Int</span>))] = <span class="hljs-type">Array</span>((spark,(<span class="hljs-number">2</span>,<span class="hljs-number">1</span>)), (hadoop,(<span class="hljs-number">6</span>,<span class="hljs-number">1</span>)), (hadoop,(<span class="hljs-number">4</span>,<span class="hljs-number">1</span>)), (spark,(<span class="hljs-number">6</span>,<span class="hljs-number">1</span>)))</span><br><span class="line"><span class="hljs-comment">// 分类计算</span></span><br><span class="line">rdd.mapValues(x =&gt; (x,<span class="hljs-number">1</span>)).reduceByKey((x,y) =&gt; (x._1+y._1,x._2 + y._2)).collect()</span><br><span class="line">res24: <span class="hljs-type">Array</span>[(<span class="hljs-type">String</span>, (<span class="hljs-type">Int</span>, <span class="hljs-type">Int</span>))] = <span class="hljs-type">Array</span>((spark,(<span class="hljs-number">8</span>,<span class="hljs-number">2</span>)), (hadoop,(<span class="hljs-number">10</span>,<span class="hljs-number">2</span>)))</span><br><span class="line"><span class="hljs-comment">// 计算平均数</span></span><br><span class="line">rdd.mapValues(x =&gt; (x,<span class="hljs-number">1</span>)).reduceByKey((x,y) =&gt; (x._1+y._1,x._2 + y._2)).mapValues(x =&gt; (x._1 / x._2)).collect()</span><br><span class="line">res25: <span class="hljs-type">Array</span>[(<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>)] = <span class="hljs-type">Array</span>((spark,<span class="hljs-number">4</span>), (hadoop,<span class="hljs-number">5</span>))</span><br></pre></td></tr></table></figure></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Spark/">Spark</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/01/25/MapReduce理解/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">MapReduce理解</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/01/24/SparkRDD编程/">
+                <span class="level-item">SparkRDD编程</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <img class="image is-128x128 has-mb-6" src="/images/will.png" alt="郑宗霖">
+                    
+                    <p class="is-size-4 is-block">
+                        郑宗霖
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Data Engineer
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen, China</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        26
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        17
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        10
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/lzzzzl/">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="http://github.com/ppoffice">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Facebook" href="http://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Twitter" href="http://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Dribbble" href="http://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Linux/">
+            <span class="level-start">
+                <span class="level-item">Linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Linux/Linux基础知识/">
+            <span class="level-start">
+                <span class="level-item">Linux基础知识</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/">
+            <span class="level-start">
+                <span class="level-item">大数据生态圈</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">15</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/HBase/">
+            <span class="level-start">
+                <span class="level-item">HBase</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/HIVE/">
+            <span class="level-start">
+                <span class="level-item">HIVE</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/Hadoop/">
+            <span class="level-start">
+                <span class="level-item">Hadoop</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/Spark/">
+            <span class="level-start">
+                <span class="level-item">Spark</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/Sqoop/">
+            <span class="level-start">
+                <span class="level-item">Sqoop</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/ZooKeeper/">
+            <span class="level-start">
+                <span class="level-item">ZooKeeper</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/数据分析/">
+            <span class="level-start">
+                <span class="level-item">数据分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/数据分析/网站用户行为分析/">
+            <span class="level-start">
+                <span class="level-item">网站用户行为分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/机器学习/">
+            <span class="level-start">
+                <span class="level-item">机器学习</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/机器学习/逻辑回归/">
+            <span class="level-start">
+                <span class="level-item">逻辑回归</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/算法/">
+            <span class="level-start">
+                <span class="level-item">算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/算法/LintCode/">
+            <span class="level-start">
+                <span class="level-item">LintCode</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/计算机基础知识/">
+            <span class="level-start">
+                <span class="level-item">计算机基础知识</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/CS/" style="font-size: 10px;">CS</a> <a href="/tags/HBase/" style="font-size: 10px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/LintCode/" style="font-size: 15px;">LintCode</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Spark/" style="font-size: 20px;">Spark</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/ZooKeeper/" style="font-size: 10px;">ZooKeeper</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/01/29/Spark广播变量/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQQl7t.jpg" alt="Spark广播变量">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-29T06:16:36.000Z">2019-01-29</time></div>
+                    <a href="/2019/01/29/Spark广播变量/" class="has-link-black-ter is-size-6">Spark广播变量</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/25/MapReduce理解/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnao8.jpg" alt="MapReduce理解">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-25T03:35:59.000Z">2019-01-25</time></div>
+                    <a href="/2019/01/25/MapReduce理解/" class="has-link-black-ter is-size-6">MapReduce理解</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Hadoop/">Hadoop</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/25/RDD键值对/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQn3zd.jpg" alt="RDD键值对">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-25T02:40:23.000Z">2019-01-25</time></div>
+                    <a href="/2019/01/25/RDD键值对/" class="has-link-black-ter is-size-6">RDD键值对</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/24/SparkRDD编程/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnDzj.jpg" alt="SparkRDD编程">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-24T08:56:26.000Z">2019-01-24</time></div>
+                    <a href="/2019/01/24/SparkRDD编程/" class="has-link-black-ter is-size-6">SparkRDD编程</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/24/Spark三种部署模式/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQu9OI.jpg" alt="Spark三种部署模式">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-24T07:46:01.000Z">2019-01-24</time></div>
+                    <a href="/2019/01/24/Spark三种部署模式/" class="has-link-black-ter is-size-6">Spark三种部署模式</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">19</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <ul class="menu-list">
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/CS/">
+                        <span class="level-start">
+                            <span class="level-item">CS</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/HBase/">
+                        <span class="level-start">
+                            <span class="level-item">HBase</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Hadoop/">
+                        <span class="level-start">
+                            <span class="level-item">Hadoop</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Hive/">
+                        <span class="level-start">
+                            <span class="level-item">Hive</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/LintCode/">
+                        <span class="level-start">
+                            <span class="level-item">LintCode</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">7</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Linux/">
+                        <span class="level-start">
+                            <span class="level-item">Linux</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Machine-Learning/">
+                        <span class="level-start">
+                            <span class="level-item">Machine Learning</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Spark/">
+                        <span class="level-start">
+                            <span class="level-item">Spark</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">10</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Sqoop/">
+                        <span class="level-start">
+                            <span class="level-item">Sqoop</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/ZooKeeper/">
+                        <span class="level-start">
+                            <span class="level-item">ZooKeeper</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/01/29/Spark广播变量/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQQl7t.jpg" alt="Spark广播变量">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-29T06:16:36.000Z">2019-01-29</time></div>
+                    <a href="/2019/01/29/Spark广播变量/" class="has-link-black-ter is-size-6">Spark广播变量</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/25/MapReduce理解/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnao8.jpg" alt="MapReduce理解">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-25T03:35:59.000Z">2019-01-25</time></div>
+                    <a href="/2019/01/25/MapReduce理解/" class="has-link-black-ter is-size-6">MapReduce理解</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Hadoop/">Hadoop</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/25/RDD键值对/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQn3zd.jpg" alt="RDD键值对">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-25T02:40:23.000Z">2019-01-25</time></div>
+                    <a href="/2019/01/25/RDD键值对/" class="has-link-black-ter is-size-6">RDD键值对</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/24/SparkRDD编程/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnDzj.jpg" alt="SparkRDD编程">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-24T08:56:26.000Z">2019-01-24</time></div>
+                    <a href="/2019/01/24/SparkRDD编程/" class="has-link-black-ter is-size-6">SparkRDD编程</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/24/Spark三种部署模式/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQu9OI.jpg" alt="Spark三种部署模式">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-24T07:46:01.000Z">2019-01-24</time></div>
+                    <a href="/2019/01/24/Spark三种部署模式/" class="has-link-black-ter is-size-6">Spark三种部署模式</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">19</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <ul class="menu-list">
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/CS/">
+                        <span class="level-start">
+                            <span class="level-item">CS</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/HBase/">
+                        <span class="level-start">
+                            <span class="level-item">HBase</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Hadoop/">
+                        <span class="level-start">
+                            <span class="level-item">Hadoop</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Hive/">
+                        <span class="level-start">
+                            <span class="level-item">Hive</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/LintCode/">
+                        <span class="level-start">
+                            <span class="level-item">LintCode</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">7</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Linux/">
+                        <span class="level-start">
+                            <span class="level-item">Linux</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Machine-Learning/">
+                        <span class="level-start">
+                            <span class="level-item">Machine Learning</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Spark/">
+                        <span class="level-start">
+                            <span class="level-item">Spark</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">10</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Sqoop/">
+                        <span class="level-start">
+                            <span class="level-item">Sqoop</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/ZooKeeper/">
+                        <span class="level-start">
+                            <span class="level-item">ZooKeeper</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/lock.png" alt="RDD键值对" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 ShelockZ&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="http://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

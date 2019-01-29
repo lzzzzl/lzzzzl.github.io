@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Spark RDD - Lin&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="弹性分布式数据集&amp;emsp;&amp;emsp;RDD即弹性分布式数据集，是一个容错的、并行的数据结构。提供诸如map、filter、flatMap等转换操作，同时也提供诸如join、groupby、以及reduceByKey等操作。 创建方式 从文件系统输入（如HDFS）创建 从已存在的RDD转化得到新的RDD  两种操作算子 Action：Action类型的算子会触发Spark提交作业，并将数据输出到">
+<meta name="keywords" content="Spark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark RDD">
+<meta property="og:url" content="http://idontknow.tech/2018/03/15/Spark RDD/index.html">
+<meta property="og:site_name" content="Lin&#39;s Blog">
+<meta property="og:description" content="弹性分布式数据集&amp;emsp;&amp;emsp;RDD即弹性分布式数据集，是一个容错的、并行的数据结构。提供诸如map、filter、flatMap等转换操作，同时也提供诸如join、groupby、以及reduceByKey等操作。 创建方式 从文件系统输入（如HDFS）创建 从已存在的RDD转化得到新的RDD  两种操作算子 Action：Action类型的算子会触发Spark提交作业，并将数据输出到">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/24/kZ2gPJ.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/24/kZRteK.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/24/kZfxqx.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/24/kZ4XHx.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/24/kZ5bi8.jpg">
+<meta property="og:updated_time" content="2019-01-24T07:40:42.385Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spark RDD">
+<meta name="twitter:description" content="弹性分布式数据集&amp;emsp;&amp;emsp;RDD即弹性分布式数据集，是一个容错的、并行的数据结构。提供诸如map、filter、flatMap等转换操作，同时也提供诸如join、groupby、以及reduceByKey等操作。 创建方式 从文件系统输入（如HDFS）创建 从已存在的RDD转化得到新的RDD  两种操作算子 Action：Action类型的算子会触发Spark提交作业，并将数据输出到">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/01/24/kZ2gPJ.jpg">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/lock.png" alt="Spark RDD" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/.">主页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="http://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-image">
+        <span class="image is-7by1">
+            <img class="thumbnail" src="https://s2.ax1x.com/2019/01/16/kS6uKx.jpg" alt="Spark RDD">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-03-15T14:33:10.000Z">2018-03-15</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    14 分钟 读完 (大约 2122 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Spark RDD
+            
+        </h1>
+        <div class="content">
+            <h2 id="弹性分布式数据集"><a href="#弹性分布式数据集" class="headerlink" title="弹性分布式数据集"></a><strong>弹性分布式数据集</strong></h2><p>&emsp;&emsp;RDD即<strong><font color="red">弹性分布式数据集</font></strong>，是一个容错的、并行的数据结构。提供诸如map、filter、flatMap等转换操作，同时也提供诸如join、groupby、以及reduceByKey等操作。</p>
+<h2 id="创建方式"><a href="#创建方式" class="headerlink" title="创建方式"></a><strong>创建方式</strong></h2><ul>
+<li>从文件系统输入（如HDFS）创建</li>
+<li>从已存在的RDD转化得到新的RDD</li>
+</ul>
+<h2 id="两种操作算子"><a href="#两种操作算子" class="headerlink" title="两种操作算子"></a><strong>两种操作算子</strong></h2><ul>
+<li><strong>Action</strong>：Action类型的算子会<strong><font color="red">触发Spark提交作业</font></strong>，并将数据输出到Spark。</li>
+<li><strong>Transformation</strong>：Transformation类型的算子不是立即执行的，而是<strong><font color="red">延迟执行</font></strong>。也就是说从一个RDD变换为另一个RDD的操作需要等到Action操作触发时，才会真正的执行。即执行了多少次Transformation操作，RDD都不会真正执行运算，只有<strong><font color="red">当Action操作被触发时运算才会运行</font></strong>。<a id="more"></a>
+<img src="https://s2.ax1x.com/2019/01/24/kZ2gPJ.jpg" alt="RDD执行过程"><br>RDD采用得是<strong><font color="red">惰性调用</font></strong>，真正得计算发生在RDD的“行动”阶段，对于“行动”之前的所有“转换”操作，Spark只是记录下“转换”操作应用的一些基础数据集以及RDD生成的轨迹，即相互之间的依赖关系，而不会触发真正的计算</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/01/24/kZRteK.jpg" alt="RDD执行样例"><br>&ensp;&ensp;在图中，从输入中逻辑上生成A和C两个RDD，经过一系列“转换”操作，逻辑上生成了F（也是一个RDD），之所以说是逻辑上，是因为这时候计算并没有发生，Spark只是记录了RDD之间的生成和依赖关系。<br>&ensp;&ensp;当F要进行输出时，也就是当F进行“行动”操作的时候，Spark才会根据RDD的依赖关系生成DAG，并从起点开始真正的计算。这一系列处理称为一个<strong><font color="red">血缘关系（Lineage）</font></strong>，即DAG拓扑排序的结果。通过血缘关系连接起来的一系列RDD操作就可以实现<strong><font color="red">管道化（pipeline）</font></strong>，避免了多次转换操作之间数据同步的等待，而且不用担心有过多的中间数据<br>&ensp;&ensp;血缘关系把一系列操作进行管道化连接的设计方式，使得管道中每次操作的计算变得相对简单，保证了每个操作在处理逻辑上的单一性；相反，在MapReduce的设计中，为了尽可能地减少MapReduce过程，在单个MapReduce中会写入过多复杂的逻辑。</p>
+<h2 id="依赖关系"><a href="#依赖关系" class="headerlink" title="依赖关系"></a><strong>依赖关系</strong></h2><ul>
+<li><strong>窄依赖</strong>：RDD中的每个Partition，仅仅依赖于父RDD中的一个Partition，即一个父RDD的分区对应于<strong><font color="red">一个</font></strong>子RDD的分区，这就是窄依赖。</li>
+<li><strong>宽依赖</strong>：RDD中的每个Partition，不仅仅依赖于父RDD中的一个Partition，即一个父RDD的一个分区对应一个子RDD的<strong><font color="red">多个</font></strong>分区，这就是宽依赖。</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/01/24/kZfxqx.jpg" alt="协同划分下的依赖关系"><br>&ensp;&ensp;Spark的这种依赖关系设计，使其具有了天生的<strong><font color="red">容错性</font></strong>，大大加快了Spark的执行速度。因为，RDD数据集通过“血缘关系”记住了它是如何从其它RDD中演变过来的，血缘关系记录的是<strong><font color="red">粗颗粒度</font></strong>的转换操作行为，当这个RDD的部分分区数据丢失时，它可以通过血缘关系获取足够的信息来重新运算和恢复丢失的数据分区，由此带来了性能的提升。相对而言，在两种依赖关系中，窄依赖的失败恢复更为高效，它只需要根据父RDD分区重新计算丢失的分区即可（不需要重新计算所有分区），而且可以并行地在不同节点进行重新计算。而对于宽依赖而言，单个节点失效通常意味着重新计算过程会涉及多个父RDD分区，开销较大。此外，Spark还提供了<strong><font color="red">数据检查点和记录日志</font></strong>，用于持久化中间RDD，从而使得在进行失败恢复时不需要追溯到最开始的阶段。在进行故障恢复时，Spark会对数据检查点开销和重新计算RDD分区的开销进行比较，从而自动选择最优的恢复策略。</p>
+<h2 id="阶段划分"><a href="#阶段划分" class="headerlink" title="阶段划分"></a><strong>阶段划分</strong></h2><p><img src="https://s2.ax1x.com/2019/01/24/kZ4XHx.jpg" alt="RDD阶段划分"><br>&ensp;&ensp;Spark通过分析各个RDD的依赖关系生成了DAG，再通过分析各个RDD中的分区之间的依赖关系来决定如何划分阶段，具体划分方法是：<strong><font color="red">在DAG中进行反向解析，遇到宽依赖就断开，遇到窄依赖就把当前的RDD加入到当前的阶段中。</font></strong>将窄依赖尽量划分在同一个阶段中，可以实现流水线计算（具体的阶段划分算法请参见AMP实验室发表的论文《Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing》）。<br>&ensp;&ensp;例如，如图所示，假设从HDFS中读入数据生成3个不同的RDD（即A、C和E），通过一系列转换操作后再将计算结果保存回HDFS。对DAG进行解析时，在依赖图中进行反向解析，由于从<strong><font color="red">RDD A到RDD B</font></strong>的转换以及从<strong><font color="red">RDD B和F到RDD G</font></strong>的转换，都属于<strong><font color="red">宽依赖</font></strong>，因此，在宽依赖处断开后可以得到三个阶段，即<strong><font color="red">阶段1</font></strong>、<strong><font color="red">阶段2</font></strong>和<strong><font color="red">阶段3</font></strong>。可以看出，在阶段2中，从map到union都是窄依赖，这两步操作可以形成一个<strong><font color="red">流水线操作</font></strong>，比如，分区7通过map操作生成的分区9，可以不用等待分区8到分区9这个转换操作的计算结束，而是继续进行union操作，转换得到分区13，这样流水线执行大大提高了计算的效率。<br>&ensp;&ensp;把一个DAG图划分成多个“阶段”以后，每个阶段都代表了一组<strong><font color="red">关联的、相互之间没有Shuffle依赖关系</font></strong>的任务组成的任务集合。每个任务集合会被提交给任务调度器（TaskScheduler）进行处理，由任务调度器将任务分发给Executor运行。</p>
+<h2 id="运行过程"><a href="#运行过程" class="headerlink" title="运行过程"></a><strong>运行过程</strong></h2><p><img src="https://s2.ax1x.com/2019/01/24/kZ5bi8.jpg" alt="运行关系图"></p>
+<ul>
+<li>创建RDD对象；</li>
+<li>SparkContext负责计算RDD之间的依赖关系，构建DAG；</li>
+<li>DAGScheduler负责把DAG图分解成多个阶段，每个阶段中包含了多个任务，每个任务会被任务调度器分发给各个工作节点（Worker Node）上的Executor去执行。</li>
+</ul>
+<h2 id="高效性："><a href="#高效性：" class="headerlink" title="高效性："></a><strong>高效性：</strong></h2><ul>
+<li>RDD支持<strong><font color="red">persistence（持久化）</font></strong>和<strong><font color="red">partitioning（分区）</font></strong>。</li>
+<li>RDD内部实现机制中，底层接口基于<strong><font color="red">迭代器</font></strong>，避免了大量中间结果对内存的损耗。</li>
+</ul>
+<h2 id="特点："><a href="#特点：" class="headerlink" title="特点："></a><strong>特点：</strong></h2><ul>
+<li>RDD通过<strong><font color="red">血缘关系</font></strong>实现高效容错</li>
+<li>RDD是<strong><font color="red">不变</font></strong>的数据结构存储。</li>
+<li>RDD将数据存储在<strong><font color="red">内存</font></strong>中，从而提供了低延迟性。</li>
+<li>RDD支持<strong><font color="red">跨集群分布式</font></strong>数据结构。</li>
+<li>RDD可以根据记录的Key对结构<strong><font color="red">分区</font></strong>。</li>
+<li>RDD提供粗粒度的操作，并且都支持分区。</li>
+</ul>
+<h2 id="Spark算子"><a href="#Spark算子" class="headerlink" title="Spark算子"></a><strong>Spark算子</strong></h2><p>&emsp;&emsp;Spark应用程序的本质就是把需要处理的数据转换成RDD，然后将RDD通过一系列Transformation和Aciton得到结果。这些Transformation和Action就被称为<strong><font color="red">算子</font></strong>。</p>
+<p><strong>算子可以被分为下面三类：</strong></p>
+<ul>
+<li><strong>处理Value数据类型的Transformation算子</strong>：这类变换并不触发提交作业，处理的数据项是Value类型的数据。</li>
+<li><strong>处理Key-Value数据类型的Transformation算子</strong>：这种变换并不触发提交作业，处理的数据项是Key-Value类型的数据对。</li>
+<li><strong>Action算子</strong>：这类算子触发SparkContext提交作业。</li>
+</ul>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Spark/">Spark</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2018/03/15/什么是Spark/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">什么是Spark</span>
+            </a>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <img class="image is-128x128 has-mb-6" src="/images/will.png" alt="郑宗霖">
+                    
+                    <p class="is-size-4 is-block">
+                        郑宗霖
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Data Engineer
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Shenzhen, China</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        26
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        17
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        10
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/lzzzzl/">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="http://github.com/ppoffice">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Facebook" href="http://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Twitter" href="http://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Dribbble" href="http://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Linux/">
+            <span class="level-start">
+                <span class="level-item">Linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Linux/Linux基础知识/">
+            <span class="level-start">
+                <span class="level-item">Linux基础知识</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/">
+            <span class="level-start">
+                <span class="level-item">大数据生态圈</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">15</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/HBase/">
+            <span class="level-start">
+                <span class="level-item">HBase</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/HIVE/">
+            <span class="level-start">
+                <span class="level-item">HIVE</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/Hadoop/">
+            <span class="level-start">
+                <span class="level-item">Hadoop</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/Spark/">
+            <span class="level-start">
+                <span class="level-item">Spark</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/Sqoop/">
+            <span class="level-start">
+                <span class="level-item">Sqoop</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/ZooKeeper/">
+            <span class="level-start">
+                <span class="level-item">ZooKeeper</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/数据分析/">
+            <span class="level-start">
+                <span class="level-item">数据分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/数据分析/网站用户行为分析/">
+            <span class="level-start">
+                <span class="level-item">网站用户行为分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/机器学习/">
+            <span class="level-start">
+                <span class="level-item">机器学习</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/机器学习/逻辑回归/">
+            <span class="level-start">
+                <span class="level-item">逻辑回归</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/算法/">
+            <span class="level-start">
+                <span class="level-item">算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/算法/LintCode/">
+            <span class="level-start">
+                <span class="level-item">LintCode</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/计算机基础知识/">
+            <span class="level-start">
+                <span class="level-item">计算机基础知识</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/CS/" style="font-size: 10px;">CS</a> <a href="/tags/HBase/" style="font-size: 10px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/LintCode/" style="font-size: 15px;">LintCode</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Spark/" style="font-size: 20px;">Spark</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/ZooKeeper/" style="font-size: 10px;">ZooKeeper</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/01/29/Spark广播变量/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQQl7t.jpg" alt="Spark广播变量">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-29T06:16:36.000Z">2019-01-29</time></div>
+                    <a href="/2019/01/29/Spark广播变量/" class="has-link-black-ter is-size-6">Spark广播变量</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/25/MapReduce理解/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnao8.jpg" alt="MapReduce理解">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-25T03:35:59.000Z">2019-01-25</time></div>
+                    <a href="/2019/01/25/MapReduce理解/" class="has-link-black-ter is-size-6">MapReduce理解</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Hadoop/">Hadoop</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/25/RDD键值对/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQn3zd.jpg" alt="RDD键值对">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-25T02:40:23.000Z">2019-01-25</time></div>
+                    <a href="/2019/01/25/RDD键值对/" class="has-link-black-ter is-size-6">RDD键值对</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/24/SparkRDD编程/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnDzj.jpg" alt="SparkRDD编程">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-24T08:56:26.000Z">2019-01-24</time></div>
+                    <a href="/2019/01/24/SparkRDD编程/" class="has-link-black-ter is-size-6">SparkRDD编程</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/24/Spark三种部署模式/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQu9OI.jpg" alt="Spark三种部署模式">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-24T07:46:01.000Z">2019-01-24</time></div>
+                    <a href="/2019/01/24/Spark三种部署模式/" class="has-link-black-ter is-size-6">Spark三种部署模式</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">19</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <ul class="menu-list">
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/CS/">
+                        <span class="level-start">
+                            <span class="level-item">CS</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/HBase/">
+                        <span class="level-start">
+                            <span class="level-item">HBase</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Hadoop/">
+                        <span class="level-start">
+                            <span class="level-item">Hadoop</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Hive/">
+                        <span class="level-start">
+                            <span class="level-item">Hive</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/LintCode/">
+                        <span class="level-start">
+                            <span class="level-item">LintCode</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">7</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Linux/">
+                        <span class="level-start">
+                            <span class="level-item">Linux</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Machine-Learning/">
+                        <span class="level-start">
+                            <span class="level-item">Machine Learning</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Spark/">
+                        <span class="level-start">
+                            <span class="level-item">Spark</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">10</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Sqoop/">
+                        <span class="level-start">
+                            <span class="level-item">Sqoop</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/ZooKeeper/">
+                        <span class="level-start">
+                            <span class="level-item">ZooKeeper</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/01/29/Spark广播变量/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQQl7t.jpg" alt="Spark广播变量">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-29T06:16:36.000Z">2019-01-29</time></div>
+                    <a href="/2019/01/29/Spark广播变量/" class="has-link-black-ter is-size-6">Spark广播变量</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/25/MapReduce理解/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnao8.jpg" alt="MapReduce理解">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-25T03:35:59.000Z">2019-01-25</time></div>
+                    <a href="/2019/01/25/MapReduce理解/" class="has-link-black-ter is-size-6">MapReduce理解</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Hadoop/">Hadoop</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/25/RDD键值对/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQn3zd.jpg" alt="RDD键值对">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-25T02:40:23.000Z">2019-01-25</time></div>
+                    <a href="/2019/01/25/RDD键值对/" class="has-link-black-ter is-size-6">RDD键值对</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/24/SparkRDD编程/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnDzj.jpg" alt="SparkRDD编程">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-24T08:56:26.000Z">2019-01-24</time></div>
+                    <a href="/2019/01/24/SparkRDD编程/" class="has-link-black-ter is-size-6">SparkRDD编程</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/01/24/Spark三种部署模式/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQu9OI.jpg" alt="Spark三种部署模式">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-24T07:46:01.000Z">2019-01-24</time></div>
+                    <a href="/2019/01/24/Spark三种部署模式/" class="has-link-black-ter is-size-6">Spark三种部署模式</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">19</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <ul class="menu-list">
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/CS/">
+                        <span class="level-start">
+                            <span class="level-item">CS</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/HBase/">
+                        <span class="level-start">
+                            <span class="level-item">HBase</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Hadoop/">
+                        <span class="level-start">
+                            <span class="level-item">Hadoop</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Hive/">
+                        <span class="level-start">
+                            <span class="level-item">Hive</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/LintCode/">
+                        <span class="level-start">
+                            <span class="level-item">LintCode</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">7</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Linux/">
+                        <span class="level-start">
+                            <span class="level-item">Linux</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Machine-Learning/">
+                        <span class="level-start">
+                            <span class="level-item">Machine Learning</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Spark/">
+                        <span class="level-start">
+                            <span class="level-item">Spark</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">10</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Sqoop/">
+                        <span class="level-start">
+                            <span class="level-item">Sqoop</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/ZooKeeper/">
+                        <span class="level-start">
+                            <span class="level-item">ZooKeeper</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/lock.png" alt="Spark RDD" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 ShelockZ&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="http://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
