@@ -130,8 +130,8 @@
     <div class="card">
     
     <div class="card-image">
-        <a href="/2018/03/15/Spark RDD/" class="image is-7by1">
-            <img class="thumbnail" src="https://s2.ax1x.com/2019/01/16/kS6uKx.jpg" alt="Spark RDD">
+        <a href="/2019/01/05/Sbt编译Spark程序/" class="image is-7by1">
+            <img class="thumbnail" src="https://s2.ax1x.com/2019/01/14/Fxb8ds.png" alt="Sbt编译Spark程序">
         </a>
     </div>
     
@@ -139,7 +139,7 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-03-15T14:33:10.000Z">2018-03-15</time>
+                <time class="level-item has-text-grey" datetime="2019-01-05T02:27:31.000Z">2019-01-05</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
@@ -149,7 +149,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    14 分钟 读完 (大约 2122 个字)
+                    3 分钟 读完 (大约 384 个字)
                 </span>
                 
             </div>
@@ -157,28 +157,231 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2018/03/15/Spark RDD/">Spark RDD</a>
+                <a class="has-link-black-ter" href="/2019/01/05/Sbt编译Spark程序/">Sbt编译Spark程序</a>
             
         </h1>
         <div class="content">
-            <h2 id="弹性分布式数据集"><a href="#弹性分布式数据集" class="headerlink" title="弹性分布式数据集"></a><strong>弹性分布式数据集</strong></h2><p>&emsp;&emsp;RDD即<strong><font color="red">弹性分布式数据集</font></strong>，是一个容错的、并行的数据结构。提供诸如map、filter、flatMap等转换操作，同时也提供诸如join、groupby、以及reduceByKey等操作。</p>
-<h2 id="创建方式"><a href="#创建方式" class="headerlink" title="创建方式"></a><strong>创建方式</strong></h2><ul>
-<li>从文件系统输入（如HDFS）创建</li>
-<li>从已存在的RDD转化得到新的RDD</li>
-</ul>
-<h2 id="两种操作算子"><a href="#两种操作算子" class="headerlink" title="两种操作算子"></a><strong>两种操作算子</strong></h2><ul>
-<li><strong>Action</strong>：Action类型的算子会<strong><font color="red">触发Spark提交作业</font></strong>，并将数据输出到Spark。</li>
-<li><strong>Transformation</strong>：Transformation类型的算子不是立即执行的，而是<strong><font color="red">延迟执行</font></strong>。也就是说从一个RDD变换为另一个RDD的操作需要等到Action操作触发时，才会真正的执行。即执行了多少次Transformation操作，RDD都不会真正执行运算，只有<strong><font color="red">当Action操作被触发时运算才会运行</font></strong>。</li></ul>
+            <h2 id="安装Sbt"><a href="#安装Sbt" class="headerlink" title="安装Sbt"></a><strong>安装Sbt</strong></h2><h5 id="建立目录，解压文件到所建立目录"><a href="#建立目录，解压文件到所建立目录" class="headerlink" title="建立目录，解压文件到所建立目录"></a>建立目录，解压文件到所建立目录</h5><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf sbt-1.2.8.tgz -C /opt/scala/</span><br></pre></td></tr></table></figure>
+<h5 id="建立启动sbt的脚本"><a href="#建立启动sbt的脚本" class="headerlink" title="建立启动sbt的脚本"></a>建立启动sbt的脚本</h5><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-built_in">cd</span> /home/zzl/opt/scala-2.11.12/sbt</span><br><span class="line">vim sbt</span><br></pre></td></tr></table></figure>
+<h5 id="在sbt文本文件中添加"><a href="#在sbt文本文件中添加" class="headerlink" title="在sbt文本文件中添加"></a>在sbt文本文件中添加</h5><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SBT_OPTS=<span class="hljs-string">"-Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256M"</span></span><br><span class="line">java <span class="hljs-variable">$SBT_OPTS</span> -jar /home/zzl/opt/scala-2.11.12/sbt/bin/sbt-launch.jar <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span></span><br></pre></td></tr></table></figure>
+<h5 id="修改sbt文件权限"><a href="#修改sbt文件权限" class="headerlink" title="修改sbt文件权限"></a>修改sbt文件权限</h5><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod u+x sbt</span><br></pre></td></tr></table></figure>
         </div>
         
         
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2018/03/15/Spark RDD/#more">阅读更多</a>
+                <a class="button is-size-7 is-light" href="/2019/01/05/Sbt编译Spark程序/#more">阅读更多</a>
                 </div>
             </div>
         </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-01-05T01:20:52.000Z">2019-01-05</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    3 分钟 读完 (大约 428 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/01/05/Spark基础使用/">Spark基础使用</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a><strong>环境</strong></h2><ul>
+<li><strong>Spark 2.3.0</strong></li>
+<li><strong>Scala 2.11</strong></li>
+<li><strong>Hadoop 2.7.5</strong></li>
+</ul>
+<figure class="highlight xml hljs"><figcaption><span>spark-env.sh</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env bash</span><br><span class="line"></span><br><span class="line">export JAVA_HOME=/home/zzl/opt/jdk1.8.0_161</span><br><span class="line">export SCALA_HOME=/home/zzl/opt/scala-2.11.12</span><br><span class="line">export HADOOP_HOME=/home/zzl/opt/spark-2.3.0</span><br><span class="line"></span><br><span class="line">export STANDALONE_SPARK_MASTER_HOST=master</span><br><span class="line">export SPARK_MASTER_IP=$STANDALONE_SPARK_MASTER_HOST</span><br><span class="line"></span><br><span class="line">### Let's run everything with JVM runtime, instead of Scala</span><br><span class="line">export SPARK_LAUNCH_WITH_SCALA=0</span><br><span class="line">export SPARK_LIBRARY_PATH=$&#123;SPARK_HOME&#125;/lib</span><br><span class="line">export SCALA_LIBRARY_PATH=$&#123;SPARK_HOME&#125;/lib</span><br><span class="line">export SPARK_MASTER_WEBUI_PORT=18080</span><br><span class="line">export SPARK_DIST_CLASSPATH=$($HADOOP_HOME/bin/hadoop classpath)</span><br></pre></td></tr></table></figure>
+<h2 id="运行Spark示例"><a href="#运行Spark示例" class="headerlink" title="运行Spark示例"></a><strong>运行Spark示例</strong></h2><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./run-example SparkPi 2&gt;&amp;1 | grep <span class="hljs-string">"Pi is roughly"</span></span><br><span class="line"><span class="hljs-comment"># Pi is roughly 3.14588</span></span><br></pre></td></tr></table></figure>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/01/05/Spark基础使用/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-01-01T03:33:47.000Z">2019-01-01</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Linux/">Linux</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Linux/Linux基础知识/">Linux基础知识</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    2 分钟 读完 (大约 286 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/01/01/shell中2/">shell中2&gt;&amp;1的理解</a>
+            
+        </h1>
+        <div class="content">
+            <h3 id="amp-没有固定意思"><a href="#amp-没有固定意思" class="headerlink" title="&amp;没有固定意思"></a><strong>&amp;没有固定意思</strong></h3><p>放在<strong>&gt;</strong>后面的<font color="red"><strong>&amp;</strong></font>，表示重定向的目标不是一个<strong>文件</strong>，而是一个<strong>文件描述符</strong>，文件表述符如下：<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 =&gt; stdout</span><br><span class="line">2 =&gt; stderr</span><br><span class="line">0 =&gt; stdin</span><br></pre></td></tr></table></figure></p>
+<p><strong>2&gt;1</strong>代表将<strong>stderr</strong>重定向到当前路径下文件名为<strong>1</strong>的<strong>regular file</strong>中<br><strong>2&gt;&amp;1</strong>代表将<strong>stderr</strong>重定向到文件描述符为<strong>1</strong>的文件（即/dev/stdout）中，这个文件就是stdout在file system中的映射<br>同时，<font color="red"><strong>&amp;&gt;file</strong></font>是一种特殊用法，也可以写成<font color="red"><strong>&gt;&amp;file</strong></font>，二者意思完全相同，都等价于</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;file 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+<p>此处的<font color="red"><strong>&amp;&gt;</strong></font>或者<font color="red"><strong>&gt;&amp;</strong></font>视作整体，分开无单独含义</p>
+<h3 id="一个有意思的问题"><a href="#一个有意思的问题" class="headerlink" title="一个有意思的问题"></a><strong>一个有意思的问题</strong></h3><p>调换顺序后两者意思是否一样？<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">find /etc -name .bashrc &gt; list 2&gt;&amp;1</span><br><span class="line"># 调换顺序</span><br><span class="line">find /etc -name .bashrc 2&gt;&amp;1 &gt; list</span><br></pre></td></tr></table></figure></p>
+<p>从左至右是有顺序的</p>
+<p><strong>第一种</strong><br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xxx &gt; list 2&gt;&amp;1</span><br></pre></td></tr></table></figure></p>
+<p>先将要输出到<strong>stdout</strong>的内容重定向到文件，此时文件<strong>list</strong>就是这个程序的<strong>stdout</strong>，再将<strong>stderr</strong>重定向到<strong>stdout</strong>，也就是文件<strong>list</strong></p>
+<p><strong>第二种</strong><br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xxx 2&gt;&amp;1 &gt; list</span><br></pre></td></tr></table></figure></p>
+<p>在<strong>stdout</strong>重定向到<strong>list</strong>之前，<strong>stderr</strong>是<strong>stdout</strong>的副本(copy)，此时只将<strong>stdout</strong>指向文件<strong>list</strong></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-12-26T12:05:21.000Z">2018-12-26</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/机器学习/">机器学习</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/机器学习/逻辑回归/">逻辑回归</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    7 分钟 读完 (大约 1003 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2018/12/26/python实现逻辑回归/">python实现逻辑回归</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a><strong>目的</strong></h2><p>探寻GRE，GPA和本科院校的声望对于研究生入学的影响。<a href="https://stats.idre.ucla.edu/r/dae/logit-regression/" target="_blank" rel="noopener">UCLA逻辑回归案例</a></p>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a><strong>变量</strong></h2><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 预测变量</span><br><span class="line">GPA</span><br><span class="line">GRE</span><br><span class="line">RANK</span><br><span class="line"></span><br><span class="line"># 二分类目标变量</span><br><span class="line">* admit/don’t admit（录取与否）</span><br></pre></td></tr></table></figure>
+<h2 id="加载数据"><a href="#加载数据" class="headerlink" title="加载数据"></a><strong>加载数据</strong></h2><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd</span><br><span class="line"><span class="hljs-keyword">import</span> statsmodels.api <span class="hljs-keyword">as</span> sm</span><br><span class="line"><span class="hljs-keyword">import</span> pylab <span class="hljs-keyword">as</span> pl</span><br><span class="line"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np</span><br><span class="line"><span class="hljs-keyword">import</span> copy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment"># 加载并查看数据</span></span><br><span class="line">df = pd.read_csv(<span class="hljs-string">"https://stats.idre.ucla.edu/stat/data/binary.csv"</span>)</span><br><span class="line">print(df.head())</span><br><span class="line"><span class="hljs-comment">#    admit  gre   gpa  rank</span></span><br><span class="line"><span class="hljs-comment"># 0      0  380  3.61     3</span></span><br><span class="line"><span class="hljs-comment"># 1      1  660  3.67     3</span></span><br><span class="line"><span class="hljs-comment"># 2      1  800  4.00     1</span></span><br><span class="line"><span class="hljs-comment"># 3      1  640  3.19     4</span></span><br><span class="line"><span class="hljs-comment"># 4      0  520  2.93     4</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment"># 修改rank列为prestige</span></span><br><span class="line">df.columns = [<span class="hljs-string">"admit"</span>, <span class="hljs-string">"gre"</span>, <span class="hljs-string">"gpa"</span>, <span class="hljs-string">"prestige"</span>]</span><br><span class="line">print(df.columns)</span><br><span class="line"><span class="hljs-comment"># Index(['admit', 'gre', 'gpa', 'prestige'], dtype='object')</span></span><br></pre></td></tr></table></figure>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2018/12/26/python实现逻辑回归/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-12-12T07:16:49.000Z">2018-12-12</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/数学/">数学</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/数学/概率论与数理统计/">概率论与数理统计</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    几秒 读完 (大约 21 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2018/12/12/95-置信区间/">【转】95%置信区间</a>
+            
+        </h1>
+        <div class="content">
+            <p><a href="https://blog.csdn.net/pannn0504/article/details/82455934" target="_blank" rel="noopener">一文快速搞懂对95%置信区间的理解</a></p>
+
+        </div>
+        
         
         
     </div>
@@ -198,7 +401,7 @@
         <div class="pagination-previous">
             <a class="is-flex-grow has-text-black-ter" href="/page/5/">上一页</a>
         </div>
-        <div class="pagination-next is-invisible is-hidden-mobile">
+        <div class="pagination-next">
             <a class="is-flex-grow has-text-black-ter" href="/page/7/">下一页</a>
         </div>
         <ul class="pagination-list is-hidden-mobile">
@@ -210,6 +413,12 @@
             <li><a class="pagination-link has-text-black-ter" href="/page/5/">5</a></li>
             
             <li><a class="pagination-link is-current" href="/page/6/">6</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/page/7/">7</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/page/8/">8</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/page/9/">9</a></li>
             
         </ul>
     </nav>
@@ -255,7 +464,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        26
+                        43
                     </p>
                 </div>
             </div>
@@ -265,7 +474,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        17
+                        24
                     </p>
                 </div>
             </div>
@@ -275,7 +484,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        10
+                        14
                     </p>
                 </div>
             </div>
@@ -338,6 +547,22 @@
             </h3>
             <ul class="menu-list">
             <li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Java/多线程/">
+            <span class="level-start">
+                <span class="level-item">多线程</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/Linux/">
             <span class="level-start">
                 <span class="level-item">Linux</span>
@@ -359,20 +584,20 @@
                 <span class="level-item">大数据生态圈</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">15</span>
+                <span class="level-item tag">26</span>
             </span>
         </a><ul><li>
-        <a class="level is-marginless" href="/categories/大数据生态圈/HBase/">
+        <a class="level is-marginless" href="/categories/大数据生态圈/Flume/">
             <span class="level-start">
-                <span class="level-item">HBase</span>
+                <span class="level-item">Flume</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
-        <a class="level is-marginless" href="/categories/大数据生态圈/HIVE/">
+        <a class="level is-marginless" href="/categories/大数据生态圈/HBase/">
             <span class="level-start">
-                <span class="level-item">HIVE</span>
+                <span class="level-item">HBase</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -383,6 +608,22 @@
                 <span class="level-item">Hadoop</span>
             </span>
             <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/Hive/">
+            <span class="level-start">
+                <span class="level-item">Hive</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/Kafka/">
+            <span class="level-start">
+                <span class="level-item">Kafka</span>
+            </span>
+            <span class="level-end">
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
@@ -391,7 +632,7 @@
                 <span class="level-item">Spark</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">17</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/Sqoop/">
@@ -405,6 +646,22 @@
         <a class="level is-marginless" href="/categories/大数据生态圈/ZooKeeper/">
             <span class="level-start">
                 <span class="level-item">ZooKeeper</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/数学/">
+            <span class="level-start">
+                <span class="level-item">数学</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/数学/概率论与数理统计/">
+            <span class="level-start">
+                <span class="level-item">概率论与数理统计</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -447,7 +704,7 @@
                 <span class="level-item">算法</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">7</span>
+                <span class="level-item tag">9</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/算法/LintCode/">
@@ -455,7 +712,15 @@
                 <span class="level-item">LintCode</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">7</span>
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/算法/数据结构/">
+            <span class="level-start">
+                <span class="level-item">数据结构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
             </span>
         </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/计算机基础知识/">
@@ -477,7 +742,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/CS/" style="font-size: 10px;">CS</a> <a href="/tags/HBase/" style="font-size: 10px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/LintCode/" style="font-size: 15px;">LintCode</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Spark/" style="font-size: 20px;">Spark</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/ZooKeeper/" style="font-size: 10px;">ZooKeeper</a>
+        <a href="/tags/CS/" style="font-size: 10px;">CS</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HBase/" style="font-size: 10px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 13.33px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/Java/" style="font-size: 13.33px;">Java</a> <a href="/tags/Kafka/" style="font-size: 10px;">Kafka</a> <a href="/tags/LintCode/" style="font-size: 16.67px;">LintCode</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Spark/" style="font-size: 20px;">Spark</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/Statistics/" style="font-size: 10px;">Statistics</a> <a href="/tags/ZooKeeper/" style="font-size: 10px;">ZooKeeper</a>
     </div>
 </div>
 
@@ -494,16 +759,35 @@
         
         <article class="media">
             
-            <a href="/2019/01/29/Spark广播变量/" class="media-left">
+            <a href="/2019/03/14/Kafka搭建/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQQl7t.jpg" alt="Spark广播变量">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/03/14/AkXjiD.jpg" alt="Kafka集群搭建">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-29T06:16:36.000Z">2019-01-29</time></div>
-                    <a href="/2019/01/29/Spark广播变量/" class="has-link-black-ter is-size-6">Spark广播变量</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-14T01:12:08.000Z">2019-03-14</time></div>
+                    <a href="/2019/03/14/Kafka搭建/" class="has-link-black-ter is-size-6">Kafka集群搭建</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Kafka/">Kafka</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/02/22/Streaming基础输入源/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfMabq.jpg" alt="Streaming基础输入源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T09:11:10.000Z">2019-02-22</time></div>
+                    <a href="/2019/02/22/Streaming基础输入源/" class="has-link-black-ter is-size-6">Streaming基础输入源</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
                     </p>
@@ -513,35 +797,16 @@
         
         <article class="media">
             
-            <a href="/2019/01/25/MapReduce理解/" class="media-left">
+            <a href="/2019/02/22/SparkStreaming/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnao8.jpg" alt="MapReduce理解">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfCdMD.jpg" alt="Spark Streaming">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-25T03:35:59.000Z">2019-01-25</time></div>
-                    <a href="/2019/01/25/MapReduce理解/" class="has-link-black-ter is-size-6">MapReduce理解</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Hadoop/">Hadoop</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/01/25/RDD键值对/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQn3zd.jpg" alt="RDD键值对">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-25T02:40:23.000Z">2019-01-25</time></div>
-                    <a href="/2019/01/25/RDD键值对/" class="has-link-black-ter is-size-6">RDD键值对</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T07:02:13.000Z">2019-02-22</time></div>
+                    <a href="/2019/02/22/SparkStreaming/" class="has-link-black-ter is-size-6">Spark Streaming</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
                     </p>
@@ -551,16 +816,16 @@
         
         <article class="media">
             
-            <a href="/2019/01/24/SparkRDD编程/" class="media-left">
+            <a href="/2019/02/22/Spark连接Hive/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnDzj.jpg" alt="SparkRDD编程">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfpPW8.jpg" alt="Spark连接Hive">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-24T08:56:26.000Z">2019-01-24</time></div>
-                    <a href="/2019/01/24/SparkRDD编程/" class="has-link-black-ter is-size-6">SparkRDD编程</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T06:24:25.000Z">2019-02-22</time></div>
+                    <a href="/2019/02/22/Spark连接Hive/" class="has-link-black-ter is-size-6">Spark连接Hive</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
                     </p>
@@ -570,16 +835,16 @@
         
         <article class="media">
             
-            <a href="/2019/01/24/Spark三种部署模式/" class="media-left">
+            <a href="/2019/02/19/Spark连接JDBC/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQu9OI.jpg" alt="Spark三种部署模式">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/20/k2h2Ix.jpg" alt="Spark连接JDBC">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-24T07:46:01.000Z">2019-01-24</time></div>
-                    <a href="/2019/01/24/Spark三种部署模式/" class="has-link-black-ter is-size-6">Spark三种部署模式</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-19T13:59:40.000Z">2019-02-19</time></div>
+                    <a href="/2019/02/19/Spark连接JDBC/" class="has-link-black-ter is-size-6">Spark连接JDBC</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
                     </p>
@@ -600,12 +865,34 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2019/01/">
                 <span class="level-start">
                     <span class="level-item">一月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">19</span>
+                    <span class="level-item tag">20</span>
                 </span>
             </a>
         </li>
@@ -616,7 +903,18 @@
                     <span class="level-item">十二月 2018</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/11/">
+                <span class="level-start">
+                    <span class="level-item">十一月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -633,12 +931,34 @@
         </li>
         
         <li>
+            <a class="level is-marginless" href="/archives/2018/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2018/03/">
                 <span class="level-start">
                     <span class="level-item">三月 2018</span>
                 </span>
                 <span class="level-end">
                     <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
                 </span>
             </a>
         </li>
@@ -668,6 +988,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/Flume/">
+                        <span class="level-start">
+                            <span class="level-item">Flume</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/HBase/">
                         <span class="level-start">
                             <span class="level-item">HBase</span>
@@ -684,7 +1015,7 @@
                             <span class="level-item">Hadoop</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">3</span>
                         </span>
                     </a>
                 </li>
@@ -701,12 +1032,34 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/Java/">
+                        <span class="level-start">
+                            <span class="level-item">Java</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Kafka/">
+                        <span class="level-start">
+                            <span class="level-item">Kafka</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/LintCode/">
                         <span class="level-start">
                             <span class="level-item">LintCode</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">7</span>
+                            <span class="level-item tag">8</span>
                         </span>
                     </a>
                 </li>
@@ -739,7 +1092,7 @@
                             <span class="level-item">Spark</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">10</span>
+                            <span class="level-item tag">17</span>
                         </span>
                     </a>
                 </li>
@@ -748,6 +1101,17 @@
                     <a class="level is-marginless" href="/tags/Sqoop/">
                         <span class="level-start">
                             <span class="level-item">Sqoop</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Statistics/">
+                        <span class="level-start">
+                            <span class="level-item">Statistics</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -791,16 +1155,35 @@
         
         <article class="media">
             
-            <a href="/2019/01/29/Spark广播变量/" class="media-left">
+            <a href="/2019/03/14/Kafka搭建/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQQl7t.jpg" alt="Spark广播变量">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/03/14/AkXjiD.jpg" alt="Kafka集群搭建">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-29T06:16:36.000Z">2019-01-29</time></div>
-                    <a href="/2019/01/29/Spark广播变量/" class="has-link-black-ter is-size-6">Spark广播变量</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-14T01:12:08.000Z">2019-03-14</time></div>
+                    <a href="/2019/03/14/Kafka搭建/" class="has-link-black-ter is-size-6">Kafka集群搭建</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Kafka/">Kafka</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/02/22/Streaming基础输入源/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfMabq.jpg" alt="Streaming基础输入源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T09:11:10.000Z">2019-02-22</time></div>
+                    <a href="/2019/02/22/Streaming基础输入源/" class="has-link-black-ter is-size-6">Streaming基础输入源</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
                     </p>
@@ -810,35 +1193,16 @@
         
         <article class="media">
             
-            <a href="/2019/01/25/MapReduce理解/" class="media-left">
+            <a href="/2019/02/22/SparkStreaming/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnao8.jpg" alt="MapReduce理解">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfCdMD.jpg" alt="Spark Streaming">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-25T03:35:59.000Z">2019-01-25</time></div>
-                    <a href="/2019/01/25/MapReduce理解/" class="has-link-black-ter is-size-6">MapReduce理解</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Hadoop/">Hadoop</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/01/25/RDD键值对/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQn3zd.jpg" alt="RDD键值对">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-25T02:40:23.000Z">2019-01-25</time></div>
-                    <a href="/2019/01/25/RDD键值对/" class="has-link-black-ter is-size-6">RDD键值对</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T07:02:13.000Z">2019-02-22</time></div>
+                    <a href="/2019/02/22/SparkStreaming/" class="has-link-black-ter is-size-6">Spark Streaming</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
                     </p>
@@ -848,16 +1212,16 @@
         
         <article class="media">
             
-            <a href="/2019/01/24/SparkRDD编程/" class="media-left">
+            <a href="/2019/02/22/Spark连接Hive/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnDzj.jpg" alt="SparkRDD编程">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfpPW8.jpg" alt="Spark连接Hive">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-24T08:56:26.000Z">2019-01-24</time></div>
-                    <a href="/2019/01/24/SparkRDD编程/" class="has-link-black-ter is-size-6">SparkRDD编程</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T06:24:25.000Z">2019-02-22</time></div>
+                    <a href="/2019/02/22/Spark连接Hive/" class="has-link-black-ter is-size-6">Spark连接Hive</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
                     </p>
@@ -867,16 +1231,16 @@
         
         <article class="media">
             
-            <a href="/2019/01/24/Spark三种部署模式/" class="media-left">
+            <a href="/2019/02/19/Spark连接JDBC/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQu9OI.jpg" alt="Spark三种部署模式">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/20/k2h2Ix.jpg" alt="Spark连接JDBC">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-24T07:46:01.000Z">2019-01-24</time></div>
-                    <a href="/2019/01/24/Spark三种部署模式/" class="has-link-black-ter is-size-6">Spark三种部署模式</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-19T13:59:40.000Z">2019-02-19</time></div>
+                    <a href="/2019/02/19/Spark连接JDBC/" class="has-link-black-ter is-size-6">Spark连接JDBC</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
                     </p>
@@ -897,12 +1261,34 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2019/01/">
                 <span class="level-start">
                     <span class="level-item">一月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">19</span>
+                    <span class="level-item tag">20</span>
                 </span>
             </a>
         </li>
@@ -913,7 +1299,18 @@
                     <span class="level-item">十二月 2018</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/11/">
+                <span class="level-start">
+                    <span class="level-item">十一月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -930,12 +1327,34 @@
         </li>
         
         <li>
+            <a class="level is-marginless" href="/archives/2018/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2018/03/">
                 <span class="level-start">
                     <span class="level-item">三月 2018</span>
                 </span>
                 <span class="level-end">
                     <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
                 </span>
             </a>
         </li>
@@ -965,6 +1384,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/Flume/">
+                        <span class="level-start">
+                            <span class="level-item">Flume</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/HBase/">
                         <span class="level-start">
                             <span class="level-item">HBase</span>
@@ -981,7 +1411,7 @@
                             <span class="level-item">Hadoop</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">3</span>
                         </span>
                     </a>
                 </li>
@@ -998,12 +1428,34 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/Java/">
+                        <span class="level-start">
+                            <span class="level-item">Java</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Kafka/">
+                        <span class="level-start">
+                            <span class="level-item">Kafka</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/LintCode/">
                         <span class="level-start">
                             <span class="level-item">LintCode</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">7</span>
+                            <span class="level-item tag">8</span>
                         </span>
                     </a>
                 </li>
@@ -1036,7 +1488,7 @@
                             <span class="level-item">Spark</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">10</span>
+                            <span class="level-item tag">17</span>
                         </span>
                     </a>
                 </li>
@@ -1045,6 +1497,17 @@
                     <a class="level is-marginless" href="/tags/Sqoop/">
                         <span class="level-start">
                             <span class="level-item">Sqoop</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Statistics/">
+                        <span class="level-start">
+                            <span class="level-item">Statistics</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>

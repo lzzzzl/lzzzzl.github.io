@@ -140,8 +140,8 @@
     <div class="card">
     
     <div class="card-image">
-        <a href="/2019/01/05/Sbt编译Spark程序/" class="image is-7by1">
-            <img class="thumbnail" src="https://s2.ax1x.com/2019/01/14/Fxb8ds.png" alt="Sbt编译Spark程序">
+        <a href="/2019/02/18/RDD与DataFrame的转换/" class="image is-7by1">
+            <img class="thumbnail" src="https://s2.ax1x.com/2019/02/18/kcmuDg.jpg" alt="DataFrame的生成与RDD的写入">
         </a>
     </div>
     
@@ -149,7 +149,7 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-01-05T02:27:31.000Z">2019-01-05</time>
+                <time class="level-item has-text-grey" datetime="2019-02-18T10:31:45.000Z">2019-02-18</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
@@ -159,7 +159,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    3 分钟 读完 (大约 384 个字)
+                    3 分钟 读完 (大约 393 个字)
                 </span>
                 
             </div>
@@ -167,129 +167,24 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/01/05/Sbt编译Spark程序/">Sbt编译Spark程序</a>
+                <a class="has-link-black-ter" href="/2019/02/18/RDD与DataFrame的转换/">DataFrame的生成与RDD的写入</a>
             
         </h1>
         <div class="content">
-            <h2 id="安装Sbt"><a href="#安装Sbt" class="headerlink" title="安装Sbt"></a><strong>安装Sbt</strong></h2><h5 id="建立目录，解压文件到所建立目录"><a href="#建立目录，解压文件到所建立目录" class="headerlink" title="建立目录，解压文件到所建立目录"></a>建立目录，解压文件到所建立目录</h5><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf sbt-1.2.8.tgz -C /opt/scala/</span><br></pre></td></tr></table></figure>
-<h5 id="建立启动sbt的脚本"><a href="#建立启动sbt的脚本" class="headerlink" title="建立启动sbt的脚本"></a>建立启动sbt的脚本</h5><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-built_in">cd</span> /home/zzl/opt/scala-2.11.12/sbt</span><br><span class="line">vim sbt</span><br></pre></td></tr></table></figure>
-<h5 id="在sbt文本文件中添加"><a href="#在sbt文本文件中添加" class="headerlink" title="在sbt文本文件中添加"></a>在sbt文本文件中添加</h5><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SBT_OPTS=<span class="hljs-string">"-Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256M"</span></span><br><span class="line">java <span class="hljs-variable">$SBT_OPTS</span> -jar /home/zzl/opt/scala-2.11.12/sbt/bin/sbt-launch.jar <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span></span><br></pre></td></tr></table></figure>
-<h5 id="修改sbt文件权限"><a href="#修改sbt文件权限" class="headerlink" title="修改sbt文件权限"></a>修改sbt文件权限</h5><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod u+x sbt</span><br></pre></td></tr></table></figure>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/01/05/Sbt编译Spark程序/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-01-05T01:20:52.000Z">2019-01-05</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    3 分钟 读完 (大约 428 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/01/05/Spark基础使用/">Spark基础使用</a>
-            
-        </h1>
-        <div class="content">
-            <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a><strong>环境</strong></h2><ul>
-<li><strong>Spark 2.3.0</strong></li>
-<li><strong>Scala 2.11</strong></li>
-<li><strong>Hadoop 2.7.5</strong></li>
+            <h2 id="获得DataFrame的几种方式"><a href="#获得DataFrame的几种方式" class="headerlink" title="获得DataFrame的几种方式"></a><strong>获得DataFrame的几种方式</strong></h2><ul>
+<li>SparkSession来创建DataFrame</li>
+<li>反射机制推断RDD模式得到DataFrame</li>
+<li>定义RDD模式得到DataFrame</li>
 </ul>
-<figure class="highlight xml hljs"><figcaption><span>spark-env.sh</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env bash</span><br><span class="line"></span><br><span class="line">export JAVA_HOME=/home/zzl/opt/jdk1.8.0_161</span><br><span class="line">export SCALA_HOME=/home/zzl/opt/scala-2.11.12</span><br><span class="line">export HADOOP_HOME=/home/zzl/opt/spark-2.3.0</span><br><span class="line"></span><br><span class="line">export STANDALONE_SPARK_MASTER_HOST=master</span><br><span class="line">export SPARK_MASTER_IP=$STANDALONE_SPARK_MASTER_HOST</span><br><span class="line"></span><br><span class="line">### Let's run everything with JVM runtime, instead of Scala</span><br><span class="line">export SPARK_LAUNCH_WITH_SCALA=0</span><br><span class="line">export SPARK_LIBRARY_PATH=$&#123;SPARK_HOME&#125;/lib</span><br><span class="line">export SCALA_LIBRARY_PATH=$&#123;SPARK_HOME&#125;/lib</span><br><span class="line">export SPARK_MASTER_WEBUI_PORT=18080</span><br><span class="line">export SPARK_DIST_CLASSPATH=$($HADOOP_HOME/bin/hadoop classpath)</span><br></pre></td></tr></table></figure>
-<h2 id="运行Spark示例"><a href="#运行Spark示例" class="headerlink" title="运行Spark示例"></a><strong>运行Spark示例</strong></h2><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./run-example SparkPi 2&gt;&amp;1 | grep <span class="hljs-string">"Pi is roughly"</span></span><br><span class="line"><span class="hljs-comment"># Pi is roughly 3.14588</span></span><br></pre></td></tr></table></figure>
+<h2 id="样例数据"><a href="#样例数据" class="headerlink" title="样例数据"></a><strong>样例数据</strong></h2><figure class="highlight bash hljs"><figcaption><span>person.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="hljs-string">"name"</span>:<span class="hljs-string">"Michael"</span>&#125;</span><br><span class="line">&#123;<span class="hljs-string">"name"</span>:<span class="hljs-string">"Andy"</span>, <span class="hljs-string">"age"</span>:30&#125;</span><br><span class="line">&#123;<span class="hljs-string">"name"</span>:<span class="hljs-string">"Justin"</span>, <span class="hljs-string">"age"</span>:19&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash hljs"><figcaption><span>person.txt</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Michael, 29</span><br><span class="line">Andy, 30</span><br><span class="line">Justin, 19</span><br></pre></td></tr></table></figure>
         </div>
         
         
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/01/05/Spark基础使用/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-03-19T07:30:38.000Z">2018-03-19</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    7 分钟 读完 (大约 1074 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2018/03/19/Streaming计算商品推荐度/">Spark Streaming计算商品推荐度</a>
-            
-        </h1>
-        <div class="content">
-            <h2 id="SimulatorSocketLog模拟发送实时数据："><a href="#SimulatorSocketLog模拟发送实时数据：" class="headerlink" title="SimulatorSocketLog模拟发送实时数据："></a><strong>SimulatorSocketLog模拟发送实时数据：</strong></h2>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2018/03/19/Streaming计算商品推荐度/#more">阅读更多</a>
+                <a class="button is-size-7 is-light" href="/2019/02/18/RDD与DataFrame的转换/#more">阅读更多</a>
                 </div>
             </div>
         </div>
@@ -308,8 +203,8 @@
     <div class="card">
     
     <div class="card-image">
-        <a href="/2018/03/15/Spark RDD/" class="image is-7by1">
-            <img class="thumbnail" src="https://s2.ax1x.com/2019/01/16/kS6uKx.jpg" alt="Spark RDD">
+        <a href="/2019/01/30/SparkSQL基础/" class="image is-7by1">
+            <img class="thumbnail" src="https://s2.ax1x.com/2019/02/18/kc9qzj.jpg" alt="SparkSQL基础">
         </a>
     </div>
     
@@ -317,7 +212,7 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-03-15T14:33:10.000Z">2018-03-15</time>
+                <time class="level-item has-text-grey" datetime="2019-01-30T09:03:01.000Z">2019-01-30</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
@@ -327,7 +222,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    14 分钟 读完 (大约 2122 个字)
+                    2 分钟 读完 (大约 361 个字)
                 </span>
                 
             </div>
@@ -335,25 +230,129 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2018/03/15/Spark RDD/">Spark RDD</a>
+                <a class="has-link-black-ter" href="/2019/01/30/SparkSQL基础/">SparkSQL基础</a>
             
         </h1>
         <div class="content">
-            <h2 id="弹性分布式数据集"><a href="#弹性分布式数据集" class="headerlink" title="弹性分布式数据集"></a><strong>弹性分布式数据集</strong></h2><p>&emsp;&emsp;RDD即<strong><font color="red">弹性分布式数据集</font></strong>，是一个容错的、并行的数据结构。提供诸如map、filter、flatMap等转换操作，同时也提供诸如join、groupby、以及reduceByKey等操作。</p>
-<h2 id="创建方式"><a href="#创建方式" class="headerlink" title="创建方式"></a><strong>创建方式</strong></h2><ul>
-<li>从文件系统输入（如HDFS）创建</li>
-<li>从已存在的RDD转化得到新的RDD</li>
-</ul>
-<h2 id="两种操作算子"><a href="#两种操作算子" class="headerlink" title="两种操作算子"></a><strong>两种操作算子</strong></h2><ul>
-<li><strong>Action</strong>：Action类型的算子会<strong><font color="red">触发Spark提交作业</font></strong>，并将数据输出到Spark。</li>
-<li><strong>Transformation</strong>：Transformation类型的算子不是立即执行的，而是<strong><font color="red">延迟执行</font></strong>。也就是说从一个RDD变换为另一个RDD的操作需要等到Action操作触发时，才会真正的执行。即执行了多少次Transformation操作，RDD都不会真正执行运算，只有<strong><font color="red">当Action操作被触发时运算才会运行</font></strong>。</li></ul>
+            <h2 id="Spark-SQL设计"><a href="#Spark-SQL设计" class="headerlink" title="Spark SQL设计"></a><strong>Spark SQL设计</strong></h2><p><img src="https://s2.ax1x.com/2019/01/30/klhl0e.jpg" alt="Spark SQL架构"></p>
+<h2 id="DataFrame"><a href="#DataFrame" class="headerlink" title="DataFrame"></a><strong>DataFrame</strong></h2><p>Spark SQL所使用的数据集，不仅比原有的RDD转化方式更加简单易用，而且获得了更高的计算性能。Spark能够轻松实现从MySQL到DataFrame的转化，并且支持SQL查询。<br><img src="https://s2.ax1x.com/2019/01/30/klhrkj.jpg" alt="RDD和DateFrame的异同"><br>RDD是分布式的 Java对象的集合，比如，RDD[Person]是以Person为类型参数，但是，Person类的内部结构对于RDD而言却是不可知的。DataFrame是一种以RDD为基础的分布式数据集，也就是分布式的Row对象的集合（每个Row对象代表一行记录），提供了详细的结构信息，也就是我们经常说的模式（schema），Spark SQL可以清楚地知道该数据集中包含哪些列、每列的名称和类型。<br>和RDD一样，DataFrame的各种变换操作也采用<strong><font color="red">惰性机制</font></strong>，只是记录了各种转换的逻辑转换路线图（是一个DAG图），不会发生真正的计算，这个DAG图相当于一个逻辑查询计划，最终，会被翻译成物理查询计划，生成RDD DAG，按照之前介绍的RDD DAG的执行方式去完成最终的计算得到结果。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
+        <a href="/2019/01/29/Spark广播变量/" class="image is-7by1">
+            <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQQl7t.jpg" alt="Spark广播变量">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-01-29T06:16:36.000Z">2019-01-29</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 分钟 读完 (大约 570 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/01/29/Spark广播变量/">Spark广播变量</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a><strong>概念</strong></h2><p>为在多个任务之间共享变量，或者在任务（Task）和任务控制节点（Driver Program）之间共享变量，Spark提供了两种类型的变量：<strong><font color="red">广播变量（broadcast variables）</font></strong>和<strong><font color="red">累加器（accumulators）</font></strong>。广播变量用来把变量在所有节点的内存之间进行共享。累加器则支持在所有不同节点之间进行累加计算（比如计数或者求和）</p>
+<h2 id="广播变量"><a href="#广播变量" class="headerlink" title="广播变量"></a><strong>广播变量</strong></h2><p>广播变量可以在每个机器上缓存一个只读的变量，对于<code>Action</code>里面的<code>Stage</code>，<code>Stage</code>中的所有任务所需的公共数据，Spark都会自动广播。</p>
+<p>通过广播方式进行传播的变量，会经过<strong><font color="red">序列化</font></strong>，然后在被任务使用时再进行<strong><font color="red">反序列化</font></strong>。这就意味着，显式地创建广播变量只有在下面的情形中是有用的：当跨越多个阶段的那些任务需要相同的数据，或者需要以反序列化方式对数据进行缓存。</p>
+<p>示例代码<br><figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="hljs-keyword">val</span> v = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)</span><br><span class="line">scala&gt; <span class="hljs-keyword">val</span> broadcastVar = sc.broadcast(v)</span><br><span class="line">broadcastVar: org.apache.spark.broadcast.<span class="hljs-type">Broadcast</span>[<span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>]] = <span class="hljs-type">Broadcast</span>(<span class="hljs-number">0</span>)</span><br><span class="line">scala&gt; broadcastVar.value</span><br><span class="line">res0: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)</span><br></pre></td></tr></table></figure></p>
+<p>一旦广播变量创建后，普通变量v的值就不能再发生修改，从而确保所有节点都获得这个广播变量的相同的值</p>
+<h2 id="累加器"><a href="#累加器" class="headerlink" title="累加器"></a><strong>累加器</strong></h2><p>累加器是仅仅被相关操作累加的变量，通常可以被用来实现<strong><font color="red">计数器（counter）</font></strong>和<strong><font color="red">求和（sum）</font></strong>。Spark支持数值型（numeric）的累加器。</p>
+<p>一个数值型的累加器，可以通过调用<code>SparkContext.longAccumulator()</code>或者<code>SparkContext.doubleAccumulator()</code>来创建。运行在集群中的任务，就可以使用<strong><font color="red">add</font></strong>方法来把数值累加到累加器上，但是，这些任务只能做累加操作，不能读取累加器的值，只有任务控制节点（Driver Program）可以使用value方法来读取累加器的值。</p>
+<p>示例代码<br><figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="hljs-keyword">val</span> accum = sc.longAccumulator(<span class="hljs-string">"My Accumulator"</span>)</span><br><span class="line">accum: org.apache.spark.util.<span class="hljs-type">LongAccumulator</span> = <span class="hljs-type">LongAccumulator</span>(id: <span class="hljs-number">0</span>, name: <span class="hljs-type">Some</span>(<span class="hljs-type">My</span> <span class="hljs-type">Accumulator</span>), value: <span class="hljs-number">0</span>)</span><br><span class="line">scala&gt; sc.parallelize(<span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>)).foreach(x =&gt; accum.add(x))</span><br><span class="line">scala&gt; accum.value</span><br><span class="line">res1: <span class="hljs-type">Long</span> = <span class="hljs-number">10</span></span><br></pre></td></tr></table></figure></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
+        <a href="/2019/01/25/RDD键值对/" class="image is-7by1">
+            <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQn3zd.jpg" alt="RDD键值对">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-01-25T02:40:23.000Z">2019-01-25</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 分钟 读完 (大约 849 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/01/25/RDD键值对/">RDD键值对</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="创建RDD键值对"><a href="#创建RDD键值对" class="headerlink" title="创建RDD键值对"></a><strong>创建RDD键值对</strong></h2><h3 id="从文件中加载"><a href="#从文件中加载" class="headerlink" title="从文件中加载"></a><strong>从文件中加载</strong></h3><figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">val</span> lines = sc.textFile(<span class="hljs-string">"word.txt"</span>)</span><br><span class="line"><span class="hljs-keyword">val</span> pairRDD = lines.flatMap(line =&gt; line.split(<span class="hljs-string">" "</span>)).map(word =&gt; (word, <span class="hljs-number">1</span>)</span><br><span class="line">pairRDD.foreach(println)</span><br></pre></td></tr></table></figure>
+<p>结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(i,1)</span><br><span class="line">(love,1)</span><br><span class="line">(hadoop,1)</span><br><span class="line">(i,1)</span><br><span class="line">(love,1)</span><br><span class="line">(Spark,1)</span><br><span class="line">(Spark,1)</span><br><span class="line">(is,1)</span><br><span class="line">(fast,1)</span><br><span class="line">(than,1)</span><br><span class="line">(hadoop,1)</span><br></pre></td></tr></table></figure></p>
+<h3 id="集合创建RDD键值对"><a href="#集合创建RDD键值对" class="headerlink" title="集合创建RDD键值对"></a><strong>集合创建RDD键值对</strong></h3><figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">val</span> list = <span class="hljs-type">List</span>(<span class="hljs-string">"Hadoop"</span>,<span class="hljs-string">"Spark"</span>,<span class="hljs-string">"Hive"</span>,<span class="hljs-string">"Spark"</span>)</span><br><span class="line"><span class="hljs-keyword">val</span> rdd = sc.parallelize(list)</span><br><span class="line"><span class="hljs-keyword">val</span> pairRDD = rdd.map(word =&gt; (word,<span class="hljs-number">1</span>))</span><br><span class="line">pairRDD.foreach(println)</span><br></pre></td></tr></table></figure>
+<p>结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(Hadoop,1)</span><br><span class="line">(Spark,1)</span><br><span class="line">(Hive,1)</span><br><span class="line">(Spark,1)</span><br></pre></td></tr></table></figure></p>
         </div>
         
         
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2018/03/15/Spark RDD/#more">阅读更多</a>
+                <a class="button is-size-7 is-light" href="/2019/01/25/RDD键值对/#more">阅读更多</a>
                 </div>
             </div>
         </div>
@@ -372,8 +371,8 @@
     <div class="card">
     
     <div class="card-image">
-        <a href="/2018/03/15/什么是Spark/" class="image is-7by1">
-            <img class="thumbnail" src="https://s2.ax1x.com/2019/01/10/FOx1t1.jpg" alt="什么是Spark">
+        <a href="/2019/01/24/SparkRDD编程/" class="image is-7by1">
+            <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnDzj.jpg" alt="SparkRDD编程">
         </a>
     </div>
     
@@ -381,7 +380,7 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-03-15T14:33:10.000Z">2018-03-15</time>
+                <time class="level-item has-text-grey" datetime="2019-01-24T08:56:26.000Z">2019-01-24</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
@@ -391,7 +390,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    8 分钟 读完 (大约 1230 个字)
+                    17 分钟 读完 (大约 2495 个字)
                 </span>
                 
             </div>
@@ -399,32 +398,19 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2018/03/15/什么是Spark/">什么是Spark</a>
+                <a class="has-link-black-ter" href="/2019/01/24/SparkRDD编程/">SparkRDD编程</a>
             
         </h1>
         <div class="content">
-            <p>Spark是一个基于<code>内存计算</code>的统一大数据处理框架。</p>
-<h2 id="Spark相对于Hadoop的优势"><a href="#Spark相对于Hadoop的优势" class="headerlink" title="Spark相对于Hadoop的优势"></a><strong>Spark相对于Hadoop的优势</strong></h2><ul>
-<li><strong>中间结果</strong>：MapReduce通常将中间结果输出到磁盘上，以达到存储和容错的目的。而Spark通过 <code>DAG</code> 将多个 <code>Stage</code> 任务串联或者并行执行，并将中间结果缓存在内存中，而无需将中间结果存储在HDFS上。（内存比磁盘效率高的多）</li>
-</ul>
-<ul>
-<li><strong>执行策略</strong>：MapReduce在数据Shuffle之前会花费大量时间进行排序，而Spark不需要对所有情景都进行排序。</li>
-</ul>
-<ul>
-<li><strong>任务调度开销</strong>：MapReduce是为了处理长达数小时的批量作业而设计的，在特殊情况下，提交任务的延迟非常高。而Spark采用了事件驱动类库 <code>AKKA</code> 来启动任务，并通过 <code>线程池复用线程</code> 来避免线程启动以及切换带来的开销。</li>
-</ul>
-<ul>
-<li><strong>容错性</strong>：RDD之间通过血缘关系来进行维护，一旦某个RDD失败了，就能通过父RDD自动重建，保证了容错性。</li>
-</ul>
-<ul>
-<li><strong>API</strong>：Spark的API更加丰富，支持多语言编程。</li></ul>
+            <h2 id="文件系统创建RDD"><a href="#文件系统创建RDD" class="headerlink" title="文件系统创建RDD"></a><strong>文件系统创建RDD</strong></h2><p>文件系统中创建RDD<br><figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; <span class="hljs-keyword">val</span> lines = sc.textFile(<span class="hljs-string">"file:///home/zzl/opt/hadoop-2.7.5/word.txt"</span>)</span><br><span class="line">lines: org.apache.spark.rdd.<span class="hljs-type">RDD</span>[<span class="hljs-type">String</span>] = file:<span class="hljs-comment">///usr/local/spark/mycode/rdd/word.txt MapPartitionsRDD[12] at textFile at &lt;console&gt;:27</span></span><br></pre></td></tr></table></figure></p>
+<p>HDFS中创建RDD<br><figure class="highlight scala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 三条完全等价</span><br><span class="line">scala&gt; <span class="hljs-keyword">val</span> lines = sc.textFile(<span class="hljs-string">"hdfs://localhost:9000/user/zzl/word.txt"</span>)</span><br><span class="line">scala&gt; <span class="hljs-keyword">val</span> lines = sc.textFile(<span class="hljs-string">"/zzl/hadoop/word.txt"</span>)</span><br><span class="line">scala&gt; <span class="hljs-keyword">val</span> lines = sc.textFile(<span class="hljs-string">"word.txt"</span>)</span><br></pre></td></tr></table></figure></p>
         </div>
         
         
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2018/03/15/什么是Spark/#more">阅读更多</a>
+                <a class="button is-size-7 is-light" href="/2019/01/24/SparkRDD编程/#more">阅读更多</a>
                 </div>
             </div>
         </div>
@@ -447,7 +433,7 @@
         <div class="pagination-previous">
             <a class="is-flex-grow has-text-black-ter" href="/tags/Spark/">上一页</a>
         </div>
-        <div class="pagination-next is-invisible is-hidden-mobile">
+        <div class="pagination-next">
             <a class="is-flex-grow has-text-black-ter" href="/tags/Spark/page/3/">下一页</a>
         </div>
         <ul class="pagination-list is-hidden-mobile">
@@ -455,6 +441,10 @@
             <li><a class="pagination-link has-text-black-ter" href="/tags/Spark/">1</a></li>
             
             <li><a class="pagination-link is-current" href="/tags/Spark/page/2/">2</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/tags/Spark/page/3/">3</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/tags/Spark/page/4/">4</a></li>
             
         </ul>
     </nav>
@@ -500,7 +490,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        26
+                        43
                     </p>
                 </div>
             </div>
@@ -510,7 +500,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        17
+                        24
                     </p>
                 </div>
             </div>
@@ -520,7 +510,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        10
+                        14
                     </p>
                 </div>
             </div>
@@ -583,6 +573,22 @@
             </h3>
             <ul class="menu-list">
             <li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Java/多线程/">
+            <span class="level-start">
+                <span class="level-item">多线程</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/Linux/">
             <span class="level-start">
                 <span class="level-item">Linux</span>
@@ -604,20 +610,20 @@
                 <span class="level-item">大数据生态圈</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">15</span>
+                <span class="level-item tag">26</span>
             </span>
         </a><ul><li>
-        <a class="level is-marginless" href="/categories/大数据生态圈/HBase/">
+        <a class="level is-marginless" href="/categories/大数据生态圈/Flume/">
             <span class="level-start">
-                <span class="level-item">HBase</span>
+                <span class="level-item">Flume</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
-        <a class="level is-marginless" href="/categories/大数据生态圈/HIVE/">
+        <a class="level is-marginless" href="/categories/大数据生态圈/HBase/">
             <span class="level-start">
-                <span class="level-item">HIVE</span>
+                <span class="level-item">HBase</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -628,6 +634,22 @@
                 <span class="level-item">Hadoop</span>
             </span>
             <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/Hive/">
+            <span class="level-start">
+                <span class="level-item">Hive</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/大数据生态圈/Kafka/">
+            <span class="level-start">
+                <span class="level-item">Kafka</span>
+            </span>
+            <span class="level-end">
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
@@ -636,7 +658,7 @@
                 <span class="level-item">Spark</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">17</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/Sqoop/">
@@ -650,6 +672,22 @@
         <a class="level is-marginless" href="/categories/大数据生态圈/ZooKeeper/">
             <span class="level-start">
                 <span class="level-item">ZooKeeper</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/数学/">
+            <span class="level-start">
+                <span class="level-item">数学</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/数学/概率论与数理统计/">
+            <span class="level-start">
+                <span class="level-item">概率论与数理统计</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -692,7 +730,7 @@
                 <span class="level-item">算法</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">7</span>
+                <span class="level-item tag">9</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/算法/LintCode/">
@@ -700,7 +738,15 @@
                 <span class="level-item">LintCode</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">7</span>
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/算法/数据结构/">
+            <span class="level-start">
+                <span class="level-item">数据结构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
             </span>
         </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/计算机基础知识/">
@@ -722,7 +768,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/CS/" style="font-size: 10px;">CS</a> <a href="/tags/HBase/" style="font-size: 10px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/LintCode/" style="font-size: 15px;">LintCode</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Spark/" style="font-size: 20px;">Spark</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/ZooKeeper/" style="font-size: 10px;">ZooKeeper</a>
+        <a href="/tags/CS/" style="font-size: 10px;">CS</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HBase/" style="font-size: 10px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 13.33px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/Java/" style="font-size: 13.33px;">Java</a> <a href="/tags/Kafka/" style="font-size: 10px;">Kafka</a> <a href="/tags/LintCode/" style="font-size: 16.67px;">LintCode</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Spark/" style="font-size: 20px;">Spark</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/Statistics/" style="font-size: 10px;">Statistics</a> <a href="/tags/ZooKeeper/" style="font-size: 10px;">ZooKeeper</a>
     </div>
 </div>
 
@@ -739,16 +785,35 @@
         
         <article class="media">
             
-            <a href="/2019/01/29/Spark广播变量/" class="media-left">
+            <a href="/2019/03/14/Kafka搭建/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQQl7t.jpg" alt="Spark广播变量">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/03/14/AkXjiD.jpg" alt="Kafka集群搭建">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-29T06:16:36.000Z">2019-01-29</time></div>
-                    <a href="/2019/01/29/Spark广播变量/" class="has-link-black-ter is-size-6">Spark广播变量</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-14T01:12:08.000Z">2019-03-14</time></div>
+                    <a href="/2019/03/14/Kafka搭建/" class="has-link-black-ter is-size-6">Kafka集群搭建</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Kafka/">Kafka</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/02/22/Streaming基础输入源/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfMabq.jpg" alt="Streaming基础输入源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T09:11:10.000Z">2019-02-22</time></div>
+                    <a href="/2019/02/22/Streaming基础输入源/" class="has-link-black-ter is-size-6">Streaming基础输入源</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
                     </p>
@@ -758,35 +823,16 @@
         
         <article class="media">
             
-            <a href="/2019/01/25/MapReduce理解/" class="media-left">
+            <a href="/2019/02/22/SparkStreaming/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnao8.jpg" alt="MapReduce理解">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfCdMD.jpg" alt="Spark Streaming">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-25T03:35:59.000Z">2019-01-25</time></div>
-                    <a href="/2019/01/25/MapReduce理解/" class="has-link-black-ter is-size-6">MapReduce理解</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Hadoop/">Hadoop</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/01/25/RDD键值对/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQn3zd.jpg" alt="RDD键值对">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-25T02:40:23.000Z">2019-01-25</time></div>
-                    <a href="/2019/01/25/RDD键值对/" class="has-link-black-ter is-size-6">RDD键值对</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T07:02:13.000Z">2019-02-22</time></div>
+                    <a href="/2019/02/22/SparkStreaming/" class="has-link-black-ter is-size-6">Spark Streaming</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
                     </p>
@@ -796,16 +842,16 @@
         
         <article class="media">
             
-            <a href="/2019/01/24/SparkRDD编程/" class="media-left">
+            <a href="/2019/02/22/Spark连接Hive/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnDzj.jpg" alt="SparkRDD编程">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfpPW8.jpg" alt="Spark连接Hive">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-24T08:56:26.000Z">2019-01-24</time></div>
-                    <a href="/2019/01/24/SparkRDD编程/" class="has-link-black-ter is-size-6">SparkRDD编程</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T06:24:25.000Z">2019-02-22</time></div>
+                    <a href="/2019/02/22/Spark连接Hive/" class="has-link-black-ter is-size-6">Spark连接Hive</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
                     </p>
@@ -815,16 +861,16 @@
         
         <article class="media">
             
-            <a href="/2019/01/24/Spark三种部署模式/" class="media-left">
+            <a href="/2019/02/19/Spark连接JDBC/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQu9OI.jpg" alt="Spark三种部署模式">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/20/k2h2Ix.jpg" alt="Spark连接JDBC">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-24T07:46:01.000Z">2019-01-24</time></div>
-                    <a href="/2019/01/24/Spark三种部署模式/" class="has-link-black-ter is-size-6">Spark三种部署模式</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-19T13:59:40.000Z">2019-02-19</time></div>
+                    <a href="/2019/02/19/Spark连接JDBC/" class="has-link-black-ter is-size-6">Spark连接JDBC</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
                     </p>
@@ -845,12 +891,34 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2019/01/">
                 <span class="level-start">
                     <span class="level-item">一月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">19</span>
+                    <span class="level-item tag">20</span>
                 </span>
             </a>
         </li>
@@ -861,7 +929,18 @@
                     <span class="level-item">十二月 2018</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/11/">
+                <span class="level-start">
+                    <span class="level-item">十一月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -878,12 +957,34 @@
         </li>
         
         <li>
+            <a class="level is-marginless" href="/archives/2018/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2018/03/">
                 <span class="level-start">
                     <span class="level-item">三月 2018</span>
                 </span>
                 <span class="level-end">
                     <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
                 </span>
             </a>
         </li>
@@ -913,6 +1014,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/Flume/">
+                        <span class="level-start">
+                            <span class="level-item">Flume</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/HBase/">
                         <span class="level-start">
                             <span class="level-item">HBase</span>
@@ -929,7 +1041,7 @@
                             <span class="level-item">Hadoop</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">3</span>
                         </span>
                     </a>
                 </li>
@@ -946,12 +1058,34 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/Java/">
+                        <span class="level-start">
+                            <span class="level-item">Java</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Kafka/">
+                        <span class="level-start">
+                            <span class="level-item">Kafka</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/LintCode/">
                         <span class="level-start">
                             <span class="level-item">LintCode</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">7</span>
+                            <span class="level-item tag">8</span>
                         </span>
                     </a>
                 </li>
@@ -984,7 +1118,7 @@
                             <span class="level-item">Spark</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">10</span>
+                            <span class="level-item tag">17</span>
                         </span>
                     </a>
                 </li>
@@ -993,6 +1127,17 @@
                     <a class="level is-marginless" href="/tags/Sqoop/">
                         <span class="level-start">
                             <span class="level-item">Sqoop</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Statistics/">
+                        <span class="level-start">
+                            <span class="level-item">Statistics</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -1036,16 +1181,35 @@
         
         <article class="media">
             
-            <a href="/2019/01/29/Spark广播变量/" class="media-left">
+            <a href="/2019/03/14/Kafka搭建/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQQl7t.jpg" alt="Spark广播变量">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/03/14/AkXjiD.jpg" alt="Kafka集群搭建">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-29T06:16:36.000Z">2019-01-29</time></div>
-                    <a href="/2019/01/29/Spark广播变量/" class="has-link-black-ter is-size-6">Spark广播变量</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-14T01:12:08.000Z">2019-03-14</time></div>
+                    <a href="/2019/03/14/Kafka搭建/" class="has-link-black-ter is-size-6">Kafka集群搭建</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Kafka/">Kafka</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/02/22/Streaming基础输入源/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfMabq.jpg" alt="Streaming基础输入源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T09:11:10.000Z">2019-02-22</time></div>
+                    <a href="/2019/02/22/Streaming基础输入源/" class="has-link-black-ter is-size-6">Streaming基础输入源</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
                     </p>
@@ -1055,35 +1219,16 @@
         
         <article class="media">
             
-            <a href="/2019/01/25/MapReduce理解/" class="media-left">
+            <a href="/2019/02/22/SparkStreaming/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnao8.jpg" alt="MapReduce理解">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfCdMD.jpg" alt="Spark Streaming">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-25T03:35:59.000Z">2019-01-25</time></div>
-                    <a href="/2019/01/25/MapReduce理解/" class="has-link-black-ter is-size-6">MapReduce理解</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Hadoop/">Hadoop</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/01/25/RDD键值对/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQn3zd.jpg" alt="RDD键值对">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-25T02:40:23.000Z">2019-01-25</time></div>
-                    <a href="/2019/01/25/RDD键值对/" class="has-link-black-ter is-size-6">RDD键值对</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T07:02:13.000Z">2019-02-22</time></div>
+                    <a href="/2019/02/22/SparkStreaming/" class="has-link-black-ter is-size-6">Spark Streaming</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
                     </p>
@@ -1093,16 +1238,16 @@
         
         <article class="media">
             
-            <a href="/2019/01/24/SparkRDD编程/" class="media-left">
+            <a href="/2019/02/22/Spark连接Hive/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQnDzj.jpg" alt="SparkRDD编程">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfpPW8.jpg" alt="Spark连接Hive">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-24T08:56:26.000Z">2019-01-24</time></div>
-                    <a href="/2019/01/24/SparkRDD编程/" class="has-link-black-ter is-size-6">SparkRDD编程</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T06:24:25.000Z">2019-02-22</time></div>
+                    <a href="/2019/02/22/Spark连接Hive/" class="has-link-black-ter is-size-6">Spark连接Hive</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
                     </p>
@@ -1112,16 +1257,16 @@
         
         <article class="media">
             
-            <a href="/2019/01/24/Spark三种部署模式/" class="media-left">
+            <a href="/2019/02/19/Spark连接JDBC/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/01/29/kQu9OI.jpg" alt="Spark三种部署模式">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/20/k2h2Ix.jpg" alt="Spark连接JDBC">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-24T07:46:01.000Z">2019-01-24</time></div>
-                    <a href="/2019/01/24/Spark三种部署模式/" class="has-link-black-ter is-size-6">Spark三种部署模式</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-19T13:59:40.000Z">2019-02-19</time></div>
+                    <a href="/2019/02/19/Spark连接JDBC/" class="has-link-black-ter is-size-6">Spark连接JDBC</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
                     </p>
@@ -1142,12 +1287,34 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2019/01/">
                 <span class="level-start">
                     <span class="level-item">一月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">19</span>
+                    <span class="level-item tag">20</span>
                 </span>
             </a>
         </li>
@@ -1158,7 +1325,18 @@
                     <span class="level-item">十二月 2018</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/11/">
+                <span class="level-start">
+                    <span class="level-item">十一月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -1175,12 +1353,34 @@
         </li>
         
         <li>
+            <a class="level is-marginless" href="/archives/2018/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2018/03/">
                 <span class="level-start">
                     <span class="level-item">三月 2018</span>
                 </span>
                 <span class="level-end">
                     <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
                 </span>
             </a>
         </li>
@@ -1210,6 +1410,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/Flume/">
+                        <span class="level-start">
+                            <span class="level-item">Flume</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/HBase/">
                         <span class="level-start">
                             <span class="level-item">HBase</span>
@@ -1226,7 +1437,7 @@
                             <span class="level-item">Hadoop</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">3</span>
                         </span>
                     </a>
                 </li>
@@ -1243,12 +1454,34 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/Java/">
+                        <span class="level-start">
+                            <span class="level-item">Java</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Kafka/">
+                        <span class="level-start">
+                            <span class="level-item">Kafka</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/LintCode/">
                         <span class="level-start">
                             <span class="level-item">LintCode</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">7</span>
+                            <span class="level-item tag">8</span>
                         </span>
                     </a>
                 </li>
@@ -1281,7 +1514,7 @@
                             <span class="level-item">Spark</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">10</span>
+                            <span class="level-item tag">17</span>
                         </span>
                     </a>
                 </li>
@@ -1290,6 +1523,17 @@
                     <a class="level is-marginless" href="/tags/Sqoop/">
                         <span class="level-start">
                             <span class="level-item">Sqoop</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Statistics/">
+                        <span class="level-start">
+                            <span class="level-item">Statistics</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
