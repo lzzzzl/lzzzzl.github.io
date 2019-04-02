@@ -7,18 +7,21 @@
 
 
 
-    <meta name="description" content="Flume Sink Type的区别 exec： 只能采集单一文件 spool： 拷贝到 spool 目录下的文件不可以再打开编辑，且目录下不可包含相应的子目录 taildir： 支持断点续传，且可以监控目录下新增文件和文件新增内容  Flume安装获取安装包1wget http://mirrors.shu.edu.cn/apache/flume/1.8.0/apache-flume-1.8.0-">
+    <meta name="description" content="Flume架构3个重要的组件  Source：完成对日志数据的收集，分成transtion 和 event 打入到channel之中 Channel：主要提供一个队列的功能，对source提供中的数据进行简单的缓存 Sink：取出Channel中的数据，进行相应的存储文件系统，数据库，或者提交到远程服务器  逻辑架构  agent：用于采集数据，是flume中产生数据流的地方，同时，agent会将">
 <meta name="keywords" content="Flume">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flume采集日志">
 <meta property="og:url" content="http://idontknow.tech/2018/12/06/Flume采集日志/index.html">
 <meta property="og:site_name" content="Lin&#39;s Blog">
-<meta property="og:description" content="Flume Sink Type的区别 exec： 只能采集单一文件 spool： 拷贝到 spool 目录下的文件不可以再打开编辑，且目录下不可包含相应的子目录 taildir： 支持断点续传，且可以监控目录下新增文件和文件新增内容  Flume安装获取安装包1wget http://mirrors.shu.edu.cn/apache/flume/1.8.0/apache-flume-1.8.0-">
+<meta property="og:description" content="Flume架构3个重要的组件  Source：完成对日志数据的收集，分成transtion 和 event 打入到channel之中 Channel：主要提供一个队列的功能，对source提供中的数据进行简单的缓存 Sink：取出Channel中的数据，进行相应的存储文件系统，数据库，或者提交到远程服务器  逻辑架构  agent：用于采集数据，是flume中产生数据流的地方，同时，agent会将">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-02-15T08:19:24.565Z">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/19/AnBUlF.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/19/AnBv0s.png">
+<meta property="og:updated_time" content="2019-03-19T08:00:20.886Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Flume采集日志">
-<meta name="twitter:description" content="Flume Sink Type的区别 exec： 只能采集单一文件 spool： 拷贝到 spool 目录下的文件不可以再打开编辑，且目录下不可包含相应的子目录 taildir： 支持断点续传，且可以监控目录下新增文件和文件新增内容  Flume安装获取安装包1wget http://mirrors.shu.edu.cn/apache/flume/1.8.0/apache-flume-1.8.0-">
+<meta name="twitter:description" content="Flume架构3个重要的组件  Source：完成对日志数据的收集，分成transtion 和 event 打入到channel之中 Channel：主要提供一个队列的功能，对source提供中的数据进行简单的缓存 Sink：取出Channel中的数据，进行相应的存储文件系统，数据库，或者提交到远程服务器  逻辑架构  agent：用于采集数据，是flume中产生数据流的地方，同时，agent会将">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/03/19/AnBUlF.png">
 
 
 
@@ -133,6 +136,12 @@
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
     
+    <div class="card-image">
+        <span class="image is-7by1">
+            <img class="thumbnail" src="https://s2.ax1x.com/2019/03/19/AnDZ7R.jpg" alt="Flume采集日志">
+        </span>
+    </div>
+    
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
@@ -147,7 +156,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    4 分钟 读完 (大约 592 个字)
+                    6 分钟 读完 (大约 854 个字)
                 </span>
                 
             </div>
@@ -159,10 +168,23 @@
             
         </h1>
         <div class="content">
-            <h2 id="Flume-Sink-Type的区别"><a href="#Flume-Sink-Type的区别" class="headerlink" title="Flume Sink Type的区别"></a><strong>Flume Sink Type的区别</strong></h2><ul>
+            <h2 id="Flume架构"><a href="#Flume架构" class="headerlink" title="Flume架构"></a><strong>Flume架构</strong></h2><p><strong>3个重要的组件</strong></p>
+<ul>
+<li><strong>Source：</strong>完成对日志数据的收集，分成transtion 和 event 打入到channel之中</li>
+<li><strong>Channel：</strong>主要提供一个队列的功能，对source提供中的数据进行简单的缓存</li>
+<li><strong>Sink：</strong>取出Channel中的数据，进行相应的存储文件系统，数据库，或者提交到远程服务器<br><img src="https://s2.ax1x.com/2019/03/19/AnBUlF.png" alt="Flume组件"></li>
+</ul>
+<p><strong>逻辑架构</strong></p>
+<ul>
+<li><strong>agent：</strong>用于采集数据，是flume中产生数据流的地方，同时，agent会将产生的数据流传输到collector，agent包含组件Source、Channel、Sink</li>
+<li><strong>collector：</strong>将多个agent的数据汇总后，加载到storage中</li>
+<li><strong>storage：</strong>是存储系统，可以是一个普通file，也可以是HDFS，HIVE，HBase等<br><img src="https://s2.ax1x.com/2019/03/19/AnBv0s.png" alt="Flume逻辑架构"></li>
+</ul>
+<h2 id="Flume-Sink-Type的区别"><a href="#Flume-Sink-Type的区别" class="headerlink" title="Flume Sink Type的区别"></a><strong>Flume Sink Type的区别</strong></h2><ul>
 <li><strong>exec：</strong> 只能采集单一文件</li>
 <li><strong>spool：</strong> 拷贝到 spool 目录下的文件不可以再打开编辑，且目录下不可包含相应的子目录</li>
 <li><strong>taildir：</strong> 支持断点续传，且可以监控目录下新增文件和文件新增内容</li>
+<li><strong>netcat：</strong> 监听一个指定端口，并将接收到的数据的每一行转换为一个事件</li>
 </ul>
 <h2 id="Flume安装"><a href="#Flume安装" class="headerlink" title="Flume安装"></a><strong>Flume安装</strong></h2><p>获取安装包<br><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirrors.shu.edu.cn/apache/flume/1.8.0/apache-flume-1.8.0-bin.tar.gz</span><br></pre></td></tr></table></figure></p>
 <p>解压<br><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf apache-flume-1.8.0-bin.tar.gz</span><br></pre></td></tr></table></figure></p>
@@ -173,6 +195,7 @@
 <figure class="highlight bash hljs"><figcaption><span>conf</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment"># source</span></span><br><span class="line">agent.sources = s1</span><br><span class="line"><span class="hljs-comment"># channels</span></span><br><span class="line">agent.channels = c1</span><br><span class="line"><span class="hljs-comment"># sink</span></span><br><span class="line">agent.sinks = r1</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment"># 指定source使用的channel</span></span><br><span class="line">agent.sources.s1.channels = c1</span><br><span class="line"><span class="hljs-comment"># 指定sink使用的channel</span></span><br><span class="line">agent.sinks.r1.channel = c1</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">######## source配置 ########</span></span><br><span class="line"><span class="hljs-comment"># source类型</span></span><br><span class="line">agent.sources.s1.type = avro</span><br><span class="line">agent.sources.s1.bind = 0.0.0.0</span><br><span class="line">agent.sources.s1.port = 44444</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">######## channel相关配置 ########</span></span><br><span class="line"><span class="hljs-comment"># channel类型</span></span><br><span class="line">agent.channels.c1.type = file</span><br><span class="line"><span class="hljs-comment">#agent.channels.c1.type = memory</span></span><br><span class="line"><span class="hljs-comment"># 数据存放路径</span></span><br><span class="line">agent.channels.c1.dataDirs = /data2/opt/apache-flume-1.8.0-bin/channelsDirs</span><br><span class="line"><span class="hljs-comment"># 检查点路径</span></span><br><span class="line">agent.channels.c1.checkpointDir = /data2/opt/apache-flume-1.8.0-bin/checkpointDirs</span><br><span class="line"><span class="hljs-comment"># channel中最多缓存多少</span></span><br><span class="line">agent.channels.c1.capacity = 1000</span><br><span class="line"><span class="hljs-comment"># channel一次最多吐给sink多少</span></span><br><span class="line">agent.channels.c1.transactionCapacity = 100</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">######### sink ########</span></span><br><span class="line">agent.sinks.r1.type = hdfs</span><br><span class="line">agent.sinks.r1.channel = c1</span><br><span class="line">agent.sinks.r1.hdfs.path = hdfs://ns/sku_expose/sku_expose_%y%m%d/small</span><br><span class="line">agent.sinks.r1.hdfs.rollSize = 100000000</span><br><span class="line">agent.sinks.r1.hdfs.rollCount = 0</span><br><span class="line">agent.sinks.r1.hdfs.useLocalTimeStamp = <span class="hljs-literal">true</span></span><br><span class="line">agent.sinks.r1.hdfs.minBlockReplicas = 1</span><br><span class="line">agent.sinks.r1.hdfs.fileType = DataStream</span><br><span class="line"></span><br><span class="line">agent.sources.s1.channels = c1</span><br><span class="line">agent.sources.r1.channels = c1</span><br></pre></td></tr></table></figure>
 <h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a><strong>启动</strong></h2><p>采集端启动<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./flume-ng agent -c conf -f ../conf/tail.conf -n agent -Dflume.root.logger=INFO,console</span><br></pre></td></tr></table></figure></p>
 <p>收集端启动<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./flume-ng agent -c conf -f ../conf/tail.conf -n agent -Dflume.root.logger=INFO,console</span><br></pre></td></tr></table></figure></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a><strong>参考</strong></h2><p><a href="https://segmentfault.com/a/1190000002532284" target="_blank" rel="noopener">Flume-ng的原理和使用</a></p>
 
         </div>
         
@@ -257,7 +280,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        43
+                        46
                     </p>
                 </div>
             </div>
@@ -267,7 +290,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        24
+                        25
                     </p>
                 </div>
             </div>
@@ -345,9 +368,17 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">4</span>
             </span>
         </a><ul><li>
+        <a class="level is-marginless" href="/categories/Java/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/多线程/">
             <span class="level-start">
                 <span class="level-item">多线程</span>
@@ -377,7 +408,7 @@
                 <span class="level-item">大数据生态圈</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">26</span>
+                <span class="level-item tag">28</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/Flume/">
@@ -393,7 +424,7 @@
                 <span class="level-item">HBase</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/Hadoop/">
@@ -425,7 +456,7 @@
                 <span class="level-item">Spark</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">17</span>
+                <span class="level-item tag">18</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/Sqoop/">
@@ -535,7 +566,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/CS/" style="font-size: 10px;">CS</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HBase/" style="font-size: 10px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 13.33px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/Java/" style="font-size: 13.33px;">Java</a> <a href="/tags/Kafka/" style="font-size: 10px;">Kafka</a> <a href="/tags/LintCode/" style="font-size: 16.67px;">LintCode</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Spark/" style="font-size: 20px;">Spark</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/Statistics/" style="font-size: 10px;">Statistics</a> <a href="/tags/ZooKeeper/" style="font-size: 10px;">ZooKeeper</a>
+        <a href="/tags/CS/" style="font-size: 10px;">CS</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HBase/" style="font-size: 12px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 14px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/Java/" style="font-size: 16px;">Java</a> <a href="/tags/Kafka/" style="font-size: 10px;">Kafka</a> <a href="/tags/LintCode/" style="font-size: 18px;">LintCode</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Spark/" style="font-size: 20px;">Spark</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/Statistics/" style="font-size: 10px;">Statistics</a> <a href="/tags/ZooKeeper/" style="font-size: 10px;">ZooKeeper</a>
     </div>
 </div>
 
@@ -549,6 +580,63 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/03/21/HBase/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="深入理解HBase架构（翻译）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-21T10:06:49.000Z">2019-03-21</time></div>
+                    <a href="/2019/03/21/HBase/" class="has-link-black-ter is-size-6">深入理解HBase架构（翻译）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/HBase/">HBase</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/20/JVM简单总结/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JVM简单总结">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-20T03:56:25.000Z">2019-03-20</time></div>
+                    <a href="/2019/03/20/JVM简单总结/" class="has-link-black-ter is-size-6">JVM简单总结</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java/">Java</a> / <a class="has-link-grey -link" href="/categories/Java/JVM/">JVM</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/19/Spark获取Flume数据/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark获取Flume数据">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-19T07:49:04.000Z">2019-03-19</time></div>
+                    <a href="/2019/03/19/Spark获取Flume数据/" class="has-link-black-ter is-size-6">Spark获取Flume数据</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -588,63 +676,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/02/22/SparkStreaming/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfCdMD.jpg" alt="Spark Streaming">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T07:02:13.000Z">2019-02-22</time></div>
-                    <a href="/2019/02/22/SparkStreaming/" class="has-link-black-ter is-size-6">Spark Streaming</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/02/22/Spark连接Hive/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfpPW8.jpg" alt="Spark连接Hive">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T06:24:25.000Z">2019-02-22</time></div>
-                    <a href="/2019/02/22/Spark连接Hive/" class="has-link-black-ter is-size-6">Spark连接Hive</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/02/19/Spark连接JDBC/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/20/k2h2Ix.jpg" alt="Spark连接JDBC">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-19T13:59:40.000Z">2019-02-19</time></div>
-                    <a href="/2019/02/19/Spark连接JDBC/" class="has-link-black-ter is-size-6">Spark连接JDBC</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -663,7 +694,7 @@
                     <span class="level-item">三月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -797,7 +828,7 @@
                             <span class="level-item">HBase</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -830,7 +861,7 @@
                             <span class="level-item">Java</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">3</span>
+                            <span class="level-item tag">4</span>
                         </span>
                     </a>
                 </li>
@@ -885,7 +916,7 @@
                             <span class="level-item">Spark</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">17</span>
+                            <span class="level-item tag">18</span>
                         </span>
                     </a>
                 </li>
@@ -948,6 +979,63 @@
         
         <article class="media">
             
+            <a href="/2019/03/21/HBase/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="深入理解HBase架构（翻译）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-21T10:06:49.000Z">2019-03-21</time></div>
+                    <a href="/2019/03/21/HBase/" class="has-link-black-ter is-size-6">深入理解HBase架构（翻译）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/HBase/">HBase</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/20/JVM简单总结/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JVM简单总结">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-20T03:56:25.000Z">2019-03-20</time></div>
+                    <a href="/2019/03/20/JVM简单总结/" class="has-link-black-ter is-size-6">JVM简单总结</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java/">Java</a> / <a class="has-link-grey -link" href="/categories/Java/JVM/">JVM</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/19/Spark获取Flume数据/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark获取Flume数据">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-19T07:49:04.000Z">2019-03-19</time></div>
+                    <a href="/2019/03/19/Spark获取Flume数据/" class="has-link-black-ter is-size-6">Spark获取Flume数据</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/03/14/Kafka搭建/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="https://s2.ax1x.com/2019/03/14/AkXjiD.jpg" alt="Kafka集群搭建">
@@ -984,63 +1072,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/02/22/SparkStreaming/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfCdMD.jpg" alt="Spark Streaming">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T07:02:13.000Z">2019-02-22</time></div>
-                    <a href="/2019/02/22/SparkStreaming/" class="has-link-black-ter is-size-6">Spark Streaming</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/02/22/Spark连接Hive/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfpPW8.jpg" alt="Spark连接Hive">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T06:24:25.000Z">2019-02-22</time></div>
-                    <a href="/2019/02/22/Spark连接Hive/" class="has-link-black-ter is-size-6">Spark连接Hive</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/02/19/Spark连接JDBC/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/20/k2h2Ix.jpg" alt="Spark连接JDBC">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-19T13:59:40.000Z">2019-02-19</time></div>
-                    <a href="/2019/02/19/Spark连接JDBC/" class="has-link-black-ter is-size-6">Spark连接JDBC</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1059,7 +1090,7 @@
                     <span class="level-item">三月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1193,7 +1224,7 @@
                             <span class="level-item">HBase</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1226,7 +1257,7 @@
                             <span class="level-item">Java</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">3</span>
+                            <span class="level-item tag">4</span>
                         </span>
                     </a>
                 </li>
@@ -1281,7 +1312,7 @@
                             <span class="level-item">Spark</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">17</span>
+                            <span class="level-item tag">18</span>
                         </span>
                     </a>
                 </li>

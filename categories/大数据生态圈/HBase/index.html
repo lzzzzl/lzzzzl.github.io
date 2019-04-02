@@ -142,6 +142,206 @@
 
     <div class="card">
     
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-03-21T10:06:49.000Z">2019-03-21</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/大数据生态圈/HBase/">HBase</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    26 分钟 读完 (大约 3930 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/03/21/HBase/">深入理解HBase架构（翻译）</a>
+            
+        </h1>
+        <div class="content">
+            <p><a href="https://mapr.com/blog/in-depth-look-hbase-architecture/" target="_blank" rel="noopener">原文地址</a></p>
+<h2 id="HBase架构"><a href="#HBase架构" class="headerlink" title="HBase架构"></a><strong>HBase架构</strong></h2><p>从物理结构上说，HBase采用主从结构，主要由三种类型的服务组成。Region servers提供数据的读写服务。当获取到数据时，客户端直接与HBase RegionServers通信。Region的分配、DDL（创建、删除表）操作都交由HBase Master进程处理。Zookeeper，作为HDFS的一部分，主要负责维护集群的状态。</p>
+<p>Hadoop DataNode存储了Region Server管理的数据。所有HBase的数据都被存储在HDFS files中。Region Servers与HDFS DataNodes搭配，保证了RegionServers提供的数据的位置（把数据放在需要的地方）。HBase数据在写入时是本地数据，但当region被移动时，在被压缩前不是本地数据。</p>
+<p>NameNode为所有物理数据块包含的文件维护元数据的信息</p>
+<p><img src="https://s2.ax1x.com/2019/03/21/A3eh8A.png" alt=""></p>
+<h2 id="Regions"><a href="#Regions" class="headerlink" title="Regions"></a><strong>Regions</strong></h2><p>HBase表被row key水平地切分为一个又一个的”region”。一个region包含了其start key至end key范围内HBase表中的所有行。当多个region被分配到集群中的节点时，就被称为“Region Servers”，其提供了数据的读写服务。一个region server可以服务大约1000个region。</p>
+<p><img src="https://s2.ax1x.com/2019/03/23/AG522q.png" alt=""></p>
+<h2 id="HBase-HMaster"><a href="#HBase-HMaster" class="headerlink" title="HBase HMaster"></a><strong>HBase HMaster</strong></h2><p>Region分配，DDL（创建、删除表）操作都由HBase Master处理。</p>
+<p>一个Master负责：</p>
+<ul>
+<li>协调region servers<ul>
+<li>在启动时分配region，重新分配region以进行恢复或负载均衡</li>
+<li>监控所有在集群中的RegionServer实例（监听来自zookeeper的通知）</li>
+</ul>
+</li>
+<li>管理功能<ul>
+<li>提供创建、删除、更新表的接口</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/03/23/AGLAhD.png" alt=""></p>
+<h2 id="ZooKeeper：协调员"><a href="#ZooKeeper：协调员" class="headerlink" title="ZooKeeper：协调员"></a><strong>ZooKeeper：协调员</strong></h2><p>HBase使用ZooKeeper作为分布式协调服务去维护集群中的服务器状态。Zookeeper维护着处于活动状态的服务器，并提供服务器故障通知。ZooKeeper使用consensus去保证共同的共享状态。需要注意的是，至少需要三台或五台机器达成consensus。</p>
+<p><img src="https://s2.ax1x.com/2019/03/23/AGOiKs.png" alt=""></p>
+<h2 id="各个组件是如何一起工作的"><a href="#各个组件是如何一起工作的" class="headerlink" title="各个组件是如何一起工作的"></a><strong>各个组件是如何一起工作的</strong></h2><p>Zookeeper被用作协调分布式系统中各个成员的共享状态信息。所有Region Server和活跃的HMaster通过session与ZooKeeper连接。ZooKeeper通过心跳机制维持与临时节点之间的活动会话。</p>
+<p>每个Region Server创建一个临时节点。HMaster通过监控这些节点去发现所有可用的region server，同时也监控这些节点的服务器故障。每个HMaster也会争相创建一个临时节点。Zookeeper确定第一个然后使用它来确保只有一个master是活跃的。活跃的HMaster发送心跳给到Zookeeper，然后待用的HMaster监听活跃HMaster失败的通知。</p>
+<p>如果一个region server或者活跃的HMaster发送心跳失败，那么session就会过期并且相应的临时节点会被删除。删除节点的信息会通知到更新监听器。活跃的HMaster监听region server，然后会恢复失败的region server。备用的HMaster则会监听活跃的HMaster失败信息，如果活跃的HMaster挂了，那么备用的HMaster就会转为活跃状态。</p>
+<p><img src="https://s2.ax1x.com/2019/03/23/AJEJoD.png" alt=""></p>
+<h2 id="HBase首次读或写"><a href="#HBase首次读或写" class="headerlink" title="HBase首次读或写"></a><strong>HBase首次读或写</strong></h2><p>有一个特殊的HBase目录表被称为META表，此表保存了所有region在集群中的位置。Zookeeper储存META表的位置。</p>
+<p>这是客户端第一次读或写入HBase时发生的情况：</p>
+<pre><code>1：客户端从ZooKeeper获取承载META表的Region server
+2：客户端将会查询.META.服务获取与其想要访问的row key相对应的region server。客户端将这条信息与META表位置一起缓存
+3：客户端将会从对应的Region Server获取Row
+</code></pre><p>对于未来的读操作，客户端使用缓存来取回META的位置和先前读取的行键。随着时间的推移，不需要读取META表，除非一个region被移动导致的查询失败。如果是这样的话它将会重新查询并更新缓存。</p>
+<p><img src="https://s2.ax1x.com/2019/03/23/AJne2Q.png" alt=""></p>
+<h2 id="HBase-Meta表"><a href="#HBase-Meta表" class="headerlink" title="HBase Meta表"></a><strong>HBase Meta表</strong></h2><ul>
+<li>META表是一张保存着系统中所有region目录的表</li>
+<li>.META.表像B Tree</li>
+<li>.META.表结构如下：<ul>
+<li>Key: region start key，region的id</li>
+<li>Values: RegionServer</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/03/25/At7yV0.png" alt=""></p>
+<h2 id="Region-Server的组件"><a href="#Region-Server的组件" class="headerlink" title="Region Server的组件"></a><strong>Region Server的组件</strong></h2><p>一个Region Server在HDFS数据节点上运行，并且有着如下组件：</p>
+<ul>
+<li><strong>WAL：</strong>  Write Ahead Log是分布式文件系统中的一个文件。WAL被用作存储那些尚未被持久化到永久存储上的新数据。它常常被用作发生故障时的恢复。</li>
+</ul>
+<ul>
+<li><strong>BlockCahce：</strong> 这是个读缓存。它将频繁读取的数据放置于缓存之中。当缓存满了时最近没使用的数据会被清除。</li>
+</ul>
+<ul>
+<li><strong>MemStore：</strong> 这是个写缓存。它保存着那些还没有被写入磁盘的新数据。在写入磁盘前进行排序。每一个region中每一个列族都会有一个MemStore。</li>
+</ul>
+<ul>
+<li><strong>Hfile</strong>将行数据存储为磁盘上排序好的Key Values。</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/03/25/Atb9X9.png" alt=""></p>
+<h2 id="HBase写步骤-1"><a href="#HBase写步骤-1" class="headerlink" title="HBase写步骤 [1]"></a><strong>HBase写步骤 [1]</strong></h2><p>当一个客户端发出Put请求时，第一步是将数据写入预写入日志<strong>WAL</strong>:</p>
+<ul>
+<li>编辑好的文件将会被追加到位于磁盘上的WAL文件末尾</li>
+<li>WAL用于在服务器奔溃是恢复尚未保存的数据</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/03/25/Atb3AP.png" alt=""></p>
+<h2 id="HBase写步骤-2"><a href="#HBase写步骤-2" class="headerlink" title="HBase写步骤 [2]"></a><strong>HBase写步骤 [2]</strong></h2><p>当数据写入至WAL后，就会被放入MemStore。然后，put请求确认就会返回给客户端。</p>
+<p><img src="https://s2.ax1x.com/2019/03/25/AtL0YV.png" alt=""></p>
+<h2 id="HBase-MemStore"><a href="#HBase-MemStore" class="headerlink" title="HBase MemStore"></a><strong>HBase MemStore</strong></h2><p>MemStore把内存中的更新保存为排序好的键值对，与保存在HFile中的相同。每个列族中都会有一个MemStore。更新时按照每一个列族排序。</p>
+<p><img src="https://s2.ax1x.com/2019/03/25/AtLvff.png" alt=""></p>
+<h2 id="HBase-Region刷新"><a href="#HBase-Region刷新" class="headerlink" title="HBase Region刷新"></a><strong>HBase Region刷新</strong></h2><p>当MemStore积累到足够的数据时，整个有序集合就被写入到HDFS中的新HFile中。HBase中每个列族使用多个HFile，其中包含了实际的单元格，或是键值对实例。当在MemStore里排序好的键值对编辑文件被刷新后作为文件保存到磁盘时，这些HFile文件就会随着时间的推移而创建。</p>
+<p>需要注意的是，这是HBase中列族数量被限制的一个原因。在每一个列族中都会有一个MemStore；当一个满了，所有的都会刷新。它同时还保存了最后写入的序列号，以便系统知道目前为止被持久化的数据。</p>
+<p>最大的序列号作为每个HFile中的元数据字段存储，来反映哪里结束哪里开始。当一个region启动时，这个序列号就会被读取，同时最大的数作为新编辑文件的序列号。</p>
+<p><img src="https://s2.ax1x.com/2019/03/26/AN32xx.png" alt=""></p>
+<h2 id="HBase-HFile"><a href="#HBase-HFile" class="headerlink" title="HBase HFile"></a><strong>HBase HFile</strong></h2><p>HFile中保存着键值对数据。当MemStore积累到足够的数据时，整个被排序好的键值对集合会被写入到HDFS上的HFile中。这就是顺序写入。这一过程非常快因为它避免了移动磁盘头。</p>
+<p><img src="https://s2.ax1x.com/2019/03/26/AUAJM9.png" alt=""></p>
+<h2 id="HBase-HFile结构"><a href="#HBase-HFile结构" class="headerlink" title="HBase HFile结构"></a><strong>HBase HFile结构</strong></h2><p>一个HFile中包含的多层索引允许HBase在不用读取所有文件的情况下查找数据。多级索引就像一个B+树：</p>
+<ul>
+<li><p>键值对按递增顺序存储</p>
+</li>
+<li><p>索引按照行键指向64KB块中的键值数据</p>
+</li>
+<li><p>每个块都有自己的叶索引</p>
+</li>
+<li><p>每个块最后的一个键放在中间索引中</p>
+</li>
+<li><p>根索引指向中间索引</p>
+</li>
+</ul>
+<p>尾部块指向元数据块，并且被写入到文件中的持久化数据的末尾。尾部块同时也拥有着比如bloom过滤器和时间范围等信息。Bloom过滤器有助于跳过不包含某个确定行键的文件。如果文件不在读取的时间范围内，则时间范围对跳过文件非常有用。</p>
+<p><img src="https://s2.ax1x.com/2019/03/26/AUshDg.png" alt=""></p>
+<h2 id="HFile-索引"><a href="#HFile-索引" class="headerlink" title="HFile 索引"></a><strong>HFile 索引</strong></h2><p>我们之前所讨论的索引，当HFile被编辑时加载并保存在内存中。这允许使用单个磁盘查找进行搜索。</p>
+<p><img src="https://s2.ax1x.com/2019/03/26/AUyOJI.png" alt=""></p>
+<h2 id="HBase读合并"><a href="#HBase读合并" class="headerlink" title="HBase读合并"></a><strong>HBase读合并</strong></h2><p>我们可以看到，对应一行的KeyValue单元格可以在多个位置，单元格在已经持久化的HFiles中，最近更新的单元格在MemStore中，最近读的单元格在块内存中。所以当你读取一行时，系统如何知道获取对应的单元格并返回？在如下步骤中，read合并块内存，MemStore\和HFiles中的键值：</p>
+<pre><code>1. 首先，扫描器查找在块缓存中的行单元格 - 读缓存。最近读取的键值被缓存在这，当需要内存时，最近不经常使用的键值就会被回收。
+2. 接下来，扫描器就会在MemStore中查找最近写入内存的写缓存。
+3. 如果扫描器在MemStore和块缓存中没有找到所有的行单元格，那么HBase将会使用块缓存索引和bloom过滤器把HFiles加载到内存中，该文件可能含有目标单元格。
+</code></pre><p><img src="https://s2.ax1x.com/2019/03/26/AUg6eS.png" alt=""></p>
+<p>就像之前讨论的，在每个MemStore中可能有很多HFiles，这意味着对于读取，可能必须检查多个文件，这可能会影响性能。这被称为读取放大。</p>
+<p><img src="https://s2.ax1x.com/2019/03/26/AU29eO.png" alt=""></p>
+<h2 id="HBase轻压缩"><a href="#HBase轻压缩" class="headerlink" title="HBase轻压缩"></a><strong>HBase轻压缩</strong></h2><p>HBase会自动挑选一些大小较小的HFile，把它们重写到一个更大的HFile中，这个过程被叫做轻压缩。通过重写多个小文件到数量更少体积更大的大文件中，轻压缩执行合并排序减少了存储文件的数量。</p>
+<p><img src="https://s2.ax1x.com/2019/03/28/AdhBV0.png" alt=""></p>
+<h2 id="HBase重压缩"><a href="#HBase重压缩" class="headerlink" title="HBase重压缩"></a><strong>HBase重压缩</strong></h2><p>重压缩合并和重写region中的所有HFile，并将其写入至每一个列族中的HFile中。在这一过程中，会丢弃已删除或已过期的单元格。这一举动提升了读性能。然而，在重压缩重写所有文件时，可能会引发很多IO和网络的问题。</p>
+<p>重压缩可以被安排为自动运行。由于写入可能引发的问题，所以其一般安排在周末或者晚上。需要注意的是，MapR-DB已经进行了改进，不需要进行压缩。一个重压缩还会使任何因为服务器故障或者负载均衡而产生的远程文件，变为region文件。</p>
+<p><img src="https://s2.ax1x.com/2019/03/29/A0UgRf.png" alt=""></p>
+<h2 id="Region-邻接键"><a href="#Region-邻接键" class="headerlink" title="Region = 邻接键"></a><strong>Region = 邻接键</strong></h2><p>让我们快速复习下region：</p>
+<ul>
+<li><p>一个表可以水平地分成一个或者多个region。一个region包含起始键和结束键之间的相邻排序行数据。</p>
+</li>
+<li><p>每一个region默认1GB大小</p>
+</li>
+<li><p>表的一个region由RegionServer提供服务给客户端</p>
+</li>
+<li><p>一个region server可以服务大约1000个region（可能同属于一张表或不同的表）</p>
+</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/03/29/A0ds8P.png" alt=""></p>
+<h2 id="Region-切分"><a href="#Region-切分" class="headerlink" title="Region 切分"></a><strong>Region 切分</strong></h2><p>在最初始的时候，每个表都会有一个region。当一个region数据增长过大时，这个region就会切分成2个子region。两个子region，各代表原始region的一半，在同一个region server上并行打开，然后切分情况会被报告给HMaster。出于负载均衡的原因，HMaster也许会将新region移动到其他服务器。</p>
+<p><img src="https://s2.ax1x.com/2019/03/29/A0ds8P.png" alt=""></p>
+<h2 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a><strong>负载均衡</strong></h2><p>拆分最初发生在同一个region服务器上，但出于负载均衡的原因，HMaster也许会将新region移动到其他服务器。这导致新的Region server从远程HDFS节点提供数据。直到主压缩把数据文件移动到Regions server的本地节点。HBase数据在写入时是本地数据，但是当一个region被移动时（用于负载均衡或者恢复数据），这些数据在主压缩完成之前都不会是本地数据。</p>
+<p><img src="https://s2.ax1x.com/2019/03/29/A046Fx.png" alt=""></p>
+<h2 id="HDFS数据复制"><a href="#HDFS数据复制" class="headerlink" title="HDFS数据复制"></a><strong>HDFS数据复制</strong></h2><p>所有写入和读取都是来自/去到主节点。HDFS复制WAL和HFile块。HFile块复制自动发生。当这些块文件存储好后HBase依赖于HDFS去提供数据安全。当数据写入到HDFS后，一份备份会写入到本地，然后它会被复制到第二个节点，再之后第三个备份会写入到第三个节点。</p>
+<p><img src="https://s2.ax1x.com/2019/03/29/A0IZ28.png" alt=""></p>
+<p>WAL文件和HFiles都被持久化到磁盘和或者备份，那HBase如何恢复没有持久化到HFiles中的MemStore更新呢？下个章节会看到答案。</p>
+<p><img src="https://s2.ax1x.com/2019/03/29/A0I6xO.png" alt=""></p>
+<h2 id="HBase损坏修复"><a href="#HBase损坏修复" class="headerlink" title="HBase损坏修复"></a><strong>HBase损坏修复</strong></h2><p>当一个region server故障时，在检查和修复程序启动前损坏的Region都不可用。Zookeeper检测不到region server的心跳后就会定位失败的节点。在这之后，HMaster就会被通知Region Server已挂。</p>
+<p>当HMaster监测到挂掉的region server后，HMaster就会把region从挂掉的region server分配到活跃的region server。为了恢复挂掉的region server中的memstore里的没有刷新至磁盘的编辑文件，HMaster把属于挂掉的region server里面的WAL文件拆分到不同的文件中，然后把这些文件存储到新的region server数据节点之中。然后每个region server把各个分散的WAL文件复原，并修复region的memstore。</p>
+<p><img src="https://s2.ax1x.com/2019/03/29/A0Lbhd.png" alt=""></p>
+<h2 id="数据恢复"><a href="#数据恢复" class="headerlink" title="数据恢复"></a><strong>数据恢复</strong></h2><p>WAL包含了编辑文件的列表，同时一个编辑文件代表了一个简单的添加或删除。编辑文件按时间顺序写入，所以当需要持久化时，新增内容就被添加到保存在磁盘里的WAL文件的末尾。</p>
+<p>当数据仍旧在内存中或是没有持久化到内存时，如果此时服务挂掉会发什么？WAL文件就会重新生成。读取指定的WAL文件就可以生成一个新的WAL文件，把持有的编辑文件排序并添加到当前的memstore中。在最后，Memstore就会刷新并把变化内容写入至HFile中。</p>
+<p><img src="https://s2.ax1x.com/2019/03/29/A0OIvq.png" alt=""></p>
+<h2 id="HBase架构的优点"><a href="#HBase架构的优点" class="headerlink" title="HBase架构的优点"></a><strong>HBase架构的优点</strong></h2><p>HBase提供了如下好处：</p>
+<ul>
+<li>强一致性模型<ul>
+<li>当写成功后，所有reader都会看到一样的值</li>
+</ul>
+</li>
+<li>动态伸缩<ul>
+<li>当数据过大时Region会拆分</li>
+<li>使用HDFS去传输和复制数据</li>
+</ul>
+</li>
+<li>内置恢复<ul>
+<li>使用提前写入日志</li>
+</ul>
+</li>
+<li>与Hadoop集成<ul>
+<li>HBase上的MapReduce非常简单</li>
+</ul>
+</li>
+</ul>
+<h2 id="HBase的缺点"><a href="#HBase的缺点" class="headerlink" title="HBase的缺点"></a><strong>HBase的缺点</strong></h2><ul>
+<li>业务连续可靠性<ul>
+<li>WAL重新生成缓慢</li>
+<li>崩溃恢复缓慢复杂</li>
+<li>大量IO流</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
     <div class="card-image">
         <a href="/2019/01/20/HBase搭建/" class="image is-7by1">
             <img class="thumbnail" src="https://s2.ax1x.com/2019/01/20/kC78de.jpg" alt="HBase搭建">
@@ -239,7 +439,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        43
+                        46
                     </p>
                 </div>
             </div>
@@ -249,7 +449,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        24
+                        25
                     </p>
                 </div>
             </div>
@@ -327,9 +527,17 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">4</span>
             </span>
         </a><ul><li>
+        <a class="level is-marginless" href="/categories/Java/JVM/">
+            <span class="level-start">
+                <span class="level-item">JVM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/多线程/">
             <span class="level-start">
                 <span class="level-item">多线程</span>
@@ -359,7 +567,7 @@
                 <span class="level-item">大数据生态圈</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">26</span>
+                <span class="level-item tag">28</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/Flume/">
@@ -375,7 +583,7 @@
                 <span class="level-item">HBase</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/Hadoop/">
@@ -407,7 +615,7 @@
                 <span class="level-item">Spark</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">17</span>
+                <span class="level-item tag">18</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/Sqoop/">
@@ -517,7 +725,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/CS/" style="font-size: 10px;">CS</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HBase/" style="font-size: 10px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 13.33px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/Java/" style="font-size: 13.33px;">Java</a> <a href="/tags/Kafka/" style="font-size: 10px;">Kafka</a> <a href="/tags/LintCode/" style="font-size: 16.67px;">LintCode</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Spark/" style="font-size: 20px;">Spark</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/Statistics/" style="font-size: 10px;">Statistics</a> <a href="/tags/ZooKeeper/" style="font-size: 10px;">ZooKeeper</a>
+        <a href="/tags/CS/" style="font-size: 10px;">CS</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HBase/" style="font-size: 12px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 14px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/Java/" style="font-size: 16px;">Java</a> <a href="/tags/Kafka/" style="font-size: 10px;">Kafka</a> <a href="/tags/LintCode/" style="font-size: 18px;">LintCode</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Spark/" style="font-size: 20px;">Spark</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/Statistics/" style="font-size: 10px;">Statistics</a> <a href="/tags/ZooKeeper/" style="font-size: 10px;">ZooKeeper</a>
     </div>
 </div>
 
@@ -531,6 +739,63 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/03/21/HBase/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="深入理解HBase架构（翻译）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-21T10:06:49.000Z">2019-03-21</time></div>
+                    <a href="/2019/03/21/HBase/" class="has-link-black-ter is-size-6">深入理解HBase架构（翻译）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/HBase/">HBase</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/20/JVM简单总结/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JVM简单总结">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-20T03:56:25.000Z">2019-03-20</time></div>
+                    <a href="/2019/03/20/JVM简单总结/" class="has-link-black-ter is-size-6">JVM简单总结</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java/">Java</a> / <a class="has-link-grey -link" href="/categories/Java/JVM/">JVM</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/19/Spark获取Flume数据/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark获取Flume数据">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-19T07:49:04.000Z">2019-03-19</time></div>
+                    <a href="/2019/03/19/Spark获取Flume数据/" class="has-link-black-ter is-size-6">Spark获取Flume数据</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -570,63 +835,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/02/22/SparkStreaming/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfCdMD.jpg" alt="Spark Streaming">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T07:02:13.000Z">2019-02-22</time></div>
-                    <a href="/2019/02/22/SparkStreaming/" class="has-link-black-ter is-size-6">Spark Streaming</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/02/22/Spark连接Hive/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfpPW8.jpg" alt="Spark连接Hive">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T06:24:25.000Z">2019-02-22</time></div>
-                    <a href="/2019/02/22/Spark连接Hive/" class="has-link-black-ter is-size-6">Spark连接Hive</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/02/19/Spark连接JDBC/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/20/k2h2Ix.jpg" alt="Spark连接JDBC">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-19T13:59:40.000Z">2019-02-19</time></div>
-                    <a href="/2019/02/19/Spark连接JDBC/" class="has-link-black-ter is-size-6">Spark连接JDBC</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -645,7 +853,7 @@
                     <span class="level-item">三月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -779,7 +987,7 @@
                             <span class="level-item">HBase</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -812,7 +1020,7 @@
                             <span class="level-item">Java</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">3</span>
+                            <span class="level-item tag">4</span>
                         </span>
                     </a>
                 </li>
@@ -867,7 +1075,7 @@
                             <span class="level-item">Spark</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">17</span>
+                            <span class="level-item tag">18</span>
                         </span>
                     </a>
                 </li>
@@ -930,6 +1138,63 @@
         
         <article class="media">
             
+            <a href="/2019/03/21/HBase/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="深入理解HBase架构（翻译）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-21T10:06:49.000Z">2019-03-21</time></div>
+                    <a href="/2019/03/21/HBase/" class="has-link-black-ter is-size-6">深入理解HBase架构（翻译）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/HBase/">HBase</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/20/JVM简单总结/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JVM简单总结">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-20T03:56:25.000Z">2019-03-20</time></div>
+                    <a href="/2019/03/20/JVM简单总结/" class="has-link-black-ter is-size-6">JVM简单总结</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java/">Java</a> / <a class="has-link-grey -link" href="/categories/Java/JVM/">JVM</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/19/Spark获取Flume数据/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark获取Flume数据">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-19T07:49:04.000Z">2019-03-19</time></div>
+                    <a href="/2019/03/19/Spark获取Flume数据/" class="has-link-black-ter is-size-6">Spark获取Flume数据</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/03/14/Kafka搭建/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="https://s2.ax1x.com/2019/03/14/AkXjiD.jpg" alt="Kafka集群搭建">
@@ -966,63 +1231,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/02/22/SparkStreaming/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfCdMD.jpg" alt="Spark Streaming">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T07:02:13.000Z">2019-02-22</time></div>
-                    <a href="/2019/02/22/SparkStreaming/" class="has-link-black-ter is-size-6">Spark Streaming</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/02/22/Spark连接Hive/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfpPW8.jpg" alt="Spark连接Hive">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T06:24:25.000Z">2019-02-22</time></div>
-                    <a href="/2019/02/22/Spark连接Hive/" class="has-link-black-ter is-size-6">Spark连接Hive</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/02/19/Spark连接JDBC/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/20/k2h2Ix.jpg" alt="Spark连接JDBC">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-19T13:59:40.000Z">2019-02-19</time></div>
-                    <a href="/2019/02/19/Spark连接JDBC/" class="has-link-black-ter is-size-6">Spark连接JDBC</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1041,7 +1249,7 @@
                     <span class="level-item">三月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1175,7 +1383,7 @@
                             <span class="level-item">HBase</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1208,7 +1416,7 @@
                             <span class="level-item">Java</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">3</span>
+                            <span class="level-item tag">4</span>
                         </span>
                     </a>
                 </li>
@@ -1263,7 +1471,7 @@
                             <span class="level-item">Spark</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">17</span>
+                            <span class="level-item tag">18</span>
                         </span>
                     </a>
                 </li>
