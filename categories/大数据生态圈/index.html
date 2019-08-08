@@ -140,6 +140,187 @@
 
     <div class="card">
     
+    <div class="card-image">
+        <a href="/2019/08/02/zookeeper数据一致性/" class="image is-7by1">
+            <img class="thumbnail" src="https://s2.ax1x.com/2019/07/30/eJua2n.jpg" alt="zookeeper数据一致性">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-08-02T07:03:58.000Z">2019-08-02</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/大数据生态圈/ZooKeeper/">ZooKeeper</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 分钟 读完 (大约 765 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/08/02/zookeeper数据一致性/">zookeeper数据一致性</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a><strong>结构</strong></h2><ul>
+<li><strong>leader：</strong> 处理所有请求，提供读写服务</li>
+<li><strong>follower：</strong> 只提供读写服务，有机会选举成为leader</li>
+<li><strong>observer：</strong> 只提供读服务</li>
+</ul>
+<p>zookeeper采用主从架构，当leader挂了时，整个zookeeper就无法正常提供服务。此时，就需要follower之间选举出新的leader。</p>
+<h2 id="ZAB协议"><a href="#ZAB协议" class="headerlink" title="ZAB协议"></a><strong>ZAB协议</strong></h2><p>zookeeper通过<code>ZAB协议</code>保证数据一致性。</p>
+<p>ZAB协议即分布式一致性协议，是zookeeper专门设计的一种支持奔溃恢复的原子广播协议。主要的作用有三个方面：</p>
+<ul>
+<li><strong>选举leader</strong></li>
+<li><strong>同步节点之间的状态达到数据一致性</strong></li>
+<li><strong>数据的广播</strong></li>
+</ul>
+<h2 id="了解ZAB协议前需要了解的几个概念"><a href="#了解ZAB协议前需要了解的几个概念" class="headerlink" title="了解ZAB协议前需要了解的几个概念"></a><strong>了解ZAB协议前需要了解的几个概念</strong></h2>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/08/02/zookeeper数据一致性/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-04-12T09:02:45.000Z">2019-04-12</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/大数据生态圈/Hive/">Hive</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    3 分钟 读完 (大约 472 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/04/12/Server/">Hive Metastore Server</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="Metastore"><a href="#Metastore" class="headerlink" title="Metastore"></a><strong>Metastore</strong></h2><p>Metastore即元数据，包含了Hive创建的database、table等信息。Metastore储存在如Derby、MySQL等数据库中。</p>
+<h2 id="Metastore-Server"><a href="#Metastore-Server" class="headerlink" title="Metastore Server"></a><strong>Metastore Server</strong></h2><p>Metastore Server负责客户端与数据库之间的连接，可以同时有多个客户端连接。</p>
+<h2 id="Metastore三种配置方式"><a href="#Metastore三种配置方式" class="headerlink" title="Metastore三种配置方式"></a><strong>Metastore三种配置方式</strong></h2><ul>
+<li><strong>内嵌模式(Embedded)：</strong> <strong>hive服务和metastore服务运行在同一个进程中</strong>，derby服务也运行在该进程中.内嵌模式使用的是内嵌的Derby数据库来存储元数据，不需要额外启动Metastore服务，<strong>此时一次只能一个客户端连接。</strong></li>
+</ul>
+<ul>
+<li><strong>本地模式(Local)：</strong> <strong>本地安装mysql 替代derby存储元数据</strong>，<strong>hive服务和metastore服务运行在同一个进程中</strong>，mysql是单独的进程，这种方式是一个多用户的模式，运行多个用户client连接到一个数据库中。这种方式一般作为公司内部同时使用Hive。每一个用户必须要有对MySQL的访问权利，即每一个客户端使用者需要知道MySQL的用户名和密码才行。</li>
+</ul>
+<ul>
+<li><strong>远程模式(Remote)：</strong> <strong>远程安装mysql 替代derby存储元数据，Hive服务和metastore在不同的进程内，</strong>远程需要单独启动metastore服务，然后每个客户端都在配置文件里配置连接到该metastore服务。将metadata作为一个单独的服务进行启动。客户端通过beeline来连接，连接之前无需知道数据库的密码。该模式需要将hive.metastore.local设置为false，将hive.metastore.uris设置为metastore服务器URL。</li>
+</ul>
+<figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span></span><br><span class="line">  <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hive.metastore.local<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span></span><br><span class="line">  <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>false<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span></span><br><span class="line">  <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hive.metastore.uris<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span></span><br><span class="line">  <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>thrift://192.168.1.XXX:9083<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Metastore-生产化实践"><a href="#Metastore-生产化实践" class="headerlink" title="Metastore 生产化实践"></a><strong>Metastore 生产化实践</strong></h2><p><a href="https://ericsahit.github.io/2016/11/18/Hive-Metastore-Server%E7%94%9F%E4%BA%A7%E5%8C%96%E5%AE%9E%E8%B7%B5/" target="_blank" rel="noopener">Hive Metastore Server生产化实践</a></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-04-03T02:41:05.000Z">2019-04-03</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/大数据生态圈/Hadoop/">Hadoop</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 分钟 读完 (大约 754 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/04/03/什么是MapReduce/">什么是MapReduce（翻译）</a>
+            
+        </h1>
+        <div class="content">
+            <p><a href="https://www.guru99.com/introduction-to-mapreduce.html" target="_blank" rel="noopener">原文地址</a></p>
+<h2 id="MapReduce如何工作？完整过程如下"><a href="#MapReduce如何工作？完整过程如下" class="headerlink" title="MapReduce如何工作？完整过程如下"></a><strong>MapReduce如何工作？完整过程如下</strong></h2><p>整个过程经历了4个执行阶段，<strong>拆分(splitting), 映射(mapping), 派发(shuffling), 缩减(reducing)</strong></p>
+<p>让我们用一个例子加深理解</p>
+<p>假如在你的Map Reduce程序中有如下一个输入数据<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome to Hadoop Class</span><br><span class="line">Hadoop is good</span><br><span class="line">Hadoop is bad</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://s2.ax1x.com/2019/04/03/AcwNHx.png" alt=""><br></p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/04/03/什么是MapReduce/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
@@ -154,7 +335,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    26 分钟 读完 (大约 3930 个字)
+                    26 分钟 读完 (大约 3931 个字)
                 </span>
                 
             </div>
@@ -171,161 +352,17 @@
 <p>Hadoop DataNode存储了Region Server管理的数据。所有HBase的数据都被存储在HDFS files中。Region Servers与HDFS DataNodes搭配，保证了RegionServers提供的数据的位置（把数据放在需要的地方）。HBase数据在写入时是本地数据，但当region被移动时，在被压缩前不是本地数据。</p>
 <p>NameNode为所有物理数据块包含的文件维护元数据的信息</p>
 <p><img src="https://s2.ax1x.com/2019/03/21/A3eh8A.png" alt=""></p>
-<h2 id="Regions"><a href="#Regions" class="headerlink" title="Regions"></a><strong>Regions</strong></h2><p>HBase表被row key水平地切分为一个又一个的”region”。一个region包含了其start key至end key范围内HBase表中的所有行。当多个region被分配到集群中的节点时，就被称为“Region Servers”，其提供了数据的读写服务。一个region server可以服务大约1000个region。</p>
-<p><img src="https://s2.ax1x.com/2019/03/23/AG522q.png" alt=""></p>
-<h2 id="HBase-HMaster"><a href="#HBase-HMaster" class="headerlink" title="HBase HMaster"></a><strong>HBase HMaster</strong></h2><p>Region分配，DDL（创建、删除表）操作都由HBase Master处理。</p>
-<p>一个Master负责：</p>
-<ul>
-<li>协调region servers<ul>
-<li>在启动时分配region，重新分配region以进行恢复或负载均衡</li>
-<li>监控所有在集群中的RegionServer实例（监听来自zookeeper的通知）</li>
-</ul>
-</li>
-<li>管理功能<ul>
-<li>提供创建、删除、更新表的接口</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://s2.ax1x.com/2019/03/23/AGLAhD.png" alt=""></p>
-<h2 id="ZooKeeper：协调员"><a href="#ZooKeeper：协调员" class="headerlink" title="ZooKeeper：协调员"></a><strong>ZooKeeper：协调员</strong></h2><p>HBase使用ZooKeeper作为分布式协调服务去维护集群中的服务器状态。Zookeeper维护着处于活动状态的服务器，并提供服务器故障通知。ZooKeeper使用consensus去保证共同的共享状态。需要注意的是，至少需要三台或五台机器达成consensus。</p>
-<p><img src="https://s2.ax1x.com/2019/03/23/AGOiKs.png" alt=""></p>
-<h2 id="各个组件是如何一起工作的"><a href="#各个组件是如何一起工作的" class="headerlink" title="各个组件是如何一起工作的"></a><strong>各个组件是如何一起工作的</strong></h2><p>Zookeeper被用作协调分布式系统中各个成员的共享状态信息。所有Region Server和活跃的HMaster通过session与ZooKeeper连接。ZooKeeper通过心跳机制维持与临时节点之间的活动会话。</p>
-<p>每个Region Server创建一个临时节点。HMaster通过监控这些节点去发现所有可用的region server，同时也监控这些节点的服务器故障。每个HMaster也会争相创建一个临时节点。Zookeeper确定第一个然后使用它来确保只有一个master是活跃的。活跃的HMaster发送心跳给到Zookeeper，然后待用的HMaster监听活跃HMaster失败的通知。</p>
-<p>如果一个region server或者活跃的HMaster发送心跳失败，那么session就会过期并且相应的临时节点会被删除。删除节点的信息会通知到更新监听器。活跃的HMaster监听region server，然后会恢复失败的region server。备用的HMaster则会监听活跃的HMaster失败信息，如果活跃的HMaster挂了，那么备用的HMaster就会转为活跃状态。</p>
-<p><img src="https://s2.ax1x.com/2019/03/23/AJEJoD.png" alt=""></p>
-<h2 id="HBase首次读或写"><a href="#HBase首次读或写" class="headerlink" title="HBase首次读或写"></a><strong>HBase首次读或写</strong></h2><p>有一个特殊的HBase目录表被称为META表，此表保存了所有region在集群中的位置。Zookeeper储存META表的位置。</p>
-<p>这是客户端第一次读或写入HBase时发生的情况：</p>
-<pre><code>1：客户端从ZooKeeper获取承载META表的Region server
-2：客户端将会查询.META.服务获取与其想要访问的row key相对应的region server。客户端将这条信息与META表位置一起缓存
-3：客户端将会从对应的Region Server获取Row
-</code></pre><p>对于未来的读操作，客户端使用缓存来取回META的位置和先前读取的行键。随着时间的推移，不需要读取META表，除非一个region被移动导致的查询失败。如果是这样的话它将会重新查询并更新缓存。</p>
-<p><img src="https://s2.ax1x.com/2019/03/23/AJne2Q.png" alt=""></p>
-<h2 id="HBase-Meta表"><a href="#HBase-Meta表" class="headerlink" title="HBase Meta表"></a><strong>HBase Meta表</strong></h2><ul>
-<li>META表是一张保存着系统中所有region目录的表</li>
-<li>.META.表像B Tree</li>
-<li>.META.表结构如下：<ul>
-<li>Key: region start key，region的id</li>
-<li>Values: RegionServer</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://s2.ax1x.com/2019/03/25/At7yV0.png" alt=""></p>
-<h2 id="Region-Server的组件"><a href="#Region-Server的组件" class="headerlink" title="Region Server的组件"></a><strong>Region Server的组件</strong></h2><p>一个Region Server在HDFS数据节点上运行，并且有着如下组件：</p>
-<ul>
-<li><strong>WAL：</strong>  Write Ahead Log是分布式文件系统中的一个文件。WAL被用作存储那些尚未被持久化到永久存储上的新数据。它常常被用作发生故障时的恢复。</li>
-</ul>
-<ul>
-<li><strong>BlockCahce：</strong> 这是个读缓存。它将频繁读取的数据放置于缓存之中。当缓存满了时最近没使用的数据会被清除。</li>
-</ul>
-<ul>
-<li><strong>MemStore：</strong> 这是个写缓存。它保存着那些还没有被写入磁盘的新数据。在写入磁盘前进行排序。每一个region中每一个列族都会有一个MemStore。</li>
-</ul>
-<ul>
-<li><strong>Hfile</strong>将行数据存储为磁盘上排序好的Key Values。</li>
-</ul>
-<p><img src="https://s2.ax1x.com/2019/03/25/Atb9X9.png" alt=""></p>
-<h2 id="HBase写步骤-1"><a href="#HBase写步骤-1" class="headerlink" title="HBase写步骤 [1]"></a><strong>HBase写步骤 [1]</strong></h2><p>当一个客户端发出Put请求时，第一步是将数据写入预写入日志<strong>WAL</strong>:</p>
-<ul>
-<li>编辑好的文件将会被追加到位于磁盘上的WAL文件末尾</li>
-<li>WAL用于在服务器奔溃是恢复尚未保存的数据</li>
-</ul>
-<p><img src="https://s2.ax1x.com/2019/03/25/Atb3AP.png" alt=""></p>
-<h2 id="HBase写步骤-2"><a href="#HBase写步骤-2" class="headerlink" title="HBase写步骤 [2]"></a><strong>HBase写步骤 [2]</strong></h2><p>当数据写入至WAL后，就会被放入MemStore。然后，put请求确认就会返回给客户端。</p>
-<p><img src="https://s2.ax1x.com/2019/03/25/AtL0YV.png" alt=""></p>
-<h2 id="HBase-MemStore"><a href="#HBase-MemStore" class="headerlink" title="HBase MemStore"></a><strong>HBase MemStore</strong></h2><p>MemStore把内存中的更新保存为排序好的键值对，与保存在HFile中的相同。每个列族中都会有一个MemStore。更新时按照每一个列族排序。</p>
-<p><img src="https://s2.ax1x.com/2019/03/25/AtLvff.png" alt=""></p>
-<h2 id="HBase-Region刷新"><a href="#HBase-Region刷新" class="headerlink" title="HBase Region刷新"></a><strong>HBase Region刷新</strong></h2><p>当MemStore积累到足够的数据时，整个有序集合就被写入到HDFS中的新HFile中。HBase中每个列族使用多个HFile，其中包含了实际的单元格，或是键值对实例。当在MemStore里排序好的键值对编辑文件被刷新后作为文件保存到磁盘时，这些HFile文件就会随着时间的推移而创建。</p>
-<p>需要注意的是，这是HBase中列族数量被限制的一个原因。在每一个列族中都会有一个MemStore；当一个满了，所有的都会刷新。它同时还保存了最后写入的序列号，以便系统知道目前为止被持久化的数据。</p>
-<p>最大的序列号作为每个HFile中的元数据字段存储，来反映哪里结束哪里开始。当一个region启动时，这个序列号就会被读取，同时最大的数作为新编辑文件的序列号。</p>
-<p><img src="https://s2.ax1x.com/2019/03/26/AN32xx.png" alt=""></p>
-<h2 id="HBase-HFile"><a href="#HBase-HFile" class="headerlink" title="HBase HFile"></a><strong>HBase HFile</strong></h2><p>HFile中保存着键值对数据。当MemStore积累到足够的数据时，整个被排序好的键值对集合会被写入到HDFS上的HFile中。这就是顺序写入。这一过程非常快因为它避免了移动磁盘头。</p>
-<p><img src="https://s2.ax1x.com/2019/03/26/AUAJM9.png" alt=""></p>
-<h2 id="HBase-HFile结构"><a href="#HBase-HFile结构" class="headerlink" title="HBase HFile结构"></a><strong>HBase HFile结构</strong></h2><p>一个HFile中包含的多层索引允许HBase在不用读取所有文件的情况下查找数据。多级索引就像一个B+树：</p>
-<ul>
-<li><p>键值对按递增顺序存储</p>
-</li>
-<li><p>索引按照行键指向64KB块中的键值数据</p>
-</li>
-<li><p>每个块都有自己的叶索引</p>
-</li>
-<li><p>每个块最后的一个键放在中间索引中</p>
-</li>
-<li><p>根索引指向中间索引</p>
-</li>
-</ul>
-<p>尾部块指向元数据块，并且被写入到文件中的持久化数据的末尾。尾部块同时也拥有着比如bloom过滤器和时间范围等信息。Bloom过滤器有助于跳过不包含某个确定行键的文件。如果文件不在读取的时间范围内，则时间范围对跳过文件非常有用。</p>
-<p><img src="https://s2.ax1x.com/2019/03/26/AUshDg.png" alt=""></p>
-<h2 id="HFile-索引"><a href="#HFile-索引" class="headerlink" title="HFile 索引"></a><strong>HFile 索引</strong></h2><p>我们之前所讨论的索引，当HFile被编辑时加载并保存在内存中。这允许使用单个磁盘查找进行搜索。</p>
-<p><img src="https://s2.ax1x.com/2019/03/26/AUyOJI.png" alt=""></p>
-<h2 id="HBase读合并"><a href="#HBase读合并" class="headerlink" title="HBase读合并"></a><strong>HBase读合并</strong></h2><p>我们可以看到，对应一行的KeyValue单元格可以在多个位置，单元格在已经持久化的HFiles中，最近更新的单元格在MemStore中，最近读的单元格在块内存中。所以当你读取一行时，系统如何知道获取对应的单元格并返回？在如下步骤中，read合并块内存，MemStore\和HFiles中的键值：</p>
-<pre><code>1. 首先，扫描器查找在块缓存中的行单元格 - 读缓存。最近读取的键值被缓存在这，当需要内存时，最近不经常使用的键值就会被回收。
-2. 接下来，扫描器就会在MemStore中查找最近写入内存的写缓存。
-3. 如果扫描器在MemStore和块缓存中没有找到所有的行单元格，那么HBase将会使用块缓存索引和bloom过滤器把HFiles加载到内存中，该文件可能含有目标单元格。
-</code></pre><p><img src="https://s2.ax1x.com/2019/03/26/AUg6eS.png" alt=""></p>
-<p>就像之前讨论的，在每个MemStore中可能有很多HFiles，这意味着对于读取，可能必须检查多个文件，这可能会影响性能。这被称为读取放大。</p>
-<p><img src="https://s2.ax1x.com/2019/03/26/AU29eO.png" alt=""></p>
-<h2 id="HBase轻压缩"><a href="#HBase轻压缩" class="headerlink" title="HBase轻压缩"></a><strong>HBase轻压缩</strong></h2><p>HBase会自动挑选一些大小较小的HFile，把它们重写到一个更大的HFile中，这个过程被叫做轻压缩。通过重写多个小文件到数量更少体积更大的大文件中，轻压缩执行合并排序减少了存储文件的数量。</p>
-<p><img src="https://s2.ax1x.com/2019/03/28/AdhBV0.png" alt=""></p>
-<h2 id="HBase重压缩"><a href="#HBase重压缩" class="headerlink" title="HBase重压缩"></a><strong>HBase重压缩</strong></h2><p>重压缩合并和重写region中的所有HFile，并将其写入至每一个列族中的HFile中。在这一过程中，会丢弃已删除或已过期的单元格。这一举动提升了读性能。然而，在重压缩重写所有文件时，可能会引发很多IO和网络的问题。</p>
-<p>重压缩可以被安排为自动运行。由于写入可能引发的问题，所以其一般安排在周末或者晚上。需要注意的是，MapR-DB已经进行了改进，不需要进行压缩。一个重压缩还会使任何因为服务器故障或者负载均衡而产生的远程文件，变为region文件。</p>
-<p><img src="https://s2.ax1x.com/2019/03/29/A0UgRf.png" alt=""></p>
-<h2 id="Region-邻接键"><a href="#Region-邻接键" class="headerlink" title="Region = 邻接键"></a><strong>Region = 邻接键</strong></h2><p>让我们快速复习下region：</p>
-<ul>
-<li><p>一个表可以水平地分成一个或者多个region。一个region包含起始键和结束键之间的相邻排序行数据。</p>
-</li>
-<li><p>每一个region默认1GB大小</p>
-</li>
-<li><p>表的一个region由RegionServer提供服务给客户端</p>
-</li>
-<li><p>一个region server可以服务大约1000个region（可能同属于一张表或不同的表）</p>
-</li>
-</ul>
-<p><img src="https://s2.ax1x.com/2019/03/29/A0ds8P.png" alt=""></p>
-<h2 id="Region-切分"><a href="#Region-切分" class="headerlink" title="Region 切分"></a><strong>Region 切分</strong></h2><p>在最初始的时候，每个表都会有一个region。当一个region数据增长过大时，这个region就会切分成2个子region。两个子region，各代表原始region的一半，在同一个region server上并行打开，然后切分情况会被报告给HMaster。出于负载均衡的原因，HMaster也许会将新region移动到其他服务器。</p>
-<p><img src="https://s2.ax1x.com/2019/03/29/A0ds8P.png" alt=""></p>
-<h2 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a><strong>负载均衡</strong></h2><p>拆分最初发生在同一个region服务器上，但出于负载均衡的原因，HMaster也许会将新region移动到其他服务器。这导致新的Region server从远程HDFS节点提供数据。直到主压缩把数据文件移动到Regions server的本地节点。HBase数据在写入时是本地数据，但是当一个region被移动时（用于负载均衡或者恢复数据），这些数据在主压缩完成之前都不会是本地数据。</p>
-<p><img src="https://s2.ax1x.com/2019/03/29/A046Fx.png" alt=""></p>
-<h2 id="HDFS数据复制"><a href="#HDFS数据复制" class="headerlink" title="HDFS数据复制"></a><strong>HDFS数据复制</strong></h2><p>所有写入和读取都是来自/去到主节点。HDFS复制WAL和HFile块。HFile块复制自动发生。当这些块文件存储好后HBase依赖于HDFS去提供数据安全。当数据写入到HDFS后，一份备份会写入到本地，然后它会被复制到第二个节点，再之后第三个备份会写入到第三个节点。</p>
-<p><img src="https://s2.ax1x.com/2019/03/29/A0IZ28.png" alt=""></p>
-<p>WAL文件和HFiles都被持久化到磁盘和或者备份，那HBase如何恢复没有持久化到HFiles中的MemStore更新呢？下个章节会看到答案。</p>
-<p><img src="https://s2.ax1x.com/2019/03/29/A0I6xO.png" alt=""></p>
-<h2 id="HBase损坏修复"><a href="#HBase损坏修复" class="headerlink" title="HBase损坏修复"></a><strong>HBase损坏修复</strong></h2><p>当一个region server故障时，在检查和修复程序启动前损坏的Region都不可用。Zookeeper检测不到region server的心跳后就会定位失败的节点。在这之后，HMaster就会被通知Region Server已挂。</p>
-<p>当HMaster监测到挂掉的region server后，HMaster就会把region从挂掉的region server分配到活跃的region server。为了恢复挂掉的region server中的memstore里的没有刷新至磁盘的编辑文件，HMaster把属于挂掉的region server里面的WAL文件拆分到不同的文件中，然后把这些文件存储到新的region server数据节点之中。然后每个region server把各个分散的WAL文件复原，并修复region的memstore。</p>
-<p><img src="https://s2.ax1x.com/2019/03/29/A0Lbhd.png" alt=""></p>
-<h2 id="数据恢复"><a href="#数据恢复" class="headerlink" title="数据恢复"></a><strong>数据恢复</strong></h2><p>WAL包含了编辑文件的列表，同时一个编辑文件代表了一个简单的添加或删除。编辑文件按时间顺序写入，所以当需要持久化时，新增内容就被添加到保存在磁盘里的WAL文件的末尾。</p>
-<p>当数据仍旧在内存中或是没有持久化到内存时，如果此时服务挂掉会发什么？WAL文件就会重新生成。读取指定的WAL文件就可以生成一个新的WAL文件，把持有的编辑文件排序并添加到当前的memstore中。在最后，Memstore就会刷新并把变化内容写入至HFile中。</p>
-<p><img src="https://s2.ax1x.com/2019/03/29/A0OIvq.png" alt=""></p>
-<h2 id="HBase架构的优点"><a href="#HBase架构的优点" class="headerlink" title="HBase架构的优点"></a><strong>HBase架构的优点</strong></h2><p>HBase提供了如下好处：</p>
-<ul>
-<li>强一致性模型<ul>
-<li>当写成功后，所有reader都会看到一样的值</li>
-</ul>
-</li>
-<li>动态伸缩<ul>
-<li>当数据过大时Region会拆分</li>
-<li>使用HDFS去传输和复制数据</li>
-</ul>
-</li>
-<li>内置恢复<ul>
-<li>使用提前写入日志</li>
-</ul>
-</li>
-<li>与Hadoop集成<ul>
-<li>HBase上的MapReduce非常简单</li>
-</ul>
-</li>
-</ul>
-<h2 id="HBase的缺点"><a href="#HBase的缺点" class="headerlink" title="HBase的缺点"></a><strong>HBase的缺点</strong></h2><ul>
-<li>业务连续可靠性<ul>
-<li>WAL重新生成缓慢</li>
-<li>崩溃恢复缓慢复杂</li>
-<li>大量IO流</li>
-</ul>
-</li>
-</ul>
-
+<h2 id="Regions"><a href="#Regions" class="headerlink" title="Regions"></a><strong>Regions</strong></h2><p>HBase表被row key水平地切分为一个又一个的”region”。一个region包含了其start key至end key范围内HBase表中的所有行。当多个region被分配到集群中的节点时，就被称为“Region Servers”，其提供了数据的读写服务。一个region server可以服务大约1000个region。<br></p>
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/03/21/HBase/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
     </div>
@@ -390,184 +427,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/03/14/Kafka搭建/" class="image is-7by1">
-            <img class="thumbnail" src="https://s2.ax1x.com/2019/03/14/AkXjiD.jpg" alt="Kafka集群搭建">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-14T01:12:08.000Z">2019-03-14</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/大数据生态圈/Kafka/">Kafka</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    1 分钟 读完 (大约 186 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/14/Kafka搭建/">Kafka集群搭建</a>
-            
-        </h1>
-        <div class="content">
-            <h2 id="编辑配置文件"><a href="#编辑配置文件" class="headerlink" title="编辑配置文件"></a><strong>编辑配置文件</strong></h2><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp config/server.properties config/server-1.properties</span><br><span class="line">cp config/server.properties config/server-1.properties</span><br></pre></td></tr></table></figure>
-<p>编辑各个server.properties文件，broker.id需不同<br><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">#config/server.properties:</span></span><br><span class="line">broker.id=0</span><br><span class="line"><span class="hljs-comment"># 使用自带的zookeeper</span></span><br><span class="line">zookeeper.connect=master:2181,slave1:2181,slave2:2181</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">#config/server-1.properties:</span></span><br><span class="line">broker.id=1</span><br><span class="line">zookeeper.connect=master:2181,slave1:2181,slave2:2181</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">#config/server-2.properties:</span></span><br><span class="line">broker.id=2</span><br><span class="line">zookeeper.connect=master:2181,slave1:2181,slave2:2181</span><br></pre></td></tr></table></figure></p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/14/Kafka搭建/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/02/22/Streaming基础输入源/" class="image is-7by1">
-            <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfMabq.jpg" alt="Streaming基础输入源">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-02-22T09:11:10.000Z">2019-02-22</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    3 分钟 读完 (大约 519 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/02/22/Streaming基础输入源/">Streaming基础输入源</a>
-            
-        </h1>
-        <div class="content">
-            <p><strong>Spark Streaming程序基础步骤</strong></p>
-<ul>
-<li>通过创建输入DStream来定义输入源</li>
-<li>通过对DStream应用转换操作和输出操作来定义流计算</li>
-<li>用streamingContext.start()来开始接收数据和处理流程</li>
-<li>通过streamingContext.awaitTermination()方法来等待处理结束（手动结束或因为错误而结束）</li>
-<li>通过streamingContext.stop()来手动结束流计算进程</li></ul>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/02/22/Streaming基础输入源/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/02/22/SparkStreaming/" class="image is-7by1">
-            <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfCdMD.jpg" alt="Spark Streaming">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-02-22T07:02:13.000Z">2019-02-22</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    3 分钟 读完 (大约 512 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/02/22/SparkStreaming/">Spark Streaming</a>
-            
-        </h1>
-        <div class="content">
-            <h2 id="什么是Spark-Streaming"><a href="#什么是Spark-Streaming" class="headerlink" title="什么是Spark Streaming"></a><strong>什么是Spark Streaming</strong></h2><p>Spark Streaming是构建在Spark上的实时计算框架，它扩展了Spark处理大规模流式数据的能力。Spark Streaming可结合批处理和交互查询，适合一些需要对历史数据和实时数据进行结合分析的应用场景。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/02/22/SparkStreaming/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -586,7 +445,7 @@
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/categories/大数据生态圈/page/6/">6</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/categories/大数据生态圈/page/7/">7</a></li>
             
         </ul>
     </nav>
@@ -632,7 +491,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        46
+                        73
                     </p>
                 </div>
             </div>
@@ -642,7 +501,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        25
+                        34
                     </p>
                 </div>
             </div>
@@ -652,7 +511,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        14
+                        17
                     </p>
                 </div>
             </div>
@@ -720,7 +579,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">15</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Java/JVM/">
@@ -731,12 +590,20 @@
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/基础知识/">
+            <span class="level-start">
+                <span class="level-item">基础知识</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Java/多线程/">
             <span class="level-start">
                 <span class="level-item">多线程</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">10</span>
             </span>
         </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/Linux/">
@@ -744,12 +611,36 @@
                 <span class="level-item">Linux</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Linux/Linux基础知识/">
             <span class="level-start">
                 <span class="level-item">Linux基础知识</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/python/">
+            <span class="level-start">
+                <span class="level-item">python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/python/pandas/">
+            <span class="level-start">
+                <span class="level-item">pandas</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/python/sklearn/">
+            <span class="level-start">
+                <span class="level-item">sklearn</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -760,7 +651,7 @@
                 <span class="level-item">大数据生态圈</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">28</span>
+                <span class="level-item tag">32</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/Flume/">
@@ -784,7 +675,7 @@
                 <span class="level-item">Hadoop</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">5</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/Hive/">
@@ -792,7 +683,7 @@
                 <span class="level-item">Hive</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/Kafka/">
@@ -824,7 +715,7 @@
                 <span class="level-item">ZooKeeper</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/数学/">
@@ -864,12 +755,36 @@
                 <span class="level-item">机器学习</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">4</span>
             </span>
         </a><ul><li>
-        <a class="level is-marginless" href="/categories/机器学习/逻辑回归/">
+        <a class="level is-marginless" href="/categories/机器学习/Spark-Mllib/">
             <span class="level-start">
-                <span class="level-item">逻辑回归</span>
+                <span class="level-item">Spark Mllib</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/机器学习/决策树/">
+            <span class="level-start">
+                <span class="level-item">决策树</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/机器学习/算法/">
+            <span class="level-start">
+                <span class="level-item">算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/机器学习/随机森林/">
+            <span class="level-start">
+                <span class="level-item">随机森林</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -880,9 +795,17 @@
                 <span class="level-item">算法</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">9</span>
+                <span class="level-item tag">14</span>
             </span>
         </a><ul><li>
+        <a class="level is-marginless" href="/categories/算法/LeetCode/">
+            <span class="level-start">
+                <span class="level-item">LeetCode</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/算法/LintCode/">
             <span class="level-start">
                 <span class="level-item">LintCode</span>
@@ -904,7 +827,7 @@
                 <span class="level-item">计算机基础知识</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li>
             </ul>
@@ -918,7 +841,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/CS/" style="font-size: 10px;">CS</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HBase/" style="font-size: 12px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 14px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/Java/" style="font-size: 16px;">Java</a> <a href="/tags/Kafka/" style="font-size: 10px;">Kafka</a> <a href="/tags/LintCode/" style="font-size: 18px;">LintCode</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Spark/" style="font-size: 20px;">Spark</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/Statistics/" style="font-size: 10px;">Statistics</a> <a href="/tags/ZooKeeper/" style="font-size: 10px;">ZooKeeper</a>
+        <a href="/tags/CS/" style="font-size: 11.67px;">CS</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HBase/" style="font-size: 11.67px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 15px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 11.67px;">Hive</a> <a href="/tags/JAVA/" style="font-size: 13.33px;">JAVA</a> <a href="/tags/Java/" style="font-size: 18.33px;">Java</a> <a href="/tags/Kafka/" style="font-size: 10px;">Kafka</a> <a href="/tags/LeetCode/" style="font-size: 15px;">LeetCode</a> <a href="/tags/LintCode/" style="font-size: 16.67px;">LintCode</a> <a href="/tags/Linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/MACHINE-LEARNING/" style="font-size: 13.33px;">MACHINE LEARNING</a> <a href="/tags/PYTHON/" style="font-size: 11.67px;">PYTHON</a> <a href="/tags/Spark/" style="font-size: 20px;">Spark</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/Statistics/" style="font-size: 10px;">Statistics</a> <a href="/tags/ZooKeeper/" style="font-size: 11.67px;">ZooKeeper</a>
     </div>
 </div>
 
@@ -935,18 +858,18 @@
         
         <article class="media">
             
-            <a href="/2019/03/21/HBase/" class="media-left">
+            <a href="/2019/08/02/zookeeper数据一致性/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="深入理解HBase架构（翻译）">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/30/eJua2n.jpg" alt="zookeeper数据一致性">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-21T10:06:49.000Z">2019-03-21</time></div>
-                    <a href="/2019/03/21/HBase/" class="has-link-black-ter is-size-6">深入理解HBase架构（翻译）</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-02T07:03:58.000Z">2019-08-02</time></div>
+                    <a href="/2019/08/02/zookeeper数据一致性/" class="has-link-black-ter is-size-6">zookeeper数据一致性</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/HBase/">HBase</a>
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/ZooKeeper/">ZooKeeper</a>
                     </p>
                 </div>
             </div>
@@ -954,18 +877,18 @@
         
         <article class="media">
             
-            <a href="/2019/03/20/JVM简单总结/" class="media-left">
+            <a href="/2019/08/02/最长公共前缀/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JVM简单总结">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/08/02/ewl0qe.jpg" alt="最长公共前缀">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-20T03:56:25.000Z">2019-03-20</time></div>
-                    <a href="/2019/03/20/JVM简单总结/" class="has-link-black-ter is-size-6">JVM简单总结</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-02T06:35:13.000Z">2019-08-02</time></div>
+                    <a href="/2019/08/02/最长公共前缀/" class="has-link-black-ter is-size-6">最长公共前缀</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java/">Java</a> / <a class="has-link-grey -link" href="/categories/Java/JVM/">JVM</a>
+                        <a class="has-link-grey -link" href="/categories/算法/">算法</a> / <a class="has-link-grey -link" href="/categories/算法/LeetCode/">LeetCode</a>
                     </p>
                 </div>
             </div>
@@ -973,18 +896,18 @@
         
         <article class="media">
             
-            <a href="/2019/03/19/Spark获取Flume数据/" class="media-left">
+            <a href="/2019/07/30/GLIBC-2-15问题/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark获取Flume数据">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/30/eJQ3b6.jpg" alt="GLIBC_2.15问题">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-19T07:49:04.000Z">2019-03-19</time></div>
-                    <a href="/2019/03/19/Spark获取Flume数据/" class="has-link-black-ter is-size-6">Spark获取Flume数据</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-30T09:33:03.000Z">2019-07-30</time></div>
+                    <a href="/2019/07/30/GLIBC-2-15问题/" class="has-link-black-ter is-size-6">GLIBC_2.15问题</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                        <a class="has-link-grey -link" href="/categories/Linux/">Linux</a> / <a class="has-link-grey -link" href="/categories/Linux/Linux基础知识/">Linux基础知识</a>
                     </p>
                 </div>
             </div>
@@ -992,18 +915,18 @@
         
         <article class="media">
             
-            <a href="/2019/03/14/Kafka搭建/" class="media-left">
+            <a href="/2019/07/25/罗马数字转整数/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/03/14/AkXjiD.jpg" alt="Kafka集群搭建">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/30/eJua2n.jpg" alt="罗马数字转整数">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-14T01:12:08.000Z">2019-03-14</time></div>
-                    <a href="/2019/03/14/Kafka搭建/" class="has-link-black-ter is-size-6">Kafka集群搭建</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-25T07:47:30.000Z">2019-07-25</time></div>
+                    <a href="/2019/07/25/罗马数字转整数/" class="has-link-black-ter is-size-6">罗马数字转整数</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Kafka/">Kafka</a>
+                        <a class="has-link-grey -link" href="/categories/算法/">算法</a> / <a class="has-link-grey -link" href="/categories/算法/LeetCode/">LeetCode</a>
                     </p>
                 </div>
             </div>
@@ -1011,18 +934,18 @@
         
         <article class="media">
             
-            <a href="/2019/02/22/Streaming基础输入源/" class="media-left">
+            <a href="/2019/07/18/回文数/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfMabq.jpg" alt="Streaming基础输入源">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/18/ZjARb9.jpg" alt="回文数">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T09:11:10.000Z">2019-02-22</time></div>
-                    <a href="/2019/02/22/Streaming基础输入源/" class="has-link-black-ter is-size-6">Streaming基础输入源</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-18T11:17:37.000Z">2019-07-18</time></div>
+                    <a href="/2019/07/18/回文数/" class="has-link-black-ter is-size-6">回文数</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                        <a class="has-link-grey -link" href="/categories/算法/">算法</a> / <a class="has-link-grey -link" href="/categories/算法/LeetCode/">LeetCode</a>
                     </p>
                 </div>
             </div>
@@ -1039,6 +962,50 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/03/">
@@ -1079,7 +1046,7 @@
                     <span class="level-item">十二月 2018</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1090,7 +1057,18 @@
                     <span class="level-item">十一月 2018</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1101,7 +1079,7 @@
                     <span class="level-item">九月 2018</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -1123,7 +1101,7 @@
                     <span class="level-item">三月 2018</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -1158,7 +1136,7 @@
                             <span class="level-item">CS</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1191,7 +1169,7 @@
                             <span class="level-item">Hadoop</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">3</span>
+                            <span class="level-item tag">5</span>
                         </span>
                     </a>
                 </li>
@@ -1202,7 +1180,18 @@
                             <span class="level-item">Hive</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/JAVA/">
+                        <span class="level-start">
+                            <span class="level-item">JAVA</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">4</span>
                         </span>
                     </a>
                 </li>
@@ -1213,7 +1202,7 @@
                             <span class="level-item">Java</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">4</span>
+                            <span class="level-item tag">11</span>
                         </span>
                     </a>
                 </li>
@@ -1225,6 +1214,17 @@
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/LeetCode/">
+                        <span class="level-start">
+                            <span class="level-item">LeetCode</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">5</span>
                         </span>
                     </a>
                 </li>
@@ -1246,18 +1246,29 @@
                             <span class="level-item">Linux</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/Machine-Learning/">
+                    <a class="level is-marginless" href="/tags/MACHINE-LEARNING/">
                         <span class="level-start">
-                            <span class="level-item">Machine Learning</span>
+                            <span class="level-item">MACHINE LEARNING</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">4</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/PYTHON/">
+                        <span class="level-start">
+                            <span class="level-item">PYTHON</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1301,7 +1312,7 @@
                             <span class="level-item">ZooKeeper</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1331,18 +1342,18 @@
         
         <article class="media">
             
-            <a href="/2019/03/21/HBase/" class="media-left">
+            <a href="/2019/08/02/zookeeper数据一致性/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="深入理解HBase架构（翻译）">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/30/eJua2n.jpg" alt="zookeeper数据一致性">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-21T10:06:49.000Z">2019-03-21</time></div>
-                    <a href="/2019/03/21/HBase/" class="has-link-black-ter is-size-6">深入理解HBase架构（翻译）</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-02T07:03:58.000Z">2019-08-02</time></div>
+                    <a href="/2019/08/02/zookeeper数据一致性/" class="has-link-black-ter is-size-6">zookeeper数据一致性</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/HBase/">HBase</a>
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/ZooKeeper/">ZooKeeper</a>
                     </p>
                 </div>
             </div>
@@ -1350,18 +1361,18 @@
         
         <article class="media">
             
-            <a href="/2019/03/20/JVM简单总结/" class="media-left">
+            <a href="/2019/08/02/最长公共前缀/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JVM简单总结">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/08/02/ewl0qe.jpg" alt="最长公共前缀">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-20T03:56:25.000Z">2019-03-20</time></div>
-                    <a href="/2019/03/20/JVM简单总结/" class="has-link-black-ter is-size-6">JVM简单总结</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-02T06:35:13.000Z">2019-08-02</time></div>
+                    <a href="/2019/08/02/最长公共前缀/" class="has-link-black-ter is-size-6">最长公共前缀</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Java/">Java</a> / <a class="has-link-grey -link" href="/categories/Java/JVM/">JVM</a>
+                        <a class="has-link-grey -link" href="/categories/算法/">算法</a> / <a class="has-link-grey -link" href="/categories/算法/LeetCode/">LeetCode</a>
                     </p>
                 </div>
             </div>
@@ -1369,18 +1380,18 @@
         
         <article class="media">
             
-            <a href="/2019/03/19/Spark获取Flume数据/" class="media-left">
+            <a href="/2019/07/30/GLIBC-2-15问题/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark获取Flume数据">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/30/eJQ3b6.jpg" alt="GLIBC_2.15问题">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-19T07:49:04.000Z">2019-03-19</time></div>
-                    <a href="/2019/03/19/Spark获取Flume数据/" class="has-link-black-ter is-size-6">Spark获取Flume数据</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-30T09:33:03.000Z">2019-07-30</time></div>
+                    <a href="/2019/07/30/GLIBC-2-15问题/" class="has-link-black-ter is-size-6">GLIBC_2.15问题</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                        <a class="has-link-grey -link" href="/categories/Linux/">Linux</a> / <a class="has-link-grey -link" href="/categories/Linux/Linux基础知识/">Linux基础知识</a>
                     </p>
                 </div>
             </div>
@@ -1388,18 +1399,18 @@
         
         <article class="media">
             
-            <a href="/2019/03/14/Kafka搭建/" class="media-left">
+            <a href="/2019/07/25/罗马数字转整数/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/03/14/AkXjiD.jpg" alt="Kafka集群搭建">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/30/eJua2n.jpg" alt="罗马数字转整数">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-14T01:12:08.000Z">2019-03-14</time></div>
-                    <a href="/2019/03/14/Kafka搭建/" class="has-link-black-ter is-size-6">Kafka集群搭建</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-25T07:47:30.000Z">2019-07-25</time></div>
+                    <a href="/2019/07/25/罗马数字转整数/" class="has-link-black-ter is-size-6">罗马数字转整数</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Kafka/">Kafka</a>
+                        <a class="has-link-grey -link" href="/categories/算法/">算法</a> / <a class="has-link-grey -link" href="/categories/算法/LeetCode/">LeetCode</a>
                     </p>
                 </div>
             </div>
@@ -1407,18 +1418,18 @@
         
         <article class="media">
             
-            <a href="/2019/02/22/Streaming基础输入源/" class="media-left">
+            <a href="/2019/07/18/回文数/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/02/22/kfMabq.jpg" alt="Streaming基础输入源">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/18/ZjARb9.jpg" alt="回文数">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-22T09:11:10.000Z">2019-02-22</time></div>
-                    <a href="/2019/02/22/Streaming基础输入源/" class="has-link-black-ter is-size-6">Streaming基础输入源</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-18T11:17:37.000Z">2019-07-18</time></div>
+                    <a href="/2019/07/18/回文数/" class="has-link-black-ter is-size-6">回文数</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                        <a class="has-link-grey -link" href="/categories/算法/">算法</a> / <a class="has-link-grey -link" href="/categories/算法/LeetCode/">LeetCode</a>
                     </p>
                 </div>
             </div>
@@ -1435,6 +1446,50 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/03/">
@@ -1475,7 +1530,7 @@
                     <span class="level-item">十二月 2018</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1486,7 +1541,18 @@
                     <span class="level-item">十一月 2018</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1497,7 +1563,7 @@
                     <span class="level-item">九月 2018</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -1519,7 +1585,7 @@
                     <span class="level-item">三月 2018</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -1554,7 +1620,7 @@
                             <span class="level-item">CS</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1587,7 +1653,7 @@
                             <span class="level-item">Hadoop</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">3</span>
+                            <span class="level-item tag">5</span>
                         </span>
                     </a>
                 </li>
@@ -1598,7 +1664,18 @@
                             <span class="level-item">Hive</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/JAVA/">
+                        <span class="level-start">
+                            <span class="level-item">JAVA</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">4</span>
                         </span>
                     </a>
                 </li>
@@ -1609,7 +1686,7 @@
                             <span class="level-item">Java</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">4</span>
+                            <span class="level-item tag">11</span>
                         </span>
                     </a>
                 </li>
@@ -1621,6 +1698,17 @@
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/LeetCode/">
+                        <span class="level-start">
+                            <span class="level-item">LeetCode</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">5</span>
                         </span>
                     </a>
                 </li>
@@ -1642,18 +1730,29 @@
                             <span class="level-item">Linux</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/Machine-Learning/">
+                    <a class="level is-marginless" href="/tags/MACHINE-LEARNING/">
                         <span class="level-start">
-                            <span class="level-item">Machine Learning</span>
+                            <span class="level-item">MACHINE LEARNING</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">4</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/PYTHON/">
+                        <span class="level-start">
+                            <span class="level-item">PYTHON</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1697,7 +1796,7 @@
                             <span class="level-item">ZooKeeper</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
