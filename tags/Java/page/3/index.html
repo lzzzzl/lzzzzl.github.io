@@ -143,6 +143,186 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-11-18T07:25:06.000Z">2018-11-18</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java/多线程/">多线程</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    3 分钟 读完 (大约 459 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2018/11/18/线程中止/">线程挂起的解决方案</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="suspend和resume"><a href="#suspend和resume" class="headerlink" title="suspend和resume"></a><strong>suspend和resume</strong></h2>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2018/11/18/线程中止/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-10-21T07:56:29.000Z">2018-10-21</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java/多线程/">多线程</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    8 分钟 读完 (大约 1211 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2018/10/21/线程的状态/">线程的状态</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="线程的状态转换"><a href="#线程的状态转换" class="headerlink" title="线程的状态转换"></a><strong>线程的状态转换</strong></h2><p><img src="https://s2.ax1x.com/2019/04/04/AgHwNV.png" alt=""></p>
+<ul>
+<li><strong>新建状态(New)：</strong>线程对象被创建后，就进入了新建状态。例如，<strong>Thread thread = new Thread()</strong>。</li>
+</ul>
+<ul>
+<li><strong>就绪状态(Runnable)：</strong>也被称为“可执行状态”。线程对象被创建后，其它线程调用了该对象的<strong>start()</strong>方法，从而来启动该线程。例如，thread.start()。处于就绪状态的线程，随时可能被CPU调度执行。</li>
+</ul>
+<ul>
+<li><strong>运行状态(Running)：</strong>线程获取CPU权限进行执行。需要注意的是，<strong>线程只能从就绪状态进入到运行状态</strong>。</li>
+</ul>
+<ul>
+<li><strong>阻塞状态(Blocked)：</strong> <strong>阻塞状态是线程因为某种原因放弃CPU使用权，暂时停止运行</strong>。直到线程进入就绪状态，才有机会转到运行状态。阻塞的情况分三种：<ul>
+<li><strong>等待阻塞</strong> – 通过调用线程的wait()方法，让线程等待某工作的完成。</li>
+<li><strong>同步阻塞</strong> – 线程在获取synchronized同步锁失败(因为锁被其它线程所占用)，它会进入同步阻塞状态。</li>
+<li><strong>其他阻塞</strong> – 通过调用线程的sleep()或join()或发出了I/O请求时，线程会进入到阻塞状态。当sleep()状态超时、join()等待线程终止或者超时、或者I/O处理完毕时，线程重新转入就绪状态。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><strong>死亡状态(Dead)：</strong> 线程执行完了或者因异常退出了run()方法，该线程结束生命周期。</li>
+</ul>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2018/10/21/线程的状态/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-10-21T07:48:28.000Z">2018-10-21</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java/多线程/">多线程</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    2 分钟 读完 (大约 372 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2018/10/21/进程和线程/">进程和线程</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="进程和线程的概念"><a href="#进程和线程的概念" class="headerlink" title="进程和线程的概念"></a>进程和线程的概念</h2><ul>
+<li>进程：<strong>进程是线程的容器</strong>，同时也是系统进行资源分配的调度的基本单位，是程序的实体</li>
+<li>线程：<strong>是进程的一个执行单元</strong>，是进程内部调度实体。比进程更小的独立运行的基本单位。线程也被称为轻量级进程。</li>
+</ul>
+<h2 id="进程和线程的异同"><a href="#进程和线程的异同" class="headerlink" title="进程和线程的异同"></a>进程和线程的异同</h2><ul>
+<li>地址空间：同一进程的线程<strong>共享</strong>本进程的地址空间，而进程之间则是<strong>独立</strong>的地址空间。</li>
+<li>资源拥有：同一进程内的线程共享本进程的资源如内存、I/O、cpu等，但是进程之间的资源是独立的。</li>
+<li>执行过程：每个独立的进程有一个程序运行的入口、顺序执行序列和程序入口。但是线程不能独立执行，必须<strong>依存在应用程序</strong>中，由应用程序提供多个线程执行控制。</li>
+<li>线程是处理器调度的基本单位，但是进程不是。</li>
+<li>两者均可<strong>并发</strong>执行。</li>
+</ul>
+<h2 id="进程和线程之间的优缺点"><a href="#进程和线程之间的优缺点" class="headerlink" title="进程和线程之间的优缺点"></a>进程和线程之间的优缺点</h2><ul>
+<li>线程执行开销小，但是不利于资源的管理和保护。线程适合多核CPU上运行。</li>
+<li>进程执行开销大，但是能够很好的进行资源管理和保护。进程可以跨机器前移。</li>
+</ul>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2018-10-21T02:29:25.000Z">2018-10-21</time>
                 
                 <div class="level-item">
@@ -153,7 +333,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    9 分钟 读完 (大约 1309 个字)
+                    9 分钟 读完 (大约 1331 个字)
                 </span>
                 
             </div>
@@ -172,10 +352,11 @@
 </ul>
 <h2 id="JMM（Java-Memory-Model）模型"><a href="#JMM（Java-Memory-Model）模型" class="headerlink" title="JMM（Java Memory Model）模型"></a><strong>JMM（Java Memory Model）模型</strong></h2><p>JMM描述了java程序中各种变量（线程共享变量）的访问规则，以及在JVM中将变量存储到内存和从内存中读取出变量这样的底层细节。 </p>
 <ul>
-<li>所有的变量都存储在<strong>主内存</strong>中 </li>
-<li>每个线程都有自己<strong>独立的工作内存</strong>，里面保存该线程使用到的变量的副本（主内存中该变量的一份拷贝）</li>
+<li>所有的变量都存储在<strong><font color="red">主内存</font></strong>中 </li>
+<li>每个线程都有自己<strong><font color="red">独立的工作内存</font></strong>，里面保存该线程使用到的变量的副本（主内存中该变量的一份拷贝）</li>
 <li>线程对共享变量的所有操作都必须在自己的工作内存中进行，不能直接从主内存中读写</li>
 <li>不同线程之间无法直接访问其他线程工作内存中的变量，线程间变量的传递需要通过主内存来完成</li>
+<li>可以保证线程的<strong><font color="red">原子性、有序性和可见性</font></strong></li>
 </ul>
 <p><img src="https://s2.ax1x.com/2019/04/03/Aczcy8.png" alt=""></p>
         </div>
@@ -185,6 +366,67 @@
             <div class="level-start">
                 <div class="level-item">
                 <a class="button is-size-7 is-light" href="/2018/10/21/线程可见性/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
+        <a href="/2018/09/23/单例模式/" class="image is-7by1">
+            <img class="thumbnail" src="https://s2.ax1x.com/2019/10/16/KF926O.jpg" alt="单例模式">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-09-23T07:28:15.000Z">2018-09-23</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java/设计模式/">设计模式</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 分钟 读完 (大约 830 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2018/09/23/单例模式/">单例模式</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="单例模式的定义"><a href="#单例模式的定义" class="headerlink" title="单例模式的定义"></a><strong>单例模式的定义</strong></h2><ul>
+<li>想确保任何情况下都绝对只有一个实例</li>
+<li>想在程序上表现出“只存在一个实例”</li>
+</ul>
+<p>像这样的确保只生成一个实例的模式被称作Singleton模式。<br></p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2018/09/23/单例模式/#more">阅读更多</a>
                 </div>
             </div>
         </div>
@@ -262,7 +504,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        73
+                        90
                     </p>
                 </div>
             </div>
@@ -272,7 +514,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        34
+                        35
                     </p>
                 </div>
             </div>
@@ -350,7 +592,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">15</span>
+                <span class="level-item tag">19</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Java/JVM/">
@@ -358,7 +600,7 @@
                 <span class="level-item">JVM</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/基础知识/">
@@ -366,7 +608,7 @@
                 <span class="level-item">基础知识</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/多线程/">
@@ -374,7 +616,15 @@
                 <span class="level-item">多线程</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/设计模式/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
             </span>
         </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/Linux/">
@@ -422,7 +672,7 @@
                 <span class="level-item">大数据生态圈</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">32</span>
+                <span class="level-item tag">37</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/Flume/">
@@ -430,7 +680,7 @@
                 <span class="level-item">Flume</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/HBase/">
@@ -446,7 +696,7 @@
                 <span class="level-item">Hadoop</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">5</span>
+                <span class="level-item tag">6</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/Hive/">
@@ -454,7 +704,7 @@
                 <span class="level-item">Hive</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">2</span>
+                <span class="level-item tag">3</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/Kafka/">
@@ -470,7 +720,7 @@
                 <span class="level-item">Spark</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">18</span>
+                <span class="level-item tag">19</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/Sqoop/">
@@ -486,7 +736,7 @@
                 <span class="level-item">ZooKeeper</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">2</span>
+                <span class="level-item tag">3</span>
             </span>
         </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/数学/">
@@ -510,7 +760,7 @@
                 <span class="level-item">数据分析</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/数据分析/网站用户行为分析/">
@@ -518,7 +768,7 @@
                 <span class="level-item">网站用户行为分析</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/机器学习/">
@@ -566,7 +816,7 @@
                 <span class="level-item">算法</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">14</span>
+                <span class="level-item tag">21</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/算法/LeetCode/">
@@ -574,7 +824,7 @@
                 <span class="level-item">LeetCode</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">5</span>
+                <span class="level-item tag">12</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/算法/LintCode/">
@@ -612,7 +862,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/CS/" style="font-size: 11.67px;">CS</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HBase/" style="font-size: 11.67px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 15px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 11.67px;">Hive</a> <a href="/tags/JAVA/" style="font-size: 13.33px;">JAVA</a> <a href="/tags/Java/" style="font-size: 18.33px;">Java</a> <a href="/tags/Kafka/" style="font-size: 10px;">Kafka</a> <a href="/tags/LeetCode/" style="font-size: 15px;">LeetCode</a> <a href="/tags/LintCode/" style="font-size: 16.67px;">LintCode</a> <a href="/tags/Linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/MACHINE-LEARNING/" style="font-size: 13.33px;">MACHINE LEARNING</a> <a href="/tags/PYTHON/" style="font-size: 11.67px;">PYTHON</a> <a href="/tags/Spark/" style="font-size: 20px;">Spark</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/Statistics/" style="font-size: 10px;">Statistics</a> <a href="/tags/ZooKeeper/" style="font-size: 11.67px;">ZooKeeper</a>
+        <a href="/tags/CS/" style="font-size: 11.25px;">CS</a> <a href="/tags/Flume/" style="font-size: 11.25px;">Flume</a> <a href="/tags/HBase/" style="font-size: 11.25px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 15px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 12.5px;">Hive</a> <a href="/tags/JAVA/" style="font-size: 13.75px;">JAVA</a> <a href="/tags/Java/" style="font-size: 18.75px;">Java</a> <a href="/tags/Kafka/" style="font-size: 10px;">Kafka</a> <a href="/tags/LeetCode/" style="font-size: 17.5px;">LeetCode</a> <a href="/tags/LintCode/" style="font-size: 16.25px;">LintCode</a> <a href="/tags/Linux/" style="font-size: 11.25px;">Linux</a> <a href="/tags/MACHINE-LEARNING/" style="font-size: 13.75px;">MACHINE LEARNING</a> <a href="/tags/PYTHON/" style="font-size: 11.25px;">PYTHON</a> <a href="/tags/Spark/" style="font-size: 20px;">Spark</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/Statistics/" style="font-size: 10px;">Statistics</a> <a href="/tags/ZooKeeper/" style="font-size: 12.5px;">ZooKeeper</a>
     </div>
 </div>
 
@@ -629,35 +879,16 @@
         
         <article class="media">
             
-            <a href="/2019/08/02/zookeeper数据一致性/" class="media-left">
+            <a href="/2019/10/21/最大子序和/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/30/eJua2n.jpg" alt="zookeeper数据一致性">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/10/21/Kla9pR.jpg" alt="最大子序和">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-02T07:03:58.000Z">2019-08-02</time></div>
-                    <a href="/2019/08/02/zookeeper数据一致性/" class="has-link-black-ter is-size-6">zookeeper数据一致性</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/ZooKeeper/">ZooKeeper</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/08/02/最长公共前缀/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/08/02/ewl0qe.jpg" alt="最长公共前缀">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-02T06:35:13.000Z">2019-08-02</time></div>
-                    <a href="/2019/08/02/最长公共前缀/" class="has-link-black-ter is-size-6">最长公共前缀</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-21T06:50:11.000Z">2019-10-21</time></div>
+                    <a href="/2019/10/21/最大子序和/" class="has-link-black-ter is-size-6">最大子序和</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/算法/">算法</a> / <a class="has-link-grey -link" href="/categories/算法/LeetCode/">LeetCode</a>
                     </p>
@@ -667,35 +898,16 @@
         
         <article class="media">
             
-            <a href="/2019/07/30/GLIBC-2-15问题/" class="media-left">
+            <a href="/2019/10/12/搜索插入位置/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/30/eJQ3b6.jpg" alt="GLIBC_2.15问题">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/10/12/uONqPJ.jpg" alt="搜索插入位置">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-30T09:33:03.000Z">2019-07-30</time></div>
-                    <a href="/2019/07/30/GLIBC-2-15问题/" class="has-link-black-ter is-size-6">GLIBC_2.15问题</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Linux/">Linux</a> / <a class="has-link-grey -link" href="/categories/Linux/Linux基础知识/">Linux基础知识</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/07/25/罗马数字转整数/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/30/eJua2n.jpg" alt="罗马数字转整数">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-25T07:47:30.000Z">2019-07-25</time></div>
-                    <a href="/2019/07/25/罗马数字转整数/" class="has-link-black-ter is-size-6">罗马数字转整数</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-12T06:45:26.000Z">2019-10-12</time></div>
+                    <a href="/2019/10/12/搜索插入位置/" class="has-link-black-ter is-size-6">搜索插入位置</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/算法/">算法</a> / <a class="has-link-grey -link" href="/categories/算法/LeetCode/">LeetCode</a>
                     </p>
@@ -705,18 +917,56 @@
         
         <article class="media">
             
-            <a href="/2019/07/18/回文数/" class="media-left">
+            <a href="/2019/10/12/RDD去重/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/18/ZjARb9.jpg" alt="回文数">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/09/20/njZggK.jpg" alt="RDD去重">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-18T11:17:37.000Z">2019-07-18</time></div>
-                    <a href="/2019/07/18/回文数/" class="has-link-black-ter is-size-6">回文数</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-12T02:35:42.000Z">2019-10-12</time></div>
+                    <a href="/2019/10/12/RDD去重/" class="has-link-black-ter is-size-6">RDD去重</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/算法/">算法</a> / <a class="has-link-grey -link" href="/categories/算法/LeetCode/">LeetCode</a>
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/10/11/类加载机制/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/10/11/ub9IAI.jpg" alt="类加载机制">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-11T03:18:22.000Z">2019-10-11</time></div>
+                    <a href="/2019/10/11/类加载机制/" class="has-link-black-ter is-size-6">类加载机制</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java/">Java</a> / <a class="has-link-grey -link" href="/categories/Java/基础知识/">基础知识</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/10/10/Callable和Runnable接口的区别/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/10/10/uTw1VH.jpg" alt="Callable和Runnable接口的区别">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-10T08:29:02.000Z">2019-10-10</time></div>
+                    <a href="/2019/10/10/Callable和Runnable接口的区别/" class="has-link-black-ter is-size-6">Callable和Runnable接口的区别</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java/">Java</a> / <a class="has-link-grey -link" href="/categories/Java/多线程/">多线程</a>
                     </p>
                 </div>
             </div>
@@ -735,12 +985,34 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2019/08/">
                 <span class="level-start">
                     <span class="level-item">八月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -850,7 +1122,7 @@
                     <span class="level-item">九月 2018</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -918,7 +1190,7 @@
                             <span class="level-item">Flume</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -940,7 +1212,7 @@
                             <span class="level-item">Hadoop</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">5</span>
+                            <span class="level-item tag">6</span>
                         </span>
                     </a>
                 </li>
@@ -951,7 +1223,7 @@
                             <span class="level-item">Hive</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">2</span>
+                            <span class="level-item tag">3</span>
                         </span>
                     </a>
                 </li>
@@ -973,7 +1245,7 @@
                             <span class="level-item">Java</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">11</span>
+                            <span class="level-item tag">15</span>
                         </span>
                     </a>
                 </li>
@@ -995,7 +1267,7 @@
                             <span class="level-item">LeetCode</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">5</span>
+                            <span class="level-item tag">12</span>
                         </span>
                     </a>
                 </li>
@@ -1050,7 +1322,7 @@
                             <span class="level-item">Spark</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">18</span>
+                            <span class="level-item tag">19</span>
                         </span>
                     </a>
                 </li>
@@ -1083,7 +1355,7 @@
                             <span class="level-item">ZooKeeper</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">2</span>
+                            <span class="level-item tag">3</span>
                         </span>
                     </a>
                 </li>
@@ -1113,35 +1385,16 @@
         
         <article class="media">
             
-            <a href="/2019/08/02/zookeeper数据一致性/" class="media-left">
+            <a href="/2019/10/21/最大子序和/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/30/eJua2n.jpg" alt="zookeeper数据一致性">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/10/21/Kla9pR.jpg" alt="最大子序和">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-02T07:03:58.000Z">2019-08-02</time></div>
-                    <a href="/2019/08/02/zookeeper数据一致性/" class="has-link-black-ter is-size-6">zookeeper数据一致性</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/ZooKeeper/">ZooKeeper</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/08/02/最长公共前缀/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/08/02/ewl0qe.jpg" alt="最长公共前缀">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-02T06:35:13.000Z">2019-08-02</time></div>
-                    <a href="/2019/08/02/最长公共前缀/" class="has-link-black-ter is-size-6">最长公共前缀</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-21T06:50:11.000Z">2019-10-21</time></div>
+                    <a href="/2019/10/21/最大子序和/" class="has-link-black-ter is-size-6">最大子序和</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/算法/">算法</a> / <a class="has-link-grey -link" href="/categories/算法/LeetCode/">LeetCode</a>
                     </p>
@@ -1151,35 +1404,16 @@
         
         <article class="media">
             
-            <a href="/2019/07/30/GLIBC-2-15问题/" class="media-left">
+            <a href="/2019/10/12/搜索插入位置/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/30/eJQ3b6.jpg" alt="GLIBC_2.15问题">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/10/12/uONqPJ.jpg" alt="搜索插入位置">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-30T09:33:03.000Z">2019-07-30</time></div>
-                    <a href="/2019/07/30/GLIBC-2-15问题/" class="has-link-black-ter is-size-6">GLIBC_2.15问题</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Linux/">Linux</a> / <a class="has-link-grey -link" href="/categories/Linux/Linux基础知识/">Linux基础知识</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/07/25/罗马数字转整数/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/30/eJua2n.jpg" alt="罗马数字转整数">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-25T07:47:30.000Z">2019-07-25</time></div>
-                    <a href="/2019/07/25/罗马数字转整数/" class="has-link-black-ter is-size-6">罗马数字转整数</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-12T06:45:26.000Z">2019-10-12</time></div>
+                    <a href="/2019/10/12/搜索插入位置/" class="has-link-black-ter is-size-6">搜索插入位置</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/算法/">算法</a> / <a class="has-link-grey -link" href="/categories/算法/LeetCode/">LeetCode</a>
                     </p>
@@ -1189,18 +1423,56 @@
         
         <article class="media">
             
-            <a href="/2019/07/18/回文数/" class="media-left">
+            <a href="/2019/10/12/RDD去重/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/18/ZjARb9.jpg" alt="回文数">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/09/20/njZggK.jpg" alt="RDD去重">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-18T11:17:37.000Z">2019-07-18</time></div>
-                    <a href="/2019/07/18/回文数/" class="has-link-black-ter is-size-6">回文数</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-12T02:35:42.000Z">2019-10-12</time></div>
+                    <a href="/2019/10/12/RDD去重/" class="has-link-black-ter is-size-6">RDD去重</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/算法/">算法</a> / <a class="has-link-grey -link" href="/categories/算法/LeetCode/">LeetCode</a>
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/10/11/类加载机制/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/10/11/ub9IAI.jpg" alt="类加载机制">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-11T03:18:22.000Z">2019-10-11</time></div>
+                    <a href="/2019/10/11/类加载机制/" class="has-link-black-ter is-size-6">类加载机制</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java/">Java</a> / <a class="has-link-grey -link" href="/categories/Java/基础知识/">基础知识</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/10/10/Callable和Runnable接口的区别/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/10/10/uTw1VH.jpg" alt="Callable和Runnable接口的区别">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-10T08:29:02.000Z">2019-10-10</time></div>
+                    <a href="/2019/10/10/Callable和Runnable接口的区别/" class="has-link-black-ter is-size-6">Callable和Runnable接口的区别</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java/">Java</a> / <a class="has-link-grey -link" href="/categories/Java/多线程/">多线程</a>
                     </p>
                 </div>
             </div>
@@ -1219,12 +1491,34 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2019/08/">
                 <span class="level-start">
                     <span class="level-item">八月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -1334,7 +1628,7 @@
                     <span class="level-item">九月 2018</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1402,7 +1696,7 @@
                             <span class="level-item">Flume</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1424,7 +1718,7 @@
                             <span class="level-item">Hadoop</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">5</span>
+                            <span class="level-item tag">6</span>
                         </span>
                     </a>
                 </li>
@@ -1435,7 +1729,7 @@
                             <span class="level-item">Hive</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">2</span>
+                            <span class="level-item tag">3</span>
                         </span>
                     </a>
                 </li>
@@ -1457,7 +1751,7 @@
                             <span class="level-item">Java</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">11</span>
+                            <span class="level-item tag">15</span>
                         </span>
                     </a>
                 </li>
@@ -1479,7 +1773,7 @@
                             <span class="level-item">LeetCode</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">5</span>
+                            <span class="level-item tag">12</span>
                         </span>
                     </a>
                 </li>
@@ -1534,7 +1828,7 @@
                             <span class="level-item">Spark</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">18</span>
+                            <span class="level-item tag">19</span>
                         </span>
                     </a>
                 </li>
@@ -1567,7 +1861,7 @@
                             <span class="level-item">ZooKeeper</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">2</span>
+                            <span class="level-item tag">3</span>
                         </span>
                     </a>
                 </li>

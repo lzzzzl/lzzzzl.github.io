@@ -16,8 +16,7 @@
 <meta property="og:description" content="Spark是一个基于内存计算的统一大数据处理框架。 Spark相对于Hadoop的优势 中间结果：MapReduce通常将中间结果输出到磁盘上，以达到存储和容错的目的。而Spark通过 DAG 将多个 Stage 任务串联或者并行执行，并将中间结果缓存在内存中，而无需将中间结果存储在HDFS上。（内存比磁盘效率高的多）   执行策略：MapReduce在数据Shuffle之前会花费大量时间进行排序">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://s2.ax1x.com/2019/01/22/kkqrY8.md.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/01/22/kkq6Sg.jpg">
-<meta property="og:updated_time" content="2019-04-02T08:49:03.335Z">
+<meta property="og:updated_time" content="2019-09-21T02:07:57.334Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="什么是Spark">
 <meta name="twitter:description" content="Spark是一个基于内存计算的统一大数据处理框架。 Spark相对于Hadoop的优势 中间结果：MapReduce通常将中间结果输出到磁盘上，以达到存储和容错的目的。而Spark通过 DAG 将多个 Stage 任务串联或者并行执行，并将中间结果缓存在内存中，而无需将中间结果存储在HDFS上。（内存比磁盘效率高的多）   执行策略：MapReduce在数据Shuffle之前会花费大量时间进行排序">
@@ -136,6 +135,12 @@
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
     
+    <div class="card-image">
+        <span class="image is-7by1">
+            <img class="thumbnail" src="https://s2.ax1x.com/2019/09/21/nvzy1H.jpg" alt="什么是Spark">
+        </span>
+    </div>
+    
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
@@ -150,7 +155,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    8 分钟 读完 (大约 1230 个字)
+                    7 分钟 读完 (大约 999 个字)
                 </span>
                 
             </div>
@@ -162,15 +167,15 @@
             
         </h1>
         <div class="content">
-            <p>Spark是一个基于<code>内存计算</code>的统一大数据处理框架。</p>
+            <p>Spark是一个基于<strong><font color="red">内存计算</font></strong>的统一大数据处理框架。</p>
 <h2 id="Spark相对于Hadoop的优势"><a href="#Spark相对于Hadoop的优势" class="headerlink" title="Spark相对于Hadoop的优势"></a><strong>Spark相对于Hadoop的优势</strong></h2><ul>
-<li><strong>中间结果</strong>：MapReduce通常将中间结果输出到磁盘上，以达到存储和容错的目的。而Spark通过 <code>DAG</code> 将多个 <code>Stage</code> 任务串联或者并行执行，并将中间结果缓存在内存中，而无需将中间结果存储在HDFS上。（内存比磁盘效率高的多）</li>
+<li><strong>中间结果</strong>：MapReduce通常将中间结果输出到磁盘上，以达到存储和容错的目的。而Spark通过 <strong><font color="red">DAG</font></strong> 将多个 <strong><font color="red">Stage</font></strong> 任务串联或者并行执行，并将中间结果缓存在内存中，而无需将中间结果存储在HDFS上。（内存比磁盘效率高的多）</li>
 </ul>
 <ul>
 <li><strong>执行策略</strong>：MapReduce在数据Shuffle之前会花费大量时间进行排序，而Spark不需要对所有情景都进行排序。</li>
 </ul>
 <ul>
-<li><strong>任务调度开销</strong>：MapReduce是为了处理长达数小时的批量作业而设计的，在特殊情况下，提交任务的延迟非常高。而Spark采用了事件驱动类库 <code>AKKA</code> 来启动任务，并通过 <code>线程池复用线程</code> 来避免线程启动以及切换带来的开销。</li>
+<li><strong>任务调度开销</strong>：MapReduce是为了处理长达数小时的批量作业而设计的，在特殊情况下，提交任务的延迟非常高。而Spark采用了事件驱动类库 <strong><font color="red">AKKA</font></strong> 来启动任务，并通过 <strong><font color="red">线程池复用线程</font></strong> 来避免线程启动以及切换带来的开销。</li>
 </ul>
 <ul>
 <li><strong>容错性</strong>：RDD之间通过血缘关系来进行维护，一旦某个RDD失败了，就能通过父RDD自动重建，保证了容错性。</li>
@@ -179,18 +184,22 @@
 <li><strong>API</strong>：Spark的API更加丰富，支持多语言编程。<a id="more"></a>
 </li>
 </ul>
-<h2 id="Spark架构"><a href="#Spark架构" class="headerlink" title="Spark架构"></a><strong>Spark架构</strong></h2><p><img src="https://s2.ax1x.com/2019/01/22/kkqrY8.md.jpg" alt="Spark架构"><br><strong>Application</strong>：用户编写的Spark应用程序，由一个或多个 <code>Job组成</code> 。提交到Spark后，Spark为Application分配资源，将程序转换并执行。<br><strong>Client</strong>：提交应用的客户端。<br><strong>Driver</strong>：任务控制节点，执行Application中的main函数并创建SparkContext。是 <code>应用逻辑的执行起点</code> ，负责 <code>Task任务的分发和调度</code> 。<br><strong>ClusterManager</strong>：在 <code>YARN</code> 模式中为 <code>资源管理器</code>。在 <code>Standalone</code> 模式中为 <code>Master</code>（主节点），控制整个集群。<br><strong>Worker</strong>：<code>Standalone</code> 模式中为 <code>从节点</code> ，负责控制计算节点。<code>YARN</code> 模式中为 <code>NodeManager</code>。是集群中任何可以运行Application代码的节点，运行着一个或者多个 <code>Executor进程</code>。<br><strong>Executor</strong>：在计算节点上执行任务的组件。是Application运行在Worker Node上的一个 <code>进程</code>，该进程负责运行 <code>Task</code>，并且负责将数据存储在内存或者磁盘上。<br><strong>SparkContext</strong>：应用的上下文，控制应用的生命周期。<br><strong>RDD</strong>：弹性分布式数据集，Spark的基本 <code>计算单元</code>。<br><strong>DAG Scheduler</strong>：根据应用构建基于 <code>Stage</code> 的 <code>DAG</code>，并将 <code>Stage</code> 提交给 <code>Task Scheduler</code>。<br><strong>Task Scheduler</strong>：将 <code>Task</code> 分发给 <code>Executor</code> 执行，并返回结果。<br><strong>Job</strong>：包含很多 <code>task</code> 的并行计算，可以认为是 <code>Spark RDD</code> 里面的 <code>action</code>，每个 <code>action</code> 的计算会生成一个 <code>job</code>。用户提交的Job会提交给 <code>DAGScheduler</code>，Job会被分解成 <code>Stage</code> 和 <code>Task</code>。 <code>Job是由Action算子触发生成的由一个或者多个Stage组成的计算作业</code>。<br><strong>Stage</strong>：一个Job被拆分成若干个Stage，<code>每个Stage执行一些计算，产生一些中间结果</code>。它们的目的是最终 <code>生成这个Job的计算结果</code>。而每个Stage是一个 <code>task set</code>，包含 <code>若干个task</code>，是一个task set对应的 <code>调度阶段</code>。每个Job会 <code>根据RDD的依赖关系切分成很多Stage</code>。<br><strong>Task</strong>：Task是Spark中 <code>最小的工作单元</code>，在一个executor上完成一个特定的事情。<br><strong>TaskSet</strong>：TaskSet是一组 <code>关联</code> 但相互之间没有 <code>Shuffle依赖关系</code> 的 <code>集合</code>。<br><strong>Spark Env</strong>：<code>线程</code> 级别的上下文，存储运行时重要组件的应用<br>    ①SparkConf：存储配置信息。<br>    ②BroadcastManager：负责广播变量的控制及元信息的存储。<br>    ③BlockManager：负责Block的管理、创建和查找。<br>    ④MetricsSystem：监控运行时的性能指标。<br>    ⑤MapOutputTracker：负责Shuffle元信息的存储。</p>
-<h2 id="Spark运行流程"><a href="#Spark运行流程" class="headerlink" title="Spark运行流程"></a><strong>Spark运行流程</strong></h2><ul>
-<li><p><code>Driver</code>创建一个<code>SparkContext</code>，由<code>SparkContext</code>负责和资源管理器<code>Cluster Manager</code>通信、注册和申请<code>Executor</code>资源，然后由<code>Cluster Manager</code>进行任务分配和监控等。</p>
-</li>
-<li><p>资源管理器为<code>Executor</code>分配资源，并启动<code>Executor</code>进程，随后<code>Executor</code>通过心跳机制向资源管理器汇报资源使用情况</p>
-</li>
-<li><p><code>SparkContext</code>根据<code>RDD</code>的依赖关系构建DAG图，并将<code>DAG</code>交由<code>DAGScheduler</code>解析，同时将DAG分解为多个阶段，计算出阶段之间的依赖关系，并把任务集提交给底层的任务调度器<code>TaskScheduler</code>进行处理</p>
-</li>
-<li><p>任务调度器将任务分发给<code>Executor</code>，由其运行，并把运行结果反馈给任务调度器，然后再反馈给DAG调度器，运行完毕后写入数据并释放所有资源</p>
-</li>
-</ul>
-<p><img src="https://s2.ax1x.com/2019/01/22/kkq6Sg.jpg" alt=""></p>
+<h2 id="Spark架构"><a href="#Spark架构" class="headerlink" title="Spark架构"></a><strong>Spark架构</strong></h2><p><img src="https://s2.ax1x.com/2019/01/22/kkqrY8.md.jpg" alt="Spark架构"></p>
+<p><strong>Application</strong>：用户编写的Spark应用程序，由一个或多个 <strong><font color="red">Job组成</font></strong> 。提交到Spark后，Spark为Application分配资源，将程序转换并执行。  </p>
+<p><strong>Client</strong>：提交应用的客户端。</p>
+<p><strong>Driver</strong>：任务控制节点，执行Application中的main函数并创建SparkContext。是 <strong><font color="red">应用逻辑的执行起点</font></strong> ，负责 <strong><font color="red">Task任务的分发和调度</font></strong> 。</p>
+<p><strong>ClusterManager</strong>：在 <strong><font color="red">YARN</font></strong>模式中为 <strong><font color="red">资源管理器</font></strong>。在 <strong><font color="red">Standalone</font></strong> 模式中为 <strong><font color="red">Master</font></strong>（主节点），控制整个集群。</p>
+<p><strong>Worker</strong>：<strong><font color="red">Standalone</font></strong> 模式中为 <strong><font color="red">从节点</font></strong> ，负责控制计算节点。<strong><font color="red">YARN</font></strong> 模式中为 <strong><font color="red">NodeManager</font></strong>。是集群中任何可以运行Application代码的节点，运行着一个或者多个 <strong><font color="red">Executor进程</font></strong>。</p>
+<p><strong>Executor</strong>：在计算节点上执行任务的组件。是Application运行在Worker Node上的一个 <strong><font color="red">进程</font></strong>，该进程负责运行 <strong><font color="red">Task</font></strong>，并且负责将数据存储在内存或者磁盘上。</p>
+<p><strong>SparkContext</strong>：应用的上下文，控制应用的生命周期。</p>
+<p><strong>RDD</strong>：弹性分布式数据集，Spark的基本计算单元。</p>
+<p><strong>DAG Scheduler</strong>：根据应用构建基于<strong><font color="red">Stage</font></strong>的<strong><font color="red">DAG</font></strong>，并将 <strong><font color="red">Stage</font></strong>提交给<strong><font color="red">Task Scheduler</font></strong>。</p>
+<p><strong>Task Scheduler</strong>：将<strong><font color="red">Task</font></strong>分发给<strong><font color="red">Executor</font></strong>执行，并返回结果。</p>
+<p><strong>Job</strong>：包含很多<strong><font color="red">task</font></strong>的并行计算，可以认为是<strong><font color="red">Spark RDD</font></strong>里面的<strong><font color="red">action</font></strong>，每个<strong><font color="red">action</font></strong>的计算会生成一个<strong><font color="red">job</font></strong>。用户提交的Job会提交给<strong><font color="red">DAGScheduler</font></strong>，Job会被分解成<strong><font color="red">Stage</font></strong>和 <strong><font color="red">Task</font></strong>。<strong><font color="red">Job是由Action算子触发生成的由一个或者多个Stage组成的计算作业</font></strong>。</p>
+<p><strong>Stage</strong>：一个Job被拆分成若干个Stage，<strong><font color="red">每个Stage执行一些计算，产生一些中间结果</font></strong>。它们的目的是最终<strong><font color="red">生成这个Job的计算结果</font></strong>。而每个Stage是一个<strong><font color="red">task set</font></strong>，包含若干个task，是一个task set对应的调度阶段。每个Job会<strong><font color="red">根据RDD的依赖关系切分成很多Stage</font></strong>。</p>
+<p><strong>Task</strong>：Task是Spark中<strong><font color="red">最小的工作单元</font></strong>，在一个executor上完成一个特定的事情。</p>
+<p><strong>TaskSet</strong>：TaskSet是一组<strong><font color="red">关联但相互之间没有Shuffle依赖关系的集合</font></strong>。</p>
+<p><strong>Spark Env</strong>：线程级别的上下文，存储运行时重要组件的应用<br>    ①SparkConf：存储配置信息。<br>    ②BroadcastManager：负责广播变量的控制及元信息的存储。<br>    ③BlockManager：负责Block的管理、创建和查找。<br>    ④MetricsSystem：监控运行时的性能指标。<br>    ⑤MapOutputTracker：负责Shuffle元信息的存储。</p>
 
         </div>
         
@@ -275,7 +284,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        73
+                        90
                     </p>
                 </div>
             </div>
@@ -285,7 +294,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        34
+                        35
                     </p>
                 </div>
             </div>
@@ -363,7 +372,7 @@
                 <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">15</span>
+                <span class="level-item tag">19</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Java/JVM/">
@@ -371,7 +380,7 @@
                 <span class="level-item">JVM</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/基础知识/">
@@ -379,7 +388,7 @@
                 <span class="level-item">基础知识</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/多线程/">
@@ -387,7 +396,15 @@
                 <span class="level-item">多线程</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">10</span>
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/设计模式/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
             </span>
         </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/Linux/">
@@ -435,7 +452,7 @@
                 <span class="level-item">大数据生态圈</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">32</span>
+                <span class="level-item tag">37</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/Flume/">
@@ -443,7 +460,7 @@
                 <span class="level-item">Flume</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/HBase/">
@@ -459,7 +476,7 @@
                 <span class="level-item">Hadoop</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">5</span>
+                <span class="level-item tag">6</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/Hive/">
@@ -467,7 +484,7 @@
                 <span class="level-item">Hive</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">2</span>
+                <span class="level-item tag">3</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/Kafka/">
@@ -483,7 +500,7 @@
                 <span class="level-item">Spark</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">18</span>
+                <span class="level-item tag">19</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/大数据生态圈/Sqoop/">
@@ -499,7 +516,7 @@
                 <span class="level-item">ZooKeeper</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">2</span>
+                <span class="level-item tag">3</span>
             </span>
         </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/数学/">
@@ -523,7 +540,7 @@
                 <span class="level-item">数据分析</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/数据分析/网站用户行为分析/">
@@ -531,7 +548,7 @@
                 <span class="level-item">网站用户行为分析</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/机器学习/">
@@ -579,7 +596,7 @@
                 <span class="level-item">算法</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">14</span>
+                <span class="level-item tag">21</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/算法/LeetCode/">
@@ -587,7 +604,7 @@
                 <span class="level-item">LeetCode</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">5</span>
+                <span class="level-item tag">12</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/算法/LintCode/">
@@ -625,7 +642,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/CS/" style="font-size: 11.67px;">CS</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HBase/" style="font-size: 11.67px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 15px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 11.67px;">Hive</a> <a href="/tags/JAVA/" style="font-size: 13.33px;">JAVA</a> <a href="/tags/Java/" style="font-size: 18.33px;">Java</a> <a href="/tags/Kafka/" style="font-size: 10px;">Kafka</a> <a href="/tags/LeetCode/" style="font-size: 15px;">LeetCode</a> <a href="/tags/LintCode/" style="font-size: 16.67px;">LintCode</a> <a href="/tags/Linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/MACHINE-LEARNING/" style="font-size: 13.33px;">MACHINE LEARNING</a> <a href="/tags/PYTHON/" style="font-size: 11.67px;">PYTHON</a> <a href="/tags/Spark/" style="font-size: 20px;">Spark</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/Statistics/" style="font-size: 10px;">Statistics</a> <a href="/tags/ZooKeeper/" style="font-size: 11.67px;">ZooKeeper</a>
+        <a href="/tags/CS/" style="font-size: 11.25px;">CS</a> <a href="/tags/Flume/" style="font-size: 11.25px;">Flume</a> <a href="/tags/HBase/" style="font-size: 11.25px;">HBase</a> <a href="/tags/Hadoop/" style="font-size: 15px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 12.5px;">Hive</a> <a href="/tags/JAVA/" style="font-size: 13.75px;">JAVA</a> <a href="/tags/Java/" style="font-size: 18.75px;">Java</a> <a href="/tags/Kafka/" style="font-size: 10px;">Kafka</a> <a href="/tags/LeetCode/" style="font-size: 17.5px;">LeetCode</a> <a href="/tags/LintCode/" style="font-size: 16.25px;">LintCode</a> <a href="/tags/Linux/" style="font-size: 11.25px;">Linux</a> <a href="/tags/MACHINE-LEARNING/" style="font-size: 13.75px;">MACHINE LEARNING</a> <a href="/tags/PYTHON/" style="font-size: 11.25px;">PYTHON</a> <a href="/tags/Spark/" style="font-size: 20px;">Spark</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/Statistics/" style="font-size: 10px;">Statistics</a> <a href="/tags/ZooKeeper/" style="font-size: 12.5px;">ZooKeeper</a>
     </div>
 </div>
 
@@ -642,35 +659,16 @@
         
         <article class="media">
             
-            <a href="/2019/08/02/zookeeper数据一致性/" class="media-left">
+            <a href="/2019/10/21/最大子序和/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/30/eJua2n.jpg" alt="zookeeper数据一致性">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/10/21/Kla9pR.jpg" alt="最大子序和">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-02T07:03:58.000Z">2019-08-02</time></div>
-                    <a href="/2019/08/02/zookeeper数据一致性/" class="has-link-black-ter is-size-6">zookeeper数据一致性</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/ZooKeeper/">ZooKeeper</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/08/02/最长公共前缀/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/08/02/ewl0qe.jpg" alt="最长公共前缀">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-02T06:35:13.000Z">2019-08-02</time></div>
-                    <a href="/2019/08/02/最长公共前缀/" class="has-link-black-ter is-size-6">最长公共前缀</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-21T06:50:11.000Z">2019-10-21</time></div>
+                    <a href="/2019/10/21/最大子序和/" class="has-link-black-ter is-size-6">最大子序和</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/算法/">算法</a> / <a class="has-link-grey -link" href="/categories/算法/LeetCode/">LeetCode</a>
                     </p>
@@ -680,35 +678,16 @@
         
         <article class="media">
             
-            <a href="/2019/07/30/GLIBC-2-15问题/" class="media-left">
+            <a href="/2019/10/12/搜索插入位置/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/30/eJQ3b6.jpg" alt="GLIBC_2.15问题">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/10/12/uONqPJ.jpg" alt="搜索插入位置">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-30T09:33:03.000Z">2019-07-30</time></div>
-                    <a href="/2019/07/30/GLIBC-2-15问题/" class="has-link-black-ter is-size-6">GLIBC_2.15问题</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Linux/">Linux</a> / <a class="has-link-grey -link" href="/categories/Linux/Linux基础知识/">Linux基础知识</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/07/25/罗马数字转整数/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/30/eJua2n.jpg" alt="罗马数字转整数">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-25T07:47:30.000Z">2019-07-25</time></div>
-                    <a href="/2019/07/25/罗马数字转整数/" class="has-link-black-ter is-size-6">罗马数字转整数</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-12T06:45:26.000Z">2019-10-12</time></div>
+                    <a href="/2019/10/12/搜索插入位置/" class="has-link-black-ter is-size-6">搜索插入位置</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/算法/">算法</a> / <a class="has-link-grey -link" href="/categories/算法/LeetCode/">LeetCode</a>
                     </p>
@@ -718,18 +697,56 @@
         
         <article class="media">
             
-            <a href="/2019/07/18/回文数/" class="media-left">
+            <a href="/2019/10/12/RDD去重/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/18/ZjARb9.jpg" alt="回文数">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/09/20/njZggK.jpg" alt="RDD去重">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-18T11:17:37.000Z">2019-07-18</time></div>
-                    <a href="/2019/07/18/回文数/" class="has-link-black-ter is-size-6">回文数</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-12T02:35:42.000Z">2019-10-12</time></div>
+                    <a href="/2019/10/12/RDD去重/" class="has-link-black-ter is-size-6">RDD去重</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/算法/">算法</a> / <a class="has-link-grey -link" href="/categories/算法/LeetCode/">LeetCode</a>
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/10/11/类加载机制/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/10/11/ub9IAI.jpg" alt="类加载机制">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-11T03:18:22.000Z">2019-10-11</time></div>
+                    <a href="/2019/10/11/类加载机制/" class="has-link-black-ter is-size-6">类加载机制</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java/">Java</a> / <a class="has-link-grey -link" href="/categories/Java/基础知识/">基础知识</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/10/10/Callable和Runnable接口的区别/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/10/10/uTw1VH.jpg" alt="Callable和Runnable接口的区别">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-10T08:29:02.000Z">2019-10-10</time></div>
+                    <a href="/2019/10/10/Callable和Runnable接口的区别/" class="has-link-black-ter is-size-6">Callable和Runnable接口的区别</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java/">Java</a> / <a class="has-link-grey -link" href="/categories/Java/多线程/">多线程</a>
                     </p>
                 </div>
             </div>
@@ -748,12 +765,34 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2019/08/">
                 <span class="level-start">
                     <span class="level-item">八月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -863,7 +902,7 @@
                     <span class="level-item">九月 2018</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -931,7 +970,7 @@
                             <span class="level-item">Flume</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -953,7 +992,7 @@
                             <span class="level-item">Hadoop</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">5</span>
+                            <span class="level-item tag">6</span>
                         </span>
                     </a>
                 </li>
@@ -964,7 +1003,7 @@
                             <span class="level-item">Hive</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">2</span>
+                            <span class="level-item tag">3</span>
                         </span>
                     </a>
                 </li>
@@ -986,7 +1025,7 @@
                             <span class="level-item">Java</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">11</span>
+                            <span class="level-item tag">15</span>
                         </span>
                     </a>
                 </li>
@@ -1008,7 +1047,7 @@
                             <span class="level-item">LeetCode</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">5</span>
+                            <span class="level-item tag">12</span>
                         </span>
                     </a>
                 </li>
@@ -1063,7 +1102,7 @@
                             <span class="level-item">Spark</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">18</span>
+                            <span class="level-item tag">19</span>
                         </span>
                     </a>
                 </li>
@@ -1096,7 +1135,7 @@
                             <span class="level-item">ZooKeeper</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">2</span>
+                            <span class="level-item tag">3</span>
                         </span>
                     </a>
                 </li>
@@ -1126,35 +1165,16 @@
         
         <article class="media">
             
-            <a href="/2019/08/02/zookeeper数据一致性/" class="media-left">
+            <a href="/2019/10/21/最大子序和/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/30/eJua2n.jpg" alt="zookeeper数据一致性">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/10/21/Kla9pR.jpg" alt="最大子序和">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-02T07:03:58.000Z">2019-08-02</time></div>
-                    <a href="/2019/08/02/zookeeper数据一致性/" class="has-link-black-ter is-size-6">zookeeper数据一致性</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/ZooKeeper/">ZooKeeper</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/08/02/最长公共前缀/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/08/02/ewl0qe.jpg" alt="最长公共前缀">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-02T06:35:13.000Z">2019-08-02</time></div>
-                    <a href="/2019/08/02/最长公共前缀/" class="has-link-black-ter is-size-6">最长公共前缀</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-21T06:50:11.000Z">2019-10-21</time></div>
+                    <a href="/2019/10/21/最大子序和/" class="has-link-black-ter is-size-6">最大子序和</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/算法/">算法</a> / <a class="has-link-grey -link" href="/categories/算法/LeetCode/">LeetCode</a>
                     </p>
@@ -1164,35 +1184,16 @@
         
         <article class="media">
             
-            <a href="/2019/07/30/GLIBC-2-15问题/" class="media-left">
+            <a href="/2019/10/12/搜索插入位置/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/30/eJQ3b6.jpg" alt="GLIBC_2.15问题">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/10/12/uONqPJ.jpg" alt="搜索插入位置">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-30T09:33:03.000Z">2019-07-30</time></div>
-                    <a href="/2019/07/30/GLIBC-2-15问题/" class="has-link-black-ter is-size-6">GLIBC_2.15问题</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Linux/">Linux</a> / <a class="has-link-grey -link" href="/categories/Linux/Linux基础知识/">Linux基础知识</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/07/25/罗马数字转整数/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/30/eJua2n.jpg" alt="罗马数字转整数">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-25T07:47:30.000Z">2019-07-25</time></div>
-                    <a href="/2019/07/25/罗马数字转整数/" class="has-link-black-ter is-size-6">罗马数字转整数</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-12T06:45:26.000Z">2019-10-12</time></div>
+                    <a href="/2019/10/12/搜索插入位置/" class="has-link-black-ter is-size-6">搜索插入位置</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/算法/">算法</a> / <a class="has-link-grey -link" href="/categories/算法/LeetCode/">LeetCode</a>
                     </p>
@@ -1202,18 +1203,56 @@
         
         <article class="media">
             
-            <a href="/2019/07/18/回文数/" class="media-left">
+            <a href="/2019/10/12/RDD去重/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="https://s2.ax1x.com/2019/07/18/ZjARb9.jpg" alt="回文数">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/09/20/njZggK.jpg" alt="RDD去重">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-18T11:17:37.000Z">2019-07-18</time></div>
-                    <a href="/2019/07/18/回文数/" class="has-link-black-ter is-size-6">回文数</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-12T02:35:42.000Z">2019-10-12</time></div>
+                    <a href="/2019/10/12/RDD去重/" class="has-link-black-ter is-size-6">RDD去重</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/算法/">算法</a> / <a class="has-link-grey -link" href="/categories/算法/LeetCode/">LeetCode</a>
+                        <a class="has-link-grey -link" href="/categories/大数据生态圈/">大数据生态圈</a> / <a class="has-link-grey -link" href="/categories/大数据生态圈/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/10/11/类加载机制/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/10/11/ub9IAI.jpg" alt="类加载机制">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-11T03:18:22.000Z">2019-10-11</time></div>
+                    <a href="/2019/10/11/类加载机制/" class="has-link-black-ter is-size-6">类加载机制</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java/">Java</a> / <a class="has-link-grey -link" href="/categories/Java/基础知识/">基础知识</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/10/10/Callable和Runnable接口的区别/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2019/10/10/uTw1VH.jpg" alt="Callable和Runnable接口的区别">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-10T08:29:02.000Z">2019-10-10</time></div>
+                    <a href="/2019/10/10/Callable和Runnable接口的区别/" class="has-link-black-ter is-size-6">Callable和Runnable接口的区别</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java/">Java</a> / <a class="has-link-grey -link" href="/categories/Java/多线程/">多线程</a>
                     </p>
                 </div>
             </div>
@@ -1232,12 +1271,34 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2019/08/">
                 <span class="level-start">
                     <span class="level-item">八月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -1347,7 +1408,7 @@
                     <span class="level-item">九月 2018</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1415,7 +1476,7 @@
                             <span class="level-item">Flume</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1437,7 +1498,7 @@
                             <span class="level-item">Hadoop</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">5</span>
+                            <span class="level-item tag">6</span>
                         </span>
                     </a>
                 </li>
@@ -1448,7 +1509,7 @@
                             <span class="level-item">Hive</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">2</span>
+                            <span class="level-item tag">3</span>
                         </span>
                     </a>
                 </li>
@@ -1470,7 +1531,7 @@
                             <span class="level-item">Java</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">11</span>
+                            <span class="level-item tag">15</span>
                         </span>
                     </a>
                 </li>
@@ -1492,7 +1553,7 @@
                             <span class="level-item">LeetCode</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">5</span>
+                            <span class="level-item tag">12</span>
                         </span>
                     </a>
                 </li>
@@ -1547,7 +1608,7 @@
                             <span class="level-item">Spark</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">18</span>
+                            <span class="level-item tag">19</span>
                         </span>
                     </a>
                 </li>
@@ -1580,7 +1641,7 @@
                             <span class="level-item">ZooKeeper</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">2</span>
+                            <span class="level-item tag">3</span>
                         </span>
                     </a>
                 </li>
