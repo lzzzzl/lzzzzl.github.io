@@ -10,7 +10,7 @@
   
   <title>
     
-       
+      Tags |  
     
   </title>
   <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -180,40 +180,42 @@
 </header>
 
     <div id="article-banner">
-  <h2>Archives</h2>
-  <p class="post-date">Archives</p>
+  <h2>Tags</h2>
+  <p class="post-date">Tag Retrieval</p>
 </div>
-<main class="app-body" id="archives">
-  
-  
-  
-    <section class="time-section">
-  <h1 class="section-year">
-    2022
-  </h1>
-  <div class="section-list">
+<main class="app-body">
+  <div id="tag-cloud">
     
-    
-      <div class="section-list-item">
-        <a href="/2022/05/30/go%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="archive-title">Go 常用数据结构</a>
-        <p class="archive-date">05-30</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/2022/05/29/hello-world/" class="archive-title">Hello World</a>
-        <p class="archive-date">05-29</p>
-      </div>
+      <a class="tag2" data-name="tag-go基础">go基础</a>
     
   </div>
-</section>
   
+    <div class="tag-list">
+      <h3 class="tag-name" id="tag-go基础">go基础</h3>
+      
+        <ul class="tag-preview">
+          <li>
+            <a href="/2022/05/30/go常用数据结构/">Go 常用数据结构</a>
+          </li>
+        </ul>
+        
+    </div>
+    
 </main>
 
 <script>
   (function () {
-    var url = 'http://example.com/archives/2022/index.html';
-    $('#article-banner').geopattern(url);
-    $('.header').removeClass('fixed-header');
+    var url = 'http://example.com/tags/index.html'
+    $('#article-banner').geopattern(url)
+    $('.header').removeClass('fixed-header')
+
+    var tag = location.hash.replace('#', '')
+    if (tag) {
+      var tagId = "#tag-" + tag;
+      $("html, body").animate({
+        scrollTop: $(tagId).offset().top 
+      }, 400)
+    }
   })();
 </script>
     <div class="scroll-top">
